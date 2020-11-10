@@ -1,0 +1,123 @@
+html {
+  background: url(https://midwestcommunity.org/wp-content/uploads/2018/02/Groceries-ThinkstockPhotos-836782690.jpg);
+}
+#home-login {
+  margin-top: 70px;
+  height: 100%;
+}
+
+.container-login {
+  height: 450px;
+  width: 500px;
+  border: 1px solid grey;
+  margin: 0 auto;
+  text-align: center;
+  background: rgba(35,35,35,0.6);
+  border-radius: 20px;
+  transition: 1s;
+}
+
+.login:hover {
+  background: #232323;
+ 
+  animation: logobox 5s linear infinite;
+}
+
+@keyframes logobox {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+
+  100% {
+    filter: hue-rotate(360deg);
+  }
+}
+
+.box-login h1{
+  color: white;
+  text-transform: uppercase;
+  font-weight: 500;
+  font-size: 2em;
+  margin-top: 50px;
+}
+
+.box-login input[type = "text"] {
+  border-radius: 15px 15px 0 0;
+}
+
+.box-login input[type = "password"] {
+  border-radius: 0 0 15px 15px;
+}
+
+.box-login input[type = "text"],.box-login input[type = "password"]{
+  border:0;
+  background: none;
+  display: block;
+  margin: 1px auto;
+  text-align: center;
+  border: 2px solid #3498db;
+  padding: 14px 10px;
+  height: 30px;
+  width: 250px;
+  outline: none;
+  color: white;
+  transition: 0.25s;
+}
+
+.box-login input[type = "text"]:hover,.box-login input[type = "password"]:hover{
+  width: 300px;
+  border-color: rgba(189, 59, 223, 0.5);
+  border-radius: 24px;
+}
+
+.box-login input[type = "text"]:focus:hover,.box-login input[type = "password"]:focus:hover{
+  width: 300px;
+  border-color: rgba(189, 59, 223, 0.5);
+  border-radius: 24px;
+}
+
+.box-login input[type = "text"]:focus,.box-login input[type = "password"]:focus{
+  border-color: rgba(189, 59, 223, 0.5);
+  border-radius: 24px;
+}
+
+.box-login input[type = "submit"]{
+  width: 150px;
+  height: 50px;
+  border:0;
+  background: none;
+  display: block;
+  margin: 10px auto;
+  text-align: center;
+  border: 2px solid rgba(189, 59, 223, 0.5);
+  padding: 10px 30px;
+  outline: none;
+  color: white;
+  border-radius: 24px;
+  transition: 1s;
+  cursor: pointer;
+  text-transform: uppercase;
+}
+
+.box-login input[type = "submit"]:hover{
+  background: linear-gradient(to bottom right, #430F92, #4728C5);
+  border: 2px solid transparent;
+}
+
+.box-login a {
+  color: grey;
+  text-decoration: none;
+}
+
+.box-login a:hover {
+  color: white;
+  text-decoration: none;
+}
+
+.box-login span {
+  color: grey;
+}
+h1 {
+
+  font-family: monospace;
+}

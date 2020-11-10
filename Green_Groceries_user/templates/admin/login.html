@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Bit Basket Admin SignIn</title>
+    <link rel="stylesheet" href="{% static 'admin/css/signin.css' %}">
+  <body >
+    <div class="container">
+      <div class="form-container">
+        <div class="signin">
+          <form action="{% url 'adminlogin'%}" method="POST" class="form-sign-in">
+            {% csrf_token %}
+            <h1>Admin Sign In</h1>
+            <input type="text" name="username" placeholder="username" required/>
+            <input type="password" name="password" placeholder="Password" required/>
+            
+            <div class="col">
+               
+              </div>
+              {% for message in messages %}
+						<h4 style="color: red;">{{message}}</h4>
+						{% endfor %}
+              
+            <button type="submit" class="btn btn-form"> SIGN IN</button>
+          </form>
+
+        </div>
+
+   
+      </div>
+      <div class="overlay">
+        
+        <div class="overlay-panel overlay-signup">
+          <h1>
+            Bit Basket Admin
+          </h1>
+          <span>
+            Enter into the admin panel for configuration
+          </span>
+         
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <script>
+    function togglePage() {
+      document.querySelector(".overlay-signin").classList.toggle("show");
+      document.querySelector(".overlay-signup").classList.toggle("hide");
+      document.querySelector(".signup").classList.toggle("show");
+      document.querySelector(".signin").classList.toggle("hide");
+    }
+  </script>
+</html>
+

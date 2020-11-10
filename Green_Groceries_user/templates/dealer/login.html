@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="{% static 'dealer/css/login.css' %}">
+</head>
+<body>
+  <section id="home-login">
+    <div class="container-login login">
+      <form action="" method="POST" class="box-login">
+        {% csrf_token %}
+        <h1>Green Groceries</h1>
+        
+        <input type="text" name="username" placeholder="user"><br>
+        <input type="password" name="password" placeholder="pass"><br>
+        {% for message in messages %}
+        <h4 style="color: red;">{{message}}</h4>
+        {% endfor %}
+        <input type="submit" name="" value="Login"><br>
+       
+      </form>
+    </div>
+  </section>
+    
+    <br>
+    <br>
+</body>
+</html>

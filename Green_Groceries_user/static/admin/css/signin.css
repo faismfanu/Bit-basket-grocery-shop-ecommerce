@@ -1,0 +1,163 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,800");
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Montserrat", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  /* background: url(https://www.gannett-cdn.com/-mm-/a0a28bd666af6d80b33247a358069ae6b7ce0cc4/c=0-108-2121-1306/local/-/media/2016/07/22/USATODAY/USATODAY/636047914661198701-ThinkstockPhotos-467612138.jpg?width=660&height=373&fit=crop&format=pjpg&auto=webp); */
+  background: white;
+}
+
+.container {
+  position: relative;
+  padding: 40px 20px;
+  background: white;
+  border-radius: 10px;
+  width: 700px;
+  min-height: 400px;
+  box-shadow: 5px 5px 20px 0 rgba(214, 214, 214, 1);
+  overflow: hidden;
+}
+.form-container {
+  height: 100%;
+  width: 50%;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 0;
+}
+
+.form-container input {
+  display: block;
+  padding: 12px 20px;
+  margin: 7px 13px;
+  background: #f6f5f7;
+  border: none;
+  outline: none;
+}
+
+.form-sign-in,
+.form-sign-up {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.signin {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  transition: 0.8s;
+}
+.signup {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  bottom: -100%;
+  transition: 0.8s;
+}
+
+.signup.show {
+  bottom: 0;
+}
+.signin.hide {
+  top: -100%;
+}
+
+.form-container h1 {
+  text-align: center;
+  font-size: 25px;
+  text-transform: uppercase;
+  margin: 10px;
+}
+
+.form-container a {
+  margin: 10px;
+  text-align: center;
+  font-size: 10px;
+  text-transform: uppercase;
+  color: gray;
+  text-decoration: none;
+}
+
+.btn {
+  padding: 10px;
+  min-width: 100px;
+  border-radius: 20px;
+  color: white;
+  margin: 20px;
+  outline: none;
+  cursor: pointer;
+  background: linear-gradient(rgb(10, 168, 26), rgb(0, 120, 42));
+}
+
+.btn-form {
+  border: none;
+}
+
+.overlay {
+  position: absolute;
+  height: 100%;
+  width: 50%;
+  background: linear-gradient(rgb(10, 168, 26), rgb(0, 120, 42));
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+}
+
+.overlay h1 {
+  text-align: center;
+  font-size: 25px;
+  text-transform: uppercase;
+  color: white;
+}
+
+.overlay span {
+  color: white;
+  text-align: center;
+  font-size: 12px;
+  padding: 10px;
+}
+
+.overlay-panel {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 30px;
+}
+
+.btn-overlay {
+  border: solid 1px white;
+}
+
+.overlay-signup {
+  top: 0;
+  transition: 0.8s;
+}
+.overlay-signin {
+  bottom: -100%;
+  transition: 0.8s;
+}
+
+.overlay-signin.show {
+  bottom: 0;
+}
+.overlay-signup.hide {
+  top: -100%;
+}
