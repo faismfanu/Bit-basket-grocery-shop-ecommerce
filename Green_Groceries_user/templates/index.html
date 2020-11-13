@@ -33,6 +33,24 @@
 	<link href="{% static 'user/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="{% static 'user/vendor/semantic/semantic.min.css' %}">
 
+	<!-- Font Awesome -->
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+<!-- Google Fonts -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+<!-- Bootstrap core CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+<!-- Material Design Bootstrap -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+
+<!-- JQuery -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Bootstrap tooltips -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+<!-- Bootstrap core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<!-- MDB core JavaScript -->
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+
 	
 	<script type="text/javascript" >
 		var user = '{{request.user}}'
@@ -175,7 +193,7 @@
 				{% for item in items %}
 				<div class="cart-item">
 					<div class="cart-product-img">
-						<img src="{% static 'user/images/product/img-1.jpg'%}" alt="">
+						<img  src="{{item.product.product_image.url}}" alt="">
 						<div class="offer-badge">6% OFF</div>
 					</div>
 					<div class="cart-text">
@@ -226,7 +244,7 @@
 			</div>
 			<div class="main-total-cart">
 				<h2>Total</h2>
-				<span>$35</span>
+				<span>{{order.get_cart_total}}</span>
 			</div>
 			<div class="checkout-cart">
 				<a href="#" class="promo-code">Have a promocode?</a>
@@ -305,7 +323,7 @@
 							<a href="dashboard_my_wishlist.html" class="option_links" title="Wishlist"><i
 									class='uil uil-heart icon_wishlist'></i><span class="noti_count1">3</span></a>
 						</li> -->
-						{% if request.user.is_authenticated %}
+						{% if user.is_authenticated and user.is_staff == 0 and user.is_superuser == 0 %}
 						<li class="ui dropdown">
 							<a href="#" class="opts_account">
 								<img src="{% static 'user/images/avatar/img-5.jpg'%}" alt="">
@@ -321,9 +339,9 @@
 										</span>
 									</a> -->
 								</div>
-								<a href="dashboard_overview.html" class="item channel_item"><i
+								<a href="{% url 'dashboard' %}" class="item channel_item"><i
 										class="uil uil-apps icon__1"></i>Dashbaord</a>
-								<a href="dashboard_my_orders.html" class="item channel_item"><i
+								<a href="{% url 'dashboard_orders' %}" class="item channel_item"><i
 										class="uil uil-box icon__1"></i>My Orders</a>
 								<!-- <a href="dashboard_my_wishlist.html" class="item channel_item"><i
 										class="uil uil-heart icon__1"></i>My Wishlist</a>
@@ -340,6 +358,38 @@
 
 							</div>
 						</li>
+						{% elif user.is_authenticated and user.is_staff == 1 %}
+						<li class="ui dropdown">
+							<a href="#" class="opts_account">
+								<img src="{% static 'user/images/avatar/img-5.jpg'%}" alt="">
+								<span class="user__name">{{user}}</span>
+								<i class="uil uil-angle-down"></i>
+							</a>
+							<div class="menu dropdown_account">
+								<div class="night_mode_switch__btn">
+									<!-- <a href="#" id="night-mode" class="btn-night-mode">
+										<i class="uil uil-moon"></i> Night mode
+										<span class="btn-night-mode-switch">
+											<span class="uk-switch-button"></span>
+										</span>
+									</a> -->
+								</div>
+								<!-- <a href="dashboard_my_wishlist.html" class="item channel_item"><i
+										class="uil uil-heart icon__1"></i>My Wishlist</a>
+								<a href="dashboard_my_wallet.html" class="item channel_item"><i
+										class="uil uil-usd-circle icon__1"></i>My Wallet</a>
+								<a href="dashboard_my_addresses.html" class="item channel_item"><i
+										class="uil uil-location-point icon__1"></i>My Address</a>
+								<a href="offers.html" class="item channel_item"><i
+										class="uil uil-gift icon__1"></i>Offers</a>
+								<a href="faq.html" class="item channel_item"><i
+										class="uil uil-info-circle icon__1"></i>Faq</a> -->
+								<a href="{%url 'logoutview'%}" class="item channel_item"><i
+										class="uil uil-lock-alt icon__1"></i>Logout</a>
+
+							</div>
+						</li>
+
 						{%else%}
 						<a href="#" class="opts_account">
 							<a href="/signup"> <span class="user__name">Register /</span></a><a href="/login"> <span
@@ -440,52 +490,66 @@
 					<div class="col-lg-12 col-md-12">
 						<div class="default-title pb-4 ">
 							<h2 style="font-size: 42px;"><span style="font-family: monospace;">Supermarkets</span></h2>
-							<img src="{% static 'user/images/line.svg'%}" alt="">
+							<img  src="{% static 'user/images/line.svg'%}" alt="">
 						</div>
 					</div>
 				{% for dealers in dealer %}
+
+				<div class="col-lg-3">
+			<!-- Card -->
+<div class="card booking-card">
+	<a href="{% url 'user_products' dealers.id%}">
+	<!-- Card image -->
+	<div class="view overlay">
+		<img width="200px" height="180px" class="card-img-top"
+		src="{{dealers.shop_image.url}}"
+		alt="Card image cap">
+	 
+		<div class="mask rgba-white-slight"></div>
+
+	</div>
+  
+	<!-- Card content -->
+	<div class="card-body">
+  
+	  <!-- Title -->
+	  <h4 class="card-title font-weight-bold">{{dealers.shop_name}}</h4>
+	  <!-- Data -->
+	  <ul class="list-unstyled list-inline rating mb-0">
+		<li class="list-inline-item mr-0"><i class="fas fa-star amber-text"> </i></li>
+		<li class="list-inline-item mr-0"><i class="fas fa-star amber-text"></i></li>
+		<li class="list-inline-item mr-0"><i class="fas fa-star amber-text"></i></li>
+		<li class="list-inline-item mr-0"><i class="fas fa-star amber-text"></i></li>
+		<li class="list-inline-item"><i class="fas fa-star-half-alt amber-text"></i></li>
+		<li class="list-inline-item"><p class="text-muted">4.5 (413)</p></li>
+	  </ul>
+	  <p class="mb-2 pt-2">Place • {{dealers.shop_location}}, {{dealers.shop_place}}</p>
+	  <!-- Text -->
+	  
+	  <hr class="my-4">
+	  <p class="lead" style="color: rgb(13, 185, 21);"><strong>Opened</strong></p>
+	  
+	  <ul class="list-unstyled list-inline d-flex justify-content-between mb-0">
+		<span style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; font-weight: bold; color: red;">Closed at</span>
+		<li class="list-inline-item mr-0">
+			<div class="chip mr-0">{{dealers.shop_closing_time}}</div>
+		</li>
+	</ul>
+	  <!-- Button -->
+	
+  
+	</div>
+
+  </div>
+</a>
+  <!-- Card -->
+  
+				</div>
+
+				{% endfor %}
 				
-					<div class="col-lg-3">
-						<div class="card booking-card">
-						<a href="{% url 'user_products' dealers.id%}">
-							<!-- Card image -->
-							<div class="view overlay">
-
-								<img class="card-img-top"
-									src="{{dealers.shop_image.url}}"
-									alt="Card image cap">
-							
-									<div class="mask rgba-white-slight"></div>
-							
-							</div>
-
-							<!-- Card content -->
-							<div class="card-body">
-
-								<!-- Title -->
-								<h4 class="card-title font-weight-bold" style="color: rgb(247, 124, 10);font-size: 20px;font-family: 'Montserrat'; text-transform: uppercase; text-align: center;">{{dealers.shop_name}}</h4>
-								<!-- Data -->
-								
-								<p style="color: rgb(94, 94, 94); text-align: center;" class="mb-2">Place : {{dealers.shop_location}}, {{dealers.shop_place}}</p>
-								<!-- Text -->
-								
-								<hr class="my-4">
-								<p class="lead"><strong style="color: green;">Opened</strong></p>
-								<ul class="list-unstyled list-inline d-flex justify-content-between mb-0">
-									<span style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; font-weight: bold;">Closed at</span>
-									<li class="list-inline-item mr-0">
-										<div class="chip mr-0">{{dealers.shop_closing_time}}</div>
-									</li>
-								</ul>
-								<!-- Button -->
-								
-
-							</div>
-						</a>
-						</div>
-					</div>
-			
-			{% endfor %}
+				
+		
 
 				</div>
 			</div>

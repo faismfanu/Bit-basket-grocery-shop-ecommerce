@@ -2,6 +2,8 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse
 from django.contrib.auth import logout
 from ad.models import *
+from datetime import date
+import datetime
 from .models import *
 from django.contrib.auth.models import User,auth
 from django.contrib import messages
@@ -63,7 +65,40 @@ def dealer_products(request):
     else:
         return render(request,'dealer/login.html') 
     
-   
+
+def dealer_orders(request):
+    if request.user.is_authenticated:
+        user = request.user.id
+        dealer = Dealers.objects.get(user_id=user)
+        print(dealer)
+        today = date.today()
+        order = Order.objects.filter(dealer=dealer, date_ordered=today ,complete=True)
+       
+     
+        print(order)
+        context = {'order':order,'today':today}
+        return render(request, 'dealer/dealer_orders.html',context)
+    else:
+        return render(request,'dealer/login.html') 
+    
+
+
+def dealer_orderhistory(request):
+    if request.user.is_authenticated:
+        user = request.user.id
+        dealer = Dealers.objects.get(user_id=user)
+        print(dealer)
+        today = date.today()
+        order = Order.objects.filter(dealer=dealer ,complete=True)
+        print(order)
+       
+        
+        context = {'order':order,'today':today}
+        return render(request, 'dealer/dealer_orderhistory.html',context)
+    else:
+        return render(request,'dealer/login.html') 
+    
+
 
 
 def add_products(request):
@@ -79,7 +114,7 @@ def add_products(request):
             products.product_type = request.POST.get('product_type')
             products.stock = request.POST.get('product_stock')
             products.description = request.POST.get('product_discription')
-            
+            products.product_image = request.FILES['image1']
             images = request.FILES.getlist('file[]')
             products.save()
 

@@ -12,6 +12,7 @@ class Product(models.Model):
     name = models.CharField(max_length = 300)
     newprice = models.FloatField()
     product_type = models.CharField(max_length = 300)
+    product_image =  models.FileField(max_length=2555,null=True,blank=True,upload_to='product/images')
     stock = models.IntegerField()
     active=models.IntegerField(default=0,null=True,blank=True)
     digital = models.BooleanField(default=False, null=True, blank=True)
@@ -24,7 +25,7 @@ class Product(models.Model):
 class Product_images(models.Model):
     id=models.AutoField(primary_key=True)
     product_id = models.ForeignKey(Product,on_delete=models.CASCADE)
-    image = models.FileField(max_length=2555)
+    image = models.FileField(max_length=2555,upload_to='product/images')
 
     
 class Customer(models.Model):
@@ -39,13 +40,17 @@ class Customer(models.Model):
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL,blank= True, null=True)
     dealer = models.ForeignKey(Dealers, on_delete=models.SET_NULL,blank= True, null=True)
-    date_ordered = models.DateTimeField(auto_now_add=True)
+    date_ordered = models.DateField(auto_now_add=True)
     complete = models.BooleanField(default=False, null=True,blank=False)
     transaction_id = models.CharField(max_length = 200, null = True )
+    product_total = models.FloatField(default=0, null = True )
     order_status = models.CharField(default = 'Pending',max_length = 200, null = True )
 
     def _str_(self):
         return str(self.id)
+
+    def __unicode__(self):
+        return self.id
 
     @property
     def shipping(self):

@@ -23,31 +23,53 @@
     <link href="{%static 'dealer/plugins/ladda/ladda.min.css' %}" rel="stylesheet" />
     <link href="{%static 'dealer/plugins/select2/css/select2.min.css' %}" rel="stylesheet" />
     <link href="{%static 'dealer/plugins/daterangepicker/daterangepicker.css' %}" rel="stylesheet" />
-    
-<!-- Font Awesome -->
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
-<!-- Google Fonts -->
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
-<!-- Bootstrap core CSS -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
-<!-- Material Design Bootstrap -->
-<link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <!-- Google Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap">
+    <!-- Bootstrap core CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/css/mdb.min.css" rel="stylesheet">
     <!-- SLEEK CSS -->
     <link id="sleek-css" rel="stylesheet" href="{%static 'dealer/css/sleek.css' %}" />
     <!-- JQuery -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<!-- Bootstrap tooltips -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
-<!-- Bootstrap core JavaScript -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
-<!-- MDB core JavaScript -->
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.19.1/js/mdb.min.js"></script>
 
 
 
     <!-- FAVICON -->
     <link href="{%static 'dealer/img/favicon.png' %}" rel="shortcut icon" />
 
+
+    <!-- table -->
+ <!-- PLUGINS CSS STYLE -->
+ <link href="{%static 'dealer/plugins/toaster/toastr.min.css' %}" rel="stylesheet" />
+ <link href="{%static 'dealer/plugins/nprogress/nprogress.css' %}" rel="stylesheet" />
+ <link href="{%static 'dealer/plugins/flag-icons/css/flag-icon.min.css' %}" rel="stylesheet" />
+ <link href="{%static 'dealer/plugins/jvectormap/jquery-jvectormap-2.0.3.css' %}" rel="stylesheet" />
+ <link href="{%static 'dealer/plugins/ladda/ladda.min.css' %}" rel="stylesheet" />
+ <link href="{%static 'dealer/plugins/select2/css/select2.min.css' %}" rel="stylesheet" />
+ <link href="{%static 'dealer/plugins/daterangepicker/daterangepicker.css' %}" rel="stylesheet" />
+
+ <!-- SLEEK CSS -->
+ <link id="sleek-css" rel="stylesheet" href="{%static 'dealer/css/sleek.css' %}" />
+
+
+
+ <!-- FAVICON -->
+ <link href="{%static 'dealer/img/favicon.png' %}" rel="shortcut icon" />
+    <!--  -->
     <!--
     HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries
   -->
@@ -82,12 +104,12 @@
                     <a href="/index.html">
                         <img class="brand-icon" src="{{dealer.shop_image.url}}" preserveAspectRatio="xMidYMid"
                             width="30" height="33" viewBox="0 0 30 33">
-                            <g fill="none" fill-rule="evenodd">
-                                <path class="logo-fill-blue" fill="#7DBCFF" d="M0 4v25l8 4V0zM22 4v25l8 4V0z" />
-                                <path class="logo-fill-white" fill="#FFF" d="M11 4v25l8 4V0z" />
-                            </g>
+                        <g fill="none" fill-rule="evenodd">
+                            <path class="logo-fill-blue" fill="#7DBCFF" d="M0 4v25l8 4V0zM22 4v25l8 4V0z" />
+                            <path class="logo-fill-white" fill="#FFF" d="M11 4v25l8 4V0z" />
+                        </g>
                         </svg>
-                        <span class="brand-name" style= "text-transform: uppercase;;">{{dealer.shop_name}}</span>
+                        <span class="brand-name" style="text-transform: uppercase;;">{{dealer.shop_name}}</span>
                     </a>
                 </div>
                 <!-- begin sidebar scrollbar -->
@@ -99,158 +121,78 @@
 
 
                         <li class="has-sub active expand">
-                            <a class="sidenav-item-link" href="{% url 'dealer_dashboard'%}"
-                                >
+                            <a class="sidenav-item-link" href="{% url 'dealer_dashboard'%}">
                                 <i class="mdi mdi-view-dashboard-outline"></i>
                                 <span class="nav-text">Dashboard</span> </b>
                             </a>
                             <ul class="collapse show" id="dashboard" data-parent="#sidebar-menu">
                                 <div class="sub-menu">
-
-
-
-                                
-
-
                                 </div>
                             </ul>
                         </li>
-
-
-
-
-
-                        <li class="has-sub active ">
-                            <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse"
-                                data-target="#ui-elements" aria-expanded="false" aria-controls="ui-elements">
+                        <li class="has-sub active expand">
+                            <a class="sidenav-item-link" href="{% url 'dealer_orders'%}">
                                 <i class="mdi mdi-folder-multiple-outline"></i>
-                                <span class="nav-text">Orders</span> <b class="caret"></b>
+                                <span class="nav-text">Orders</span> </b>
                             </a>
-                            <ul class="collapse" id="ui-elements" data-parent="#sidebar-menu">
+                            <ul class="collapse show" id="dashboard" data-parent="#sidebar-menu">
                                 <div class="sub-menu">
-
-
-                                    
-
-
-
-                                   
-
-
-
                                 </div>
                             </ul>
                         </li>
-
-
-
-
-
-                        <li class="has-sub active">
-                            <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse"
-                                data-target="#charts" aria-expanded="false" aria-controls="charts">
+                        <li class="has-sub active expand">
+                            <a class="sidenav-item-link" href="{% url 'dealer_orderhistory'%}">
                                 <i class="mdi mdi-chart-pie"></i>
-                                <span class="nav-text">Order History</span> <b class="caret"></b>
+                                <span class="nav-text">Order History</span> </b>
                             </a>
-                            <ul class="collapse" id="charts" data-parent="#sidebar-menu">
+                            <ul class="collapse show" id="dashboard" data-parent="#sidebar-menu">
                                 <div class="sub-menu">
-
-
-
-                                   
-
-
-
                                 </div>
                             </ul>
                         </li>
-
-
-
-
-
-                        <li class="has-sub active">
-                            <a href="{% url 'dealer_products' %}" class="sidenav-item-link"  
-                                data-target="#pages" aria-expanded="false" aria-controls="pages">
+                        <li class="has-sub active expand">
+                            <a class="sidenav-item-link" href="{% url 'dealer_products'%}">
                                 <i class="mdi mdi-image-filter-none"></i>
-                                <span class="nav-text">Products</span> 
+                                <span class="nav-text">Products</span> </b>
                             </a>
-                            <ul class="collapse" id="pages" data-parent="#sidebar-menu">
+                            <ul class="collapse show" id="dashboard" data-parent="#sidebar-menu">
                                 <div class="sub-menu">
-
-
-
-                                 
-
-
-
-
-
-
-
                                 </div>
                             </ul>
                         </li>
-
-
-
-
-
-                        <li class="has-sub active">
-                            <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse"
-                                data-target="#documentation" aria-expanded="false" aria-controls="documentation">
+                        <li class="has-sub active expand">
+                            <a class="sidenav-item-link" href="{% url 'dealer_dashboard'%}">
                                 <i class="mdi mdi-book-open-page-variant"></i>
-                                <span class="nav-text">Product Reviews</span> <b class="caret"></b>
+                                <span class="nav-text">Product Reviews</span> </b>
                             </a>
-                            <ul class="collapse" id="documentation" data-parent="#sidebar-menu">
+                            <ul class="collapse show" id="dashboard" data-parent="#sidebar-menu">
                                 <div class="sub-menu">
-
-
-
-                            
-
-
-
-
-
                                 </div>
                             </ul>
                         </li>
-
-                        <li class="has-sub active">
-                            <a class="sidenav-item-link" href="javascript:void(0)" data-toggle="collapse"
-                                data-target="#documentation" aria-expanded="false" aria-controls="documentation">
+                        <li class="has-sub active expand">
+                            <a class="sidenav-item-link" href="{% url 'dealer_dashboard'%}">
                                 <i class="mdi mdi-book-open-page-variant"></i>
-                                <span class="nav-text">Offers</span> <b class="caret"></b>
+                                <span class="nav-text">Offers</span> </b>
                             </a>
-                            <ul class="collapse" id="documentation" data-parent="#sidebar-menu">
+                            <ul class="collapse show" id="dashboard" data-parent="#sidebar-menu">
                                 <div class="sub-menu">
-
-
-
-                            
-
-
-
-
-
                                 </div>
                             </ul>
                         </li>
-
 
 
                     </ul>
 
                 </div>
 
-               
+
 
                 <div class="sidebar-footer">
                     <div class="sidebar-footer-content">
-                        
-                        
-                        
+
+
+
                     </div>
                 </div>
             </div>
@@ -269,8 +211,8 @@
                     <!-- search form -->
                     <div class="search-form d-none d-lg-inline-block">
                         <div class="input-group">
-                            
-                            
+
+
                         </div>
                         <div id="search-results-container">
                             <ul id="search-results"></ul>
@@ -279,18 +221,18 @@
 
                     <div class="navbar-right ">
                         <ul class="nav navbar-nav">
-                            
-               
+
+
                             <!-- User Account -->
                             <li class="dropdown user-menu">
                                 <button href="#" class="dropdown-toggle nav-link" data-toggle="dropdown">
-                                    <img src="" class="user-i{'product':product}mage"  />
+                                    <img src="" class="user-i{'product':product}mage" />
                                     <span class="d-none d-lg-inline-block">{{user}}</span>
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-right">
                                     <!-- User image -->
                                     <li class="dropdown-header">
-                                        
+
                                         <div class="d-inline-block">
                                             {{user}} <small class="pt-1">abdus@gmail.com</small>
                                         </div>
@@ -301,7 +243,7 @@
                                             <i class="mdi mdi-account"></i> My Profile
                                         </a>
                                     </li>
-                                   
+
 
                                     <li class="dropdown-footer">
                                         <a href="{% url 'dealerlogout' %}"> <i class="mdi mdi-logout"></i> Log Out </a>
@@ -367,69 +309,91 @@
                     </div>
 
 
-                    
+
 
                     <div class="row">
                         <div class="col-xl-4 col-lg-6 col-12">
 
-          
+
 
                         </div>
-                        
-                        
-                          
-                    <div class="row">
-                        <div class="col-xl-6">
-                    
+
+
+
+                        <div class="row">
+                            <div class="col-xl-6">
+
+                            </div>
+                            <div class="col-xl-6">
+
+                            </div>
                         </div>
-                        <div class="col-xl-6">
-                   
+
+                        <div class="row">
+                            <div class="col-xl-5">
+
+                            </div>
+                            <div class="col-xl-7">
+
+                            </div>
                         </div>
                     </div>
 
-                    <div class="row">
-                        <div class="col-xl-5">
-                         
-                        </div>
-                        <div class="col-xl-7">
- 
-                        </div>
-                    </div>
+
+
+
                 </div>
 
 
-
-
+                {% endblock %}
             </div>
-
-           
-{% endblock %}
         </div>
-    </div>
 
 
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCn8TFXGg17HAUcNpkwtxxyT9Io9B_NcM" defer></script>
-    <script src="{%static 'dealer/plugins/jquery/jquery.min.js'%}"></script>
-    <script src="{%static 'dealer/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
-    <script src="{%static 'dealer/plugins/toaster/toastr.min.js'%}"></script>
-    <script src="{%static 'dealer/plugins/slimscrollbar/jquery.slimscroll.min.js'%}"></script>
-    <script src="{%static 'dealer/plugins/charts/Chart.min.js'%}"></script>
-    <script src="{%static 'dealer/plugins/ladda/spin.min.js'%}"></script>
-    <script src="{%static 'dealer/plugins/ladda/ladda.min.js'%}"></script>
-    <script src="{%static 'dealer/plugins/jquery-mask-input/jquery.mask.min.js'%}"></script>
-    <script src="{%static 'dealer/plugins/select2/js/select2.min.js' %}"></script>
-    <script src="{%static 'dealer/plugins/jvectormap/jquery-jvectormap-2.0.3.min.js'%}"></script>
-    <script src="{%static 'dealer/plugins/jvectormap/jquery-jvectormap-world-mill.js'%}"></script>
-    <script src="{%static 'dealer/plugins/daterangepicker/moment.min.js'%}"></script>
-    <script src="{%static 'dealer/plugins/daterangepicker/daterangepicker.js'%}"></script>
-    <script src="{%static 'dealer/plugins/jekyll-search.min.js'%}"></script>
-    <script src="{%static 'dealer/js/sleek.js'%}"></script>
-    <script src="{%static 'dealer/js/chart.js'%}"></script>
-    <script src="{%static 'dealer/js/date-range.js'%}"></script>
-    <script src="{%static 'dealer/js/map.js'%}"></script>
-    <script src="{%static 'dealer/js/custom.js'%}"></script>
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCn8TFXGg17HAUcNpkwtxxyT9Io9B_NcM"
+            defer></script>
+        <script src="{%static 'dealer/plugins/jquery/jquery.min.js'%}"></script>
+        <script src="{%static 'dealer/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+        <script src="{%static 'dealer/plugins/toaster/toastr.min.js'%}"></script>
+        <script src="{%static 'dealer/plugins/slimscrollbar/jquery.slimscroll.min.js'%}"></script>
+        <script src="{%static 'dealer/plugins/charts/Chart.min.js'%}"></script>
+        <script src="{%static 'dealer/plugins/ladda/spin.min.js'%}"></script>
+        <script src="{%static 'dealer/plugins/ladda/ladda.min.js'%}"></script>
+        <script src="{%static 'dealer/plugins/jquery-mask-input/jquery.mask.min.js'%}"></script>
+        <script src="{%static 'dealer/plugins/select2/js/select2.min.js' %}"></script>
+        <script src="{%static 'dealer/plugins/jvectormap/jquery-jvectormap-2.0.3.min.js'%}"></script>
+        <script src="{%static 'dealer/plugins/jvectormap/jquery-jvectormap-world-mill.js'%}"></script>
+        <script src="{%static 'dealer/plugins/daterangepicker/moment.min.js'%}"></script>
+        <script src="{%static 'dealer/plugins/daterangepicker/daterangepicker.js'%}"></script>
+        <script src="{%static 'dealer/plugins/jekyll-search.min.js'%}"></script>
+        <script src="{%static 'dealer/js/sleek.js'%}"></script>
+        <script src="{%static 'dealer/js/chart.js'%}"></script>
+        <script src="{%static 'dealer/js/date-range.js'%}"></script>
+        <script src="{%static 'dealer/js/map.js'%}"></script>
+        <script src="{%static 'dealer/js/custom.js'%}"></script>
 
-
+<!-- table -->
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCn8TFXGg17HAUcNpkwtxxyT9Io9B_NcM" defer></script>
+  <script src="{%static 'dealer/plugins/jquery/jquery.min.js'%}"></script>
+  <script src="{%static 'dealer/plugins/bootstrap/js/bootstrap.bundle.min.js'%}"></script>
+  <script src="{%static 'dealer/plugins/toaster/toastr.min.js'%}"></script>
+  <script src="{%static 'dealer/plugins/slimscrollbar/jquery.slimscroll.min.js'%}"></script>
+  <script src="{%static 'dealer/plugins/charts/Chart.min.js'%}"></script>
+  <script src="{%static 'dealer/plugins/ladda/spin.min.js'%}"></script>
+  <script src="{%static 'dealer/plugins/ladda/ladda.min.js'%}"></script>
+  <script src="{%static 'dealer/plugins/jquery-mask-input/jquery.mask.min.js'%}"></script>
+  <script src="{%static 'dealer/plugins/select2/js/select2.min.js'%}"></script>
+  <script src="{%static 'dealer/plugins/jvectormap/jquery-jvectormap-2.0.3.min.js'%}"></script>
+  <script src="{%static 'dealer/plugins/jvectormap/jquery-jvectormap-world-mill.js'%}"></script>
+  <script src="{%static 'dealer/plugins/daterangepicker/moment.min.js'%}"></script>
+  <script src="{%static 'dealer/plugins/daterangepicker/daterangepicker.js'%}"></script>
+  <script src="{%static 'dealer/plugins/jekyll-search.min.js'%}"></script>
+  <script src="{%static 'dealer/js/sleek.js'%}"></script>
+  <script src="{%static 'dealer/js/chart.js'%}"></script>
+  <script src="{%static 'dealer/js/date-range.js'%}"></script>
+  <script src="{%static 'dealer/js/map.js'%}"></script>
+  <script src="{%static 'dealer/js/custom.js'%}"></script>
+<!-- sffsdg -->
 
 
 </body>

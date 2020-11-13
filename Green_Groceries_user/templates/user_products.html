@@ -56,7 +56,7 @@
 										<div class="product-item mb-30">
 											<a href="{% url 'product_view' products.id%}" class="product-img">
 
-												<img src="{{img.image.url.0}}" alt="">
+												<img src="{{products.product_image.url}}" alt="">
 
 												<div class="product-absolute-options">
 													<span class="offer-badge-1">6% off</span>
@@ -99,5 +99,6 @@
 		</div>
 		</div>
 		<!-- Body End -->
-
+	
+	
 		{% endblock content %}

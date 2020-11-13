@@ -17,15 +17,24 @@ import datetime
 def index(request):
     dealer = Dealers.objects.all()
     print(dealer)
-    if request.user.is_authenticated:
-        customer = request.user.customer
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        items = order.orderitem_set.all()
+    if request.user.is_authenticated :
+        login_user = request.user
+        login_name = request.user.username
+        login_email = request.user.email
+        user, created = Customer.objects.get_or_create(user = login_user, name = login_name, email = login_email)
+        customer=request.user.customer
+        # print(customer)
+        order, created = Order.objects.get_or_create(customer=customer,complete=False)
+        items=order.orderitem_set.all()
+        cartItems=order.get_cart_items
         item_count = items.count()
-        # cartItems = order.get_cart_items
+        
+       
+        # cartItems = order.get_cart_itemsdealer_dashboard
         
     
     else:
+        customer = 0
         items = []  
         order = {'get_cart_total':0,'get_cart_items':0,'shipping':False}  
         item_count = 0
@@ -98,15 +107,18 @@ def signup(request):
 def user_products(request,id):
     product = Product.objects.filter(dealer=id)
     product_images = Product_images.objects.filter(product_id=product)
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and request.user.is_staff == 0:
         customer = request.user.customer
+        dealer = Dealers.objects.get(id=id)
+        print("hai",dealer)
         print(customer)
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        order, created = Order.objects.get_or_create(customer=customer,  complete=False)
         items = order.orderitem_set.all()
         item_count = items.count()
         print(item_count)
         # cartItems = order.get_cart_items
         print(items)
+       
     else:
         items = []  
         order = {'get_cart_total':0,'get_cart_items':0,'shipping':False}  
@@ -123,7 +135,7 @@ def product_view(request,id):
         product_images = Product_images.objects.filter(product_id=product)
     except:
         pass
-    if request.user.is_authenticated:
+    if request.user.is_authenticated and request.user.is_staff == 0:
         customer = request.user.customer
         print(customer)
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
@@ -151,19 +163,60 @@ def updateItem(request):
 
     customer = request.user.customer
     product = Product.objects.get(id=product_Id)
-    order, created = Order.objects.get_or_create(customer=customer, complete=False)
+    dealer = product.dealer
+    print("like",dealer)
+    order, created = Order.objects.get_or_create(customer=customer,  complete=False)
+    if order.dealer == dealer:
+        orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
 
-    orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
+        if action == 'add':
+            orderItem.quantity = (orderItem.quantity + 1)
+        elif action =='remove':
+            orderItem.quantity = (orderItem.quantity - 1)
 
-    if action == 'add':
-        orderItem.quantity = (orderItem.quantity + 1)
-    elif action =='remove':
-        orderItem.quantity = (orderItem.quantity - 1)
+        orderItem.save()    
 
-    orderItem.save()    
+        if orderItem.quantity <= 0:
+            orderItem.delete()
+            
+    elif order.dealer != dealer:
+        del_item = order.orderitem_set.all()
+        del_item.delete()
+        order.dealer = dealer
 
-    if orderItem.quantity <= 0:
-        orderItem.delete()
+        orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
+        order.save()
+
+        if action == 'add':
+            orderItem.quantity = (orderItem.quantity + 1)
+        elif action =='remove':
+            orderItem.quantity = (orderItem.quantity - 1)
+
+        orderItem.save()    
+        
+     
+        if orderItem.quantity <= 0:
+            orderItem.delete()
+        
+
+    else:
+        order.dealer = dealer
+
+        orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
+        order.save()
+
+        if action == 'add':
+            orderItem.quantity = (orderItem.quantity + 1)
+        elif action =='remove':
+            orderItem.quantity = (orderItem.quantity - 1)
+
+        orderItem.save()    
+
+        if orderItem.quantity <= 0:
+            orderItem.delete()
+            
+
+    
 
     return JsonResponse('item was added', safe=False)
 
@@ -201,6 +254,8 @@ def processOrder(request):
 
         if total == order.get_cart_total:
             order.complete = True
+            order.product_total = total
+            
         order.save()
 
         if order.shipping == True:
@@ -220,6 +275,71 @@ def processOrder(request):
     print('Data:',request.body)
     return JsonResponse('payment complete!', safe=False)
 
+
+# ----------------------------------------------------------------------------------------#
+
+def dashboard(request):
+    dealer = Dealers.objects.all()
+    print(dealer)
+    if request.user.is_authenticated :
+        login_user = request.user
+        login_name = request.user.username
+        login_email = request.user.email
+        user, created = Customer.objects.get_or_create(user = login_user, name = login_name, email = login_email)
+        customer=request.user.customer
+        # print(customer)
+        order, created = Order.objects.get_or_create(customer=customer,complete=False)
+        items=order.orderitem_set.all()
+        order_count = Order.objects.filter(customer=customer,complete=True)
+        oc = order_count.count()
+        cartItems=order.get_cart_items
+        item_count = items.count()
+        
+       
+        # cartItems = order.get_cart_itemsdealer_dashboard
+        
+    
+    else:
+        customer = 0
+        items = []  
+        order = {'get_cart_total':0,'get_cart_items':0,'shipping':False}  
+        item_count = 0
+        # cartItems = order['get_cart_items']
+    context = {'dealer':dealer,'items':items,'order':order,'item_count':item_count,'oc':oc}
+    return render(request, "dashboard.html", context)
+
+
+def dashboard_orders(request):
+    dealer = Dealers.objects.all()
+    print(dealer)
+    if request.user.is_authenticated :
+        login_user = request.user
+        login_name = request.user.username
+        login_email = request.user.email
+        user, created = Customer.objects.get_or_create(user = login_user, name = login_name, email = login_email)
+        customer=request.user.customer
+        # print(customer)
+        order, created = Order.objects.get_or_create(customer=customer,complete=False)
+        items=order.orderitem_set.all()
+        order_count = Order.objects.filter(customer=customer,complete=True)
+        oc = order_count.count()
+        cartItems=order.get_cart_items
+        item_count = items.count()
+        
+       
+        # cartItems = order.get_cart_itemsdealer_dashboard
+        
+    
+    else:
+        customer = 0
+        items = []  
+        order = {'get_cart_total':0,'get_cart_items':0,'shipping':False}  
+        item_count = 0
+        # cartItems = order['get_cart_items']
+    context = {'dealer':dealer,'order_count':order_count,'items':items,'order':order,'item_count':item_count,'oc':oc}
+    return render(request, "dashboard_orders.html", context)    
+
+# ----------------------------------------------------------------------------------------#
 
 
 def logoutview(request):

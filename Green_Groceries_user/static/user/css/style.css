@@ -3966,7 +3966,7 @@ label.control-label {
 .order-dt-img {
     background: #f9f9f9;
     padding: 10px;
-    border: 1px solid #efefef;
+    border: .5px solid #efefef;
     border-radius: 5px;
 }
 

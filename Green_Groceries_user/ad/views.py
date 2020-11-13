@@ -4,6 +4,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.models import User,auth
 from django.contrib import messages
 from .models import Dealers
+from dealer.models import *
 import json
 from django.db.models import DateTimeField
 from django.db.models.functions import Trunc
@@ -134,7 +135,15 @@ def delete_dealer(request,id,user_id):
     else:
         return render(request, 'admin/login.html')
 
-   
+
+
+def addorder(request):
+    order = Order.objects.all()
+    dealers =Dealers.objects.all()
+    # order = dealers.orderItem_set.all()
+    # print(order)
+    return render(request, 'admin/admin_orders.html',{'order':order,'dealers':dealers})
+
        
 
 def dealers(request):

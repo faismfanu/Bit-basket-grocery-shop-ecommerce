@@ -21,5 +21,8 @@ class Dealers(models.Model):
     shop_opening_time = models.TimeField(null = True, max_length=225)
     shop_closing_time = models.TimeField(null = True, max_length=225)
 
+    def __unicode__(self):
+        return u'%s' % (self.id)
+
 
     
