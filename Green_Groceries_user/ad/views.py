@@ -5,6 +5,7 @@ from django.contrib.auth.models import User,auth
 from django.contrib import messages
 from .models import Dealers
 from dealer.models import *
+from .import views
 import json
 from django.db.models import DateTimeField
 from django.db.models.functions import Trunc
@@ -156,6 +157,41 @@ def dealers(request):
 
 def base(request):
     return render(request,"admin/base.html")
+
+
+
+def admin_catogeries(request):
+    catogery = catogeries.objects.all()
+    return render(request, "admin/admin_catogeries.html", {'catogery':catogery})
+
+
+def add_catogeries(request):
+    if request.session.has_key('username'):
+        if request.method == 'POST':
+            catogery = catogeries()
+            catogery.cat_name= request.POST.get('catogery_name')
+            image_data =request.POST.get('image64data')
+            print(image_data)
+            format, imgstr = image_data.split(';base64,')
+            ext = format.split('/')[-1]
+            data = ContentFile(base64.b64decode(imgstr),name='temp.' + ext)
+            catogery.image = data
+
+        
+            
+            catogery.save()
+            return redirect('admin_catogeries')
+        else:
+            return render(request, "admin/add_catogeries.html")   
+    else:
+        return render(request, 'admin/login.html')
+
+
+  
+def delete_catogery(request,id):
+    catogery = catogeries.objects.filter(id=id)
+    catogery.delete()
+    return redirect('admin_catogeries') 
 
         
         

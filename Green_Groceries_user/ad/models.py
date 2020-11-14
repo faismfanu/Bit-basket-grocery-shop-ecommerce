@@ -25,4 +25,8 @@ class Dealers(models.Model):
         return u'%s' % (self.id)
 
 
-    
+class catogeries(models.Model):
+    cat_name = models.CharField(null = True, max_length=225)
+    image = models.FileField(max_length=2555,upload_to='catogeries/images')
+
+

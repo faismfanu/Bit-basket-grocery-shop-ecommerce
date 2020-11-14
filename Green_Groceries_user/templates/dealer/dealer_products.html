@@ -615,10 +615,10 @@
                                         <label for="userName">Product Catogery</label>
                                         <select class="form-control" name="product_catogery" required>
                                             <option value=""></option>
-                                            <option value="Fruits">Fruits</option>
-                                            <option value="Vegetables">Vegetables</option>
-                                            <option value="Dairys">Dairys</option>
-                                            <option value="Rice">Rice</option>
+                                            {% for catog in catogery%}
+                                            <option value="{{catog.cat_name}}">{{catog.cat_name}}</option>
+                                            {% endfor %}
+                                            
                                         </select>
                                     </div>
                                 </div>

@@ -61,7 +61,8 @@ def dealer_products(request):
         user = request.user.id
         dealer = Dealers.objects.get(user_id=user)
         product = Product.objects.filter(dealer=dealer)
-        return render(request,"dealer/dealer_products.html" ,{'product':product})
+        catogery = catogeries.objects.all()
+        return render(request,"dealer/dealer_products.html" ,{'product':product,'catogery':catogery})
     else:
         return render(request,'dealer/login.html') 
     

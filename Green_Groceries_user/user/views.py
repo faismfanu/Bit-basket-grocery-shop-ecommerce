@@ -8,6 +8,7 @@ from django.contrib import messages
 from django.http import JsonResponse
 import json
 import datetime
+import razorpay
 
 
 # Create your views here.
@@ -105,6 +106,7 @@ def signup(request):
        
 
 def user_products(request,id):
+    catogery = catogeries.objects.all()
     product = Product.objects.filter(dealer=id)
     product_images = Product_images.objects.filter(product_id=product)
     if request.user.is_authenticated and request.user.is_staff == 0:
@@ -124,8 +126,39 @@ def user_products(request,id):
         order = {'get_cart_total':0,'get_cart_items':0,'shipping':False}  
         # cartItems = order['get_cart_items']
         item_count = 0
-    context = {'items':items,'order':order,'product':product, 'product_images':product_images,'item_count':item_count}
+    context = {'items':items,'order':order,'product':product,'dealer':dealer, 'product_images':product_images,'item_count':item_count,'catogery':catogery}
     return render(request,'user_products.html',context)  
+
+
+
+def product_catogery(request,id,cat_id):
+    catogery = catogeries.objects.all()
+    cat = catogeries.objects.get(id=cat_id)
+    catname = cat.cat_name
+    print('catogery',catname)
+    product = Product.objects.filter(dealer=id ,product_category=catname)
+    print('value',product)
+    product_images = Product_images.objects.filter(product_id=product)
+    if request.user.is_authenticated and request.user.is_staff == 0:
+        customer = request.user.customer
+        dealer = Dealers.objects.get(id=id)
+        dele = dealer.id
+        print("hai",dealer)
+        print(customer)
+        order, created = Order.objects.get_or_create(customer=customer,  complete=False)
+        items = order.orderitem_set.all()
+        item_count = items.count()
+        print(item_count)
+        # cartItems = order.get_cart_items
+        print(items)
+       
+    else:
+        items = []  
+        order = {'get_cart_total':0,'get_cart_items':0,'shipping':False}  
+        # cartItems = order['get_cart_items']
+        item_count = 0
+    context = {'items':items,'order':order,'product':product,'dealer':dealer, 'product_images':product_images,'item_count':item_count,'catname':catname}
+    return render(request,'product_catogery.html',context)     
 
 
 def product_view(request,id):
@@ -166,6 +199,9 @@ def updateItem(request):
     dealer = product.dealer
     print("like",dealer)
     order, created = Order.objects.get_or_create(customer=customer,  complete=False)
+    items=order.orderitem_set.all()
+    item_count = items.count()
+    print("shatest",item_count)
     if order.dealer == dealer:
         orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
 
@@ -200,7 +236,7 @@ def updateItem(request):
         
 
     else:
-        order.dealer = dealer
+        order.dealer = dealer   
 
         orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
         order.save()
@@ -214,29 +250,43 @@ def updateItem(request):
 
         if orderItem.quantity <= 0:
             orderItem.delete()
-            
-
-    
-
-    return JsonResponse('item was added', safe=False)
+        
+    return JsonResponse(item_count, safe=False)
 
 
 def checkout(request):
     if request.user.is_authenticated:
+        
         customer = request.user.customer
-    
         print('fais',customer)
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
         item_count = items.count()
         cartItems = order.get_cart_items
         print(items)
+        client  = razorpay.Client(auth=("rzp_test_BIydmFasQhZv1U", "vu8l6padL6tNMOQlwCYm1Q4z"))
+        if request.user.is_authenticated:
+            total = int(order.get_cart_total*100)
+        else:
+            total = int(order['get_cart_total']*100)
+        
+        order_amount = total
+        order_currency = 'USD'
+        if order_amount == 0:
+            return redirect('checkout')
+        else:
+            response = client.order.create(dict(amount=order_amount, currency=order_currency, payment_capture = 0) )
+
+            print(response)
+            order_id = response['id']
+            # context = {'items': items, 'order':order, 'cartItems':cartItems, 'order_id':order_id,'c':countries}
+            # return render(request, 'checkout.html', context)
     else:
         items = []  
         order = {'get_cart_total':0,'get_cart_items':0,'shipping':False}  
         cartItems = order['get_cart_items']
         item_count = 0
-    context = {'items':items,'order':order,'item_count':item_count,'cartItems':cartItems}   
+    context = {'items':items,'order':order,'item_count':item_count,'cartItems':cartItems,'order_id':order_id}   
     return render(request,"checkout.html", context)    
 
 

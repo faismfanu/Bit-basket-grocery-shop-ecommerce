@@ -189,7 +189,10 @@
 				</div>
 			</div>
 			<div class="side-cart-items">
-				{% if user.is_authenticated %}
+				{% if user.is_authenticated and order.get_cart_items == 0 %}
+				<img style="padding-left: px;"  width="390px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ1JmJQQP996cQ_aGG6Mb9tAt2kaQQW9a3VLw&usqp=CAU" alt="">
+				<h1 style="padding-left: 80px; padding-bottom: 30px; color: grey; text-transform: uppercase;">cart is empty</h1>
+				{% elif order.get_cart_items != 0  %}
 				{% for item in items %}
 				<div class="cart-item">
 					<div class="cart-product-img">
@@ -246,10 +249,14 @@
 				<h2>Total</h2>
 				<span>{{order.get_cart_total}}</span>
 			</div>
+			{% if user.is_authenticated and order.get_cart_items != 0 %}
 			<div class="checkout-cart">
 				<a href="#" class="promo-code">Have a promocode?</a>
 				<a href="/checkout" class="cart-checkout-btn hover-btn">Proceed to Checkout</a>
-			</div>
+			</div> 
+			{% else %}
+			
+			{% endif %}
 		</div>
 	</div>
 	<!-- Cart Sidebar Offsetl End-->
@@ -367,12 +374,12 @@
 							</a>
 							<div class="menu dropdown_account">
 								<div class="night_mode_switch__btn">
-									<!-- <a href="#" id="night-mode" class="btn-night-mode">
+									 <a href="#" id="night-mode" class="btn-night-mode">
 										<i class="uil uil-moon"></i> Night mode
 										<span class="btn-night-mode-switch">
 											<span class="uk-switch-button"></span>
 										</span>
-									</a> -->
+									</a> 
 								</div>
 								<!-- <a href="dashboard_my_wishlist.html" class="item channel_item"><i
 										class="uil uil-heart icon__1"></i>My Wishlist</a>
@@ -401,7 +408,9 @@
 		</div>
 		<div class="sub-header-group">
 			<div class="sub-header">
-			
+				<!-- <div class="ui dropdown">
+					<a href="#" class="category_drop hover-btn" data-toggle="modal" data-target="#category_model" title="Categories"><i class="uil uil-apps"></i><span class="cate__icon">Select Category</span></a>
+				</div> -->
 				<nav class="navbar navbar-expand-lg navbar-light py-3">
 					<div class="container-fluid">
 						<button class="navbar-toggler menu_toggle_btn" type="button"
@@ -462,7 +471,7 @@
 				</div>
 				<div class="header_cart order-1">
 					<a href="#" class="cart__btn hover-btn pull-bs-canvas-left" title="Cart"><i
-							class="uil uil-shopping-cart-alt"></i><span>Cart</span><ins>{{item_count}}</ins><i
+							class="uil uil-shopping-cart-alt"></i><span>Cart</span><ins id="cart-total">{{item_count}}</ins><i
 							class="uil uil-angle-down"></i></a>
 				</div>
 				
@@ -513,7 +522,7 @@
 	<div class="card-body">
   
 	  <!-- Title -->
-	  <h4 class="card-title font-weight-bold">{{dealers.shop_name}}</h4>
+	  <h4 class="card-title font-weight-bold">{{dealers.shop_name}}</h4></h4>
 	  <!-- Data -->
 	  <ul class="list-unstyled list-inline rating mb-0">
 		<li class="list-inline-item mr-0"><i class="fas fa-star amber-text"> </i></li>
@@ -549,7 +558,6 @@
 				{% endfor %}
 				
 				
-		
 
 				</div>
 			</div>
