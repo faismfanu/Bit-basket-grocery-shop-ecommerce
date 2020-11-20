@@ -319,6 +319,9 @@
 																	<h4>Cash on Delivery</h4>
 																	<p>Cash on Delivery will not be available if your order value exceeds $10.</p>
 																</div>
+																<div style="padding-left: 40%;">
+																	<a  id='make-payment' class="next-btn16 hover-btn">Place Order</a>
+																</div>
 															</div>														
 														</div>
 													</div>
@@ -331,11 +334,10 @@
 															</div>														
 															<div style="width: 100%;"  id="paypal-button-container"></div>
 															<button id="rzp-button1" class="btn btn-danger" style="width:100%" >Pay with Razorpay</button>
+															<a href="/payment/" style="width: 100%;" ><button id="paytm" class="btn btn-primary" style="width:100%" >Paytm karo</button></a>
 														</div>
 													</div>
-													<div style="padding-left: 40%;">
-														<a  id='make-payment' class="next-btn16 hover-btn">Place Order</a>
-													</div>
+													
 													
 												</div>
 											
@@ -505,13 +507,69 @@
         document.getElementById('payment').classList.remove('invisible')
         
     })
-/*
-    document.getElementById('make-payment').addEventListener('click',function(e){
 
-        submitFormData()
+    document.getElementById('make-payment').addEventListener('click',
+			
+			function submitFormCod(){
+
+				console.log('Cod button clicked')
+
+        var userFormData = {
+            'name': null,
+            'email': null,
+            'total': total,
+        }
+        var shippingInfo = {
+            'address': null,
+            'city': null,
+            'state': null,
+            'pincode': null,
+            'country': null,
+			'payment_cod':null,
+        } 
+
+        if (shipping != 'False'){
+            shippingInfo.address = form.address.value
+            shippingInfo.city = form.city.value
+            shippingInfo.state = form.state.value
+            shippingInfo.pincode = form.pincode.value
+            shippingInfo.country = form.country.value
+			shippingInfo.payment_cod = payment_cod = 'cash'
+        } 
+        if (user == 'Anonymoususer'){
+            userFormData.name = form.name.value
+            userFormData.email = form.email.value
+
+           
+        }
         
-    })
-	*/
+        var url = '/cod/'
+        fetch(url,{
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json',
+                'X-CSRFToken':csrftoken,
+
+            },
+            body:JSON.stringify({'form':userFormData, 'shipping':shippingInfo})
+
+        })
+        .then((response) => response.json())
+        .then((data) =>{
+            console.log('success:',data);
+            alert('Cod Transaction completed');
+            window.location.href = "{% url 'order_completed'%}"
+
+        })       
+        
+	})
+	document.getElementById('paytm').addEventListener('click',function(e){
+
+		submitFormData()
+
+})
+	
+	
 
     function submitFormData() {
         console.log('payment button clicked')

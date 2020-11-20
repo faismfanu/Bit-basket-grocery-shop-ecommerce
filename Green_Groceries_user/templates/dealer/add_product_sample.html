@@ -1,0 +1,227 @@
+{% extends "dealer/dashboard_sample.html" %}
+{% block content %}
+{% load static %}
+
+ <!-- partial -->
+ <div class="main-panel">
+    <div class="content-wrapper">
+      <div class="page-header">
+        <h3 class="page-title"> Add Product </h3>
+       
+      </div>
+      <div class="row">
+
+       
+       
+        <div class="col-12 grid-margin stretch-card">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title">Add Products</h4>
+              <p class="card-description"> Basic form elements </p>
+              <form action="{% url 'add_product_sample' %}" method="POST" enctype="multipart/form-data" class="forms-sample">
+                {% csrf_token %}
+                <div class="form-group">
+                 
+                        <img class="pb-2" id="output" />
+                        <div id="images">
+                            <!-- <input type="file"  name="file[]"
+                             required=True ><br><br>  -->
+                             <h4 style="padding-bottom: 20px;">Main image</h4>
+                              <input  type="file"   name="add_image1" required>
+                              <br><br><h4 style="padding-bottom: 20px;">Sub image</h4>
+                    </div> 
+                  
+              <div style="padding-bottom: 20px;">
+                <input class="btn btn-gradient-primary mr-2" type="button" name="add_image" id="add_image" value="Add Image">
+            </div>
+           
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group row">
+                   
+                    <div class="col-sm-12">
+                        <label class=" col-form-label">Name of the Product</label>
+                      <input name="product_name" placeholder="Name of The Product" type="text" class="form-control" />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    
+                    <div class="col-sm-12">
+                        <label class=" col-form-label">Price of the Product</label>
+                      <input name="product_price" placeholder="$$$" type="text" class="form-control" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group row">
+                   
+                    <div class="col-sm-12">
+                        <label class=" col-form-label">Product Catogery</label>
+                      <select type="text"  name="product_catogery" class="form-control" >
+                        <option value=""></option>
+                        {% for catog in catogery%}
+                          <option value="{{catog.cat_name}}">{{catog.cat_name}}</option>
+                          {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                 <div class="col-md-6">
+                  <div class="form-group row">
+                   
+                    <div class="col-sm-12">
+                        <label class=" col-form-label">Product Type</label>
+                      <select type="text" name="product_type" class="form-control" >
+                          <option value=""></option>
+                          <option value="Items">Items</option>
+                          <option value="Kilogram">Kilogram</option>
+                          <option value="Liter">Liter</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+
+                
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    
+                    <div class="col-sm-12">
+                      
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+                 <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group row">
+                   
+                    <div class="col-sm-12">
+                        <label class=" col-form-label">Product Stock</label>
+                      <input type="Number" name="product_stock" class="form-control" />
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group row">
+                    
+                    <div class="col-sm-12">
+                        <label class=" col-form-label">Product Discription</label>
+                      <textarea type="text" name="product_discription" class="form-control" ></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+           
+                <button type="submit" class="btn btn-gradient-primary mr-2">Submit</button>
+                <button class="btn btn-danger">Cancel</button>
+              </form>
+            </div>
+          </div>
+        </div>
+       
+              
+            
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- content-wrapper ends -->
+    <!-- partial:../../partials/_footer.html -->
+    <footer class="footer">
+
+
+        <script>
+            var loadFile = function (event) {
+                var output = document.getElementById('output');
+                output.src = URL.createObjectURL(event.target.files[0]);
+                output.onload = function () {
+                    URL.revokeObjectURL(output.src) // free memory
+                }
+            };
+        </script>
+        <script>
+            var loadFile1 = function (event) {
+                var output = document.getElementById('output1');
+                output.src = URL.createObjectURL(event.target.files[0]);
+                output.onload = function () {
+                    URL.revokeObjectURL(output.src) // free memory
+                }
+            };
+        </script>
+        <script>
+            var loadFile2 = function (event) {
+                var output = document.getElementById('output2');
+                output.src = URL.createObjectURL(event.target.files[0]);
+                output.onload = function () {
+                    URL.revokeObjectURL(output.src) // free memory
+                }
+            };
+        </script>
+        <script>
+            var loadFile3 = function (event) {
+                var output = document.getElementById('output3');
+                output.src = URL.createObjectURL(event.target.files[0]);
+                output.onload = function () {
+                    URL.revokeObjectURL(output.src) // free memory
+                }
+            };
+        </script>
+        <script>
+        
+            document.getElementById("add_image").onclick=function (ev) {
+        
+                var image = document.getElementById("images");
+                
+        
+                var preview = document.createElement("img");
+                preview.style.width='150px';
+                preview.style.height='100px';
+                preview.style.paddingBottom='20px';
+                
+                var newInput = document.createElement("input");
+                newInput.type = "file";
+                newInput.name = "file[]";   
+                
+        
+                var br = document.createElement("br");
+                var br1 = document.createElement("br");
+        
+                newInput.onchange=function (ev1) {
+        
+                    if (this.files && this.files[0]){
+                        var fileReader=new FileReader();
+        
+                        fileReader.onload=function (ev2){
+        
+                            preview.src=ev2.target.result;
+        
+                        };
+        
+                        fileReader.readAsDataURL(this.files[0])
+                    }
+                    
+                }
+        
+                image.appendChild(preview);
+                image.appendChild(newInput);
+                image.appendChild(br);
+                image.appendChild(br1);
+        
+        
+                
+            }
+        
+        
+        </script>
+        
+
+{% endblock %}

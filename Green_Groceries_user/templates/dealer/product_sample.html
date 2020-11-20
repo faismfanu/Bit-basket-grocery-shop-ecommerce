@@ -1,0 +1,75 @@
+{% extends "dealer/dashboard_sample.html" %}
+{% block content %}
+{% load static %}
+
+
+       <!-- partial -->
+       <div class="main-panel">
+        <div class="content-wrapper">
+          <div class="page-header">
+            <h3  class="page-t"> Product </h3>
+         
+          </div>
+          <div style="text-align: end; padding-bottom: 20px;">
+         <a href="{% url 'add_product_sample'%}"><button class="btn blue-gradient" >Add Product</button></a> 
+        </div>
+          <div class="row">
+          
+         
+            {% for products in product %}
+            <div class="col-md-4 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                    <div class="nav-profile-img">
+                        <img width="100px" height="100px" src="{{products.product_image.url}}" alt="image">
+                        <span class="availability-status online"></span>
+                       
+                      </div>
+                    <br>
+                    <h4 class="card-title">{{products.name}}</h4>
+                  <p class="card-description">Price : <code> {{products.newprice}}</code></p>
+                  <ul class="list-ticked">
+                    <li>Stock : {{products.stock}}</li>
+                    <li>Catogery : {{products.product_category}}</li>
+                    <li>Type : {{products.product_type}}</li>
+                  </ul>
+                  <div style="text-align: right;">
+                    <a href="" class="btn btn-primary" data-toggle="modal" data-target="#modal-edit-contact"><span><i class="fas fa-edit"></i></span></a>
+                    <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#exampleModal"><i
+                            class="fas fa-trash-alt"></i></a>
+                </div>
+                 <!-- Modal -->
+                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                 <div class="modal-dialog" role="document">
+                     <div class="modal-content">
+                         <div class="modal-header">
+                             <h5 class="modal-title" id="exampleModalLabel">Delete <i class="fas fa-minus-circle"
+                                     style="color: red;"></i></h5>
+                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                 <span aria-hidden="true">&times;</span>
+                             </button>
+                         </div>
+                         <div class="modal-body">
+                             Are you sure you want to delete the products?
+                         </div>
+                         <div class="modal-footer">
+                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                             <a class="btn btn- btn-danger"
+                                 href="{% url 'delete_product' products.id  %}">Delete</a>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+             <!-- //m odel -->
+                </div>
+              </div>
+            </div>
+        {% endfor %}
+          </div>
+        </div>
+
+
+
+
+{% endblock %}

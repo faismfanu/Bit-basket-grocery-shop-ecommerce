@@ -1,0 +1,64 @@
+{% extends "dealer/dashboard_sample.html" %}
+{% block content %}
+{% load static %}
+
+
+
+    <!-- partial -->
+    <div class="main-panel">
+      <div class="content-wrapper">
+        <div class="page-header">
+          <h3 class="page-title"> Order History </h3>
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">Tables</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Order history tables</li>
+            </ol>
+          </nav>
+        </div>
+        <div class="row">
+          <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">Order History</h4>
+                
+                </p>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th><h5>Order Id</h5></th>
+                      <th><h5>Customer</h5></th>
+                      <th><h5>Order Date</h5></th>
+                      <th><h5>Order Total</h5></th>
+                      <th><h5>Items</h5></th>
+                      <th><h5>Status</h5></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for orders in order %}
+                    {% if orders.date_ordered != today %}
+                    <tr>
+                      <td>{{orders.transaction_id}}</td>
+                      <td>{{orders.customer.name}}</td>
+                      <td>{{orders.date_ordered}}</td>
+                      <td>${{orders.product_total}}</td>
+                      <td><label class="badge badge-success">In progress</label></td>
+                    </tr>
+                    {% endif %}
+                   {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+  
+        </div>
+      </div>
+      <!-- content-wrapper ends -->
+      <!-- partial:../../partials/_footer.html -->
+
+
+
+
+
+{% endblock %}

@@ -82,7 +82,7 @@
                                                     <div style="padding-left: 500px;">
                                                     <h4 style="color: coral;" >Products</h4>
                                                     {% for item in orders.orderitem_set.all %}
-                                                    <div style="text-transform: capitalize;"  class="order-title"> {{item.product.name}} : {{item.quantity}} Items  <span data-inverted="" data-tooltip="Price for one:{{item.product.newprice}}, Totalprice{{item.get_total}}" data-position="top center"><i class="fas fa-rupee-sign"></i></span></div>
+                                                    <div style="text-transform: capitalize;"  class="order-title"> {{item.product.name}} : {{item.quantity}} Items  <span data-inverted="" data-tooltip="Price for one:{{orders.product_total}}, Totalprice" data-position="top center"><i class="fas fa-rupee-sign"></i></span></div>
                                                     {% endfor %}
                                                   
                                                     </div>

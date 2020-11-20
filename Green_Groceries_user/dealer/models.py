@@ -10,12 +10,12 @@ class Product(models.Model):
     dealer = models.ForeignKey(Dealers, on_delete = models.CASCADE, null = True, blank = True)
     product_category = models.CharField(max_length = 300)
     name = models.CharField(max_length = 300)
-    newprice = models.FloatField()
-    product_type = models.CharField(max_length = 300)
+    newprice = models.FloatField(null=True)
+    offer_price = models.FloatField(null=True)
+    product_type = models.CharField(max_length = 300, null= True)
     product_image =  models.FileField(max_length=2555,null=True,blank=True,upload_to='product/images')
     stock = models.IntegerField()
-    active=models.IntegerField(default=0,null=True,blank=True)
-    digital = models.BooleanField(default=False, null=True, blank=True)
+    digital = models.BooleanField(default=False , blank=True)
     description = models.TextField(max_length=1000, verbose_name ='description')
 
 
@@ -41,13 +41,13 @@ class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL,blank= True, null=True)
     dealer = models.ForeignKey(Dealers, on_delete=models.SET_NULL,blank= True, null=True)
     date_ordered = models.DateField(auto_now_add=True)
-    complete = models.BooleanField(default=False, null=True,blank=False)
+    complete = models.BooleanField(default=False,blank=False)
     transaction_id = models.CharField(max_length = 200, null = True )
     product_total = models.FloatField(default=0, null = True )
     order_status = models.CharField(default = 'Pending',max_length = 200, null = True )
 
     def _str_(self):
-        return str(self.id)
+        return str(self.dealer)
 
     def __unicode__(self):
         return self.id
@@ -75,13 +75,15 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.SET_NULL, blank = True, null = True)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, blank = True, null = True)
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, blank = True, null = True)
     quantity = models.IntegerField(default=0, null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
 
     @property
     def get_total(self):
+        if self.id is None: 
+            return None
         total = self.product.newprice * self.quantity
         return total
 
@@ -95,8 +97,27 @@ class ShippingAdress(models.Model):
     pincode = models.CharField(max_length = 200,null = True)
     country = models.CharField(max_length = 200,null = True)
     date_added = models.DateTimeField(auto_now_add=True)
+    payment_status = models.CharField(max_length=300, null=True)
+    payment_cod = models.CharField(max_length=300, null=True)
+
 
     def _str_(self):
         return self.address
+
+
+
+class offer(models.Model):
+    offer_image = models.FileField(max_length=2555,null=True,blank=True,upload_to='offer')
+    offer_name = models.CharField(max_length= 220, null=True)
+    product = models.ForeignKey(Product,on_delete=models.CASCADE,null=True)
+    dealer = models.ForeignKey(Dealers,on_delete=models.CASCADE,null=True)
+    discount_amount = models.FloatField(null=True)
+    offer_start = models.DateField(auto_now_add=True, null=True)
+    offer_expiry = models.DateField(null=True)
+    
+
+
+
+
 
 
