@@ -21,7 +21,10 @@ urlpatterns = [
     path('product_sample',views.product_sample,name = 'product_sample'),
     path('add_product_sample',views.add_product_sample,name = 'add_product_sample'),
     path('add_offer',views.add_offer,name = 'add_offer'),
+    path('edit_offer/<int:id>',views.edit_offer,name = 'edit_offer'),
     path('offers',views.offers,name = 'offers'),
+    path('delete_offer/<int:id>',views.delete_offer,name = 'delete_offer'),
+    path('delete_offer_cat/<int:id>',views.delete_offer_cat,name = 'delete_offer_cat'),
     path('order_history_sample',views.order_history_sample,name = 'order_history_sample'),
 
     

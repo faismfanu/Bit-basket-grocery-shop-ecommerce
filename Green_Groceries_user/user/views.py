@@ -17,7 +17,8 @@ from django.views.decorators.csrf import csrf_exempt
 import requests
 from . import Checksum
 from django.conf import settings
-
+import random
+import string
 import json
 from django.contrib import messages
 
@@ -33,7 +34,11 @@ def index(request):
         login_user = request.user
         login_name = request.user.username
         login_email = request.user.email
+        letter = string.ascii_letters
+        result = ''.join(random.choice(letter) for i in range(8))
         user, created = Customer.objects.get_or_create(user = login_user, name = login_name, email = login_email)
+        user.reff_code = result
+        user.save()
         customer=request.user.customer
         # print(customer)
         order, created = Order.objects.get_or_create(customer=customer,complete=False)
@@ -92,8 +97,8 @@ def signup(request):
         username = request.POST['username']
         email = request.POST['email']
         password = request.POST['password']
+        reff_code = request.POST.get('reffcode')
         dic={"lastname":lastname, "email":email, "username":username}
-
         
         if User.objects.filter(username=username).exists():
             messages.info(request, 'Mobile number already taken')
@@ -104,8 +109,26 @@ def signup(request):
             return render(request, 'signup.html',dic)
     
         else:
-            user = User.objects.create_user(last_name=lastname,username=username,email=email,password=password)
-            user.save()
+            letter = string.ascii_letters
+            result = ''.join(random.choice(letter) for i in range(8))
+            # print('code',result)
+            if reff_code == "":
+                user = User.objects.create_user(last_name=lastname,username=username,email=email,password=password)
+                user.save()
+            else:
+                if Customer.objects.filter(reff_code=reff_code).exists():
+                    user = User.objects.create_user(last_name=lastname,username=username,email=email,password=password)
+                    user.save()
+                    cust = Customer.objects.get(reff_code=reff_code)
+                    customer, created = Customer.objects.get_or_create(user = user, name = username, email = email,reff_code=result,refferd_user=cust.user_id)
+                    messages.info(request,'User Created') 
+                    return redirect('login')
+                else:
+                    messages.info(request,'Wrong refferel code ')
+                    return render(request, 'signup.html',dic)   
+                
+
+
             messages.info(request,'User Created') 
             return redirect('login')
         
@@ -269,21 +292,40 @@ def updateItem(request):
 
 def checkout(request):
     if request.user.is_authenticated:
-        
         customer = request.user.customer
         print('fais',customer)
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
         item_count = items.count()
+        if customer.refferd_user and Order.objects.filter(customer=customer, complete=True).count() < 1 :
+            ch = order.get_cart_total
+            print('ch',ch)
+            changes = (order.get_cart_total)*(90/100)
+            print("ff",changes)
+            change = round(changes)
+            print("change",change)
+           
+        else:
+            change = 0 
+        totals = order.get_cart_total
+        print("tttt",totals)
         cartItems = order.get_cart_items
         print(items)
         client  = razorpay.Client(auth=("rzp_test_BIydmFasQhZv1U", "vu8l6padL6tNMOQlwCYm1Q4z"))
         if request.user.is_authenticated:
-            total = int(order.get_cart_total*100)
+            if customer.refferd_user and Order.objects.filter(customer=customer, complete=True).count() < 1 :
+                ch = order.get_cart_total
+                changes = (order.get_cart_total)*(90/100)
+                print("ff",changes)
+                totals = round(changes)
+                total = int((totals*100)/61.06)
+            else:    
+                total = int((order.get_cart_total*100)/74.0742)
         else:
-            total = int(order['get_cart_total']*100)
+            total = int((order['get_cart_total']*100)/74.0742)
         
         order_amount = total
+        print('order',order_amount)
         order_currency = 'USD'
         if order_amount == 0:
             return redirect('checkout')
@@ -300,7 +342,7 @@ def checkout(request):
         order = {'get_cart_total':0,'get_cart_items':0,'shipping':False}  
         cartItems = order['get_cart_items']
         item_count = 0
-    context = {'items':items,'order':order,'item_count':item_count,'cartItems':cartItems,'order_id':order_id}   
+    context = {'items':items,'order':order,'change':change,'item_count':item_count,'cartItems':cartItems,'order_id':order_id}   
     return render(request,"checkout.html", context)    
 
 
@@ -311,11 +353,24 @@ def cod(request):
     if request.user.is_authenticated:
         customer = request.user.customer
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        total = data['form']['total']
+        if customer.refferd_user and Order.objects.filter(customer=customer, complete=True).count() < 1 :
+            ch = order.get_cart_total
+            print('ch',ch)
+            changes = (order.get_cart_total)*(90/100)
+            print("ff",changes)
+            total = round(changes)
+         
+        else:
+            total = data['form']['total']
+            print(total)
         order.transaction_id = transaction_id
-
-        if float(total) == float(order.get_cart_total):
+        if customer.refferd_user and Order.objects.filter(customer=customer, complete=True).count() < 1 :
             order.complete = True
+            order.product_total = total
+        else:
+            if float(total) == float(order.get_cart_total):
+                order.complete = True
+                order.product_total = total
         order.save()
 
         if order.shipping == True:
@@ -341,13 +396,24 @@ def processOrder(request):
         customer = request.user.customer
         # dealer = 
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
-        total = float(data['form']['total'])
+        if customer.refferd_user and Order.objects.filter(customer=customer, complete=True).count() < 1 :
+            ch = order.get_cart_total
+            print('ch',ch)
+            changes = (order.get_cart_total)*(90/100)
+            print("ff",changes)
+            total = round(changes)
+        else:
+            total = data['form']['total']
+            print(total)
         order.transaction_id = transaction_id 
 
-        if total == order.get_cart_total:
+        if customer.refferd_user and Order.objects.filter(customer=customer, complete=True).count() < 1 :
             order.complete = True
             order.product_total = total
-            
+        else:
+            if float(total) == float(order.get_cart_total):
+                order.complete = True
+                order.product_total = total
         order.save()
 
         if order.shipping == True:
@@ -359,6 +425,7 @@ def processOrder(request):
                 state=data['shipping']['state'],
                 country=data['shipping']['country'],
                 pincode=data['shipping']['pincode'],
+                payment_status=data['shipping']['payment_status'],
 
             )    
 
@@ -390,21 +457,28 @@ def dashboard(request):
         order, created = Order.objects.get_or_create(customer=customer,complete=False)
         items=order.orderitem_set.all()
         order_count = Order.objects.filter(customer=customer,complete=True)
+        
         oc = order_count.count()
         cartItems=order.get_cart_items
         item_count = items.count()
+        cust = Customer.objects.filter(
+            refferd_user=request.user.id).count()
+        reward = 0
+        reward = cust * 10
+        
         
        
         # cartItems = order.get_cart_itemsdealer_dashboard
         
     
     else:
+        reward = 0
         customer = 0
         items = []  
         order = {'get_cart_total':0,'get_cart_items':0,'shipping':False}  
         item_count = 0
         # cartItems = order['get_cart_items']
-    context = {'dealer':dealer,'items':items,'order':order,'item_count':item_count,'oc':oc}
+    context = {'dealer':dealer,'customer':customer,'reward':reward,'items':items,'order':order,'item_count':item_count,'oc':oc}
     return render(request, "dashboard.html", context)
 
 

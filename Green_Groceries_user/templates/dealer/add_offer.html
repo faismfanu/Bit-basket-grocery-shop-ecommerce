@@ -3,73 +3,137 @@
 {% load static %}
 
 
- <!-- partial -->
- <div class="main-panel">
-    <div class="content-wrapper">
-      <div class="page-header">
-        <h3 class="page-title"> Add Offer </h3>
-        <nav aria-label="breadcrumb">
-          <ol class="breadcrumb">
+<!-- partial -->
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="page-header">
+      <h3 class="page-title"> Add Offer </h3>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
 
-          </ol>
-        </nav>
-      </div>
-      <div class="row">
-        <div class="col-md-6 grid-margin stretch-card" >
-          <div class="card">
-            <div class="card-body" >
-              <h4 class="card-title">Offer form</h4>
-              <p class="card-description"> Fill Offer Details </p>
-              <form method="POST" action="{% url 'add_offer'%}" enctype="multipart/form-data" class="forms-sample">
-                {% csrf_token %}
-                <div class="form-group">
-                  <label for="exampleInputUsername1">Offer Image</label>
-                  <input type="file" name = "offer_image"  class="form-control" id="exampleInputUsername1" placeholder="Offer Image">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputEmail1">Offer Name</label>
-                  <input type="text" name="offer_name" class="form-control" id="exampleInputEmail1" placeholder="Offer Name">
-                </div>
-                <div class="form-group">
-                    <label for="exampleFormControlSelect2">Offer Product</label>
-                    <select name = "offer_product" class="form-control" id="exampleFormControlSelect2">
-                      <option ></option>
-                      {% for product in products %}
-                      <option value="{{product.id}}" >{{product.name}}</option>
-                      {% endfor %}
-                    </select>
-                  </div>
-                <div class="form-group">
-                  <label for="exampleInputConfirmPassword1">Discount Percentag</label>
-                  <input type="number" min="0" name="offer_amount" class="form-control" id="exampleInputConfirmPassword1" placeholder="Discount Amount">
-                </div>
-                <div class="form-group">
-                  <label for="exampleInputConfirmPassword1">Offer Expire Date</label>
-                  <input type="date" id="txtDate" required="Required" class="form-control" name="txtDate" placeholder="Select suitable date" />
-                </div>
-                
-                <div style="padding-left: 20%;">
-                    <button type="submit" class="btn btn-gradient-primary mr-2">Add New Offer</button>
-                </div>
-               
-              </form>
+        </ol>
+      </nav>
+    </div>
+    <div class="row">
+      <div class="col-md-6 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Offer form</h4>
+            <p class="card-description"> Fill Offer Details </p>
+            <form method="POST" action="{% url 'add_offer'%}" enctype="multipart/form-data" class="forms-sample">
+              {% csrf_token %}
+              <div class="form-group">
+                <label for="exampleInputUsername1">Offer Image</label>
+                <input type="file" name="offer_image" class="form-control" id="exampleInputUsername1"
+                  placeholder="Offer Image" required>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Offer Name</label>
+                <input type="text" name="offer_name" class="form-control" id="exampleInputEmail1"
+                  placeholder="Offer Name" required >
+              </div>
+              <div id="offertype" class="form-group">
+                <label for="exampleFormControlSelect2">Offer Type</label>
+                <select name="offer_type" class="form-control" id="exampleFormControlSelect2">
+                  <option></option>
+                  <option value="single">Single Product</option>
+                  <!-- <option value=" ">Multiple product</option> -->
+                  <option value="catogery">Catogery wise</option>
+                </select>
+              </div>
+              <div id = "multiple" style="display: none;">
+              <label>Multiple Product</label>
+              {% for product in products %}
+              <div class="form-check">
+                <label class="form-check-label">
+                  <input type="checkbox" name ="multiple_product" class="form-check-input"> {{product.name}} </label>
+              </div>
+              {% endfor %}
             </div>
+              <div id="catogery" class="form-group" style="display: none;">
+                <label for="exampleFormControlSelect2">Offer Catogery</label>
+                <select name="offer_category" class="form-control" id="exampleFormControlSelect2">
+                  <option></option>
+                  {% for catogeries in catogery %}
+                  <option value="{{catogeries.id}}">{{catogeries.cat_name}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="form-group" id="product" style="display: none;">
+                <label for="exampleFormControlSelect2">Offer Product</label>
+                <select name="offer_product" class="form-control" id="exampleFormControlSelect2">
+                  <option></option>
+                  {% for product in products %}
+                  <option value="{{product.id}}">{{product.name}}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputConfirmPassword1">Discount Percentag</label>
+                <input type="number" required min="0" name="offer_amount" class="form-control" id="exampleInputConfirmPassword1"
+                  placeholder="Discount Amount">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputConfirmPassword1">Offer Expire Date</label>
+                <input type="date" required id="txtDate" required="Required" class="form-control" name="txtDate"
+                  placeholder="Select suitable date" />
+              </div>
+
+              <div style="padding-left: 20%;">
+                <button type="submit" class="btn btn-gradient-primary mr-2">Add New Offer</button>
+              </div>
+
+            </form>
           </div>
         </div>
-
-       
-
       </div>
+
+
+
     </div>
-    <!-- content-wrapper ends -->
-    <!-- partial:../../partials/_footer.html -->
+  </div>
+  <!-- content-wrapper ends -->
+  <!-- partial:../../partials/_footer.html -->
 
-    <script>
-	
-        var today = new Date().toISOString().split('T')[0];
-        document.getElementsByName("txtDate")[0].setAttribute('min', today);
-        
-        </script>
+  <script>
+
+    var today = new Date().toISOString().split('T')[0];
+    document.getElementsByName("txtDate")[0].setAttribute('min', today);
+
+    document.getElementById("offertype").addEventListener("change", () => {
+      let list = document.getElementById("exampleFormControlSelect2");
+      console.log(list);
+      let dropdownValue = list.options[list.selectedIndex].value;
+      console.log(dropdownValue);
+      let catogery = document.getElementById("catogery")
+      let product = document.getElementById("product")
+      let multiple = document.getElementById("multiple")
 
 
-{% endblock %}
+
+      if (dropdownValue === "single") {
+        console.log(product);
+
+        product.style.display = "block"
+        multiple.style.display = "none"
+        catogery.style.display = "none"
+      } else if (dropdownValue === "catogery") {
+        console.log(catogery);
+
+        product.style.display = "none"
+        multiple.style.display = "none"
+        catogery.style.display = "block"
+      } else if (dropdownValue === "multiple") {
+        console.log(multiple);
+
+        product.style.display = "none"
+        catogery.style.display = "none"
+        multiple.style.display = "block"
+
+      }  
+    });
+
+  </script>
+
+
+  {% endblock %}

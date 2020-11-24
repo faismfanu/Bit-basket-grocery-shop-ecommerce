@@ -32,7 +32,7 @@
 							</div>
 							<h4>{{user}}</h4>
 							<p>+91999999999<a href="#"><i class="uil uil-edit"></i></a></p>
-							<div class="earn-points"><img src="images/Dollar.svg" alt="">Points : <span>20</span></div>
+							<div class="earn-points"><img src="images/Dollar.svg" alt="">Refferal Code : <span style="color: blue;"> {{customer.reff_code}}</span></div>
 						</div>
 					</div>
 				</div>
@@ -69,21 +69,21 @@
 											<h4>My Rewards</h4>
 										</div>
 										<div class="ddsh-body">
-											<h2>6 Rewards</h2>
+											{% if customer.refferd_user %}
+											<h2> Refral Reward Activated</h2>
 											<ul>
 												<li>
-													<a href="#" class="small-reward-dt hover-btn">Won $2</a>
+													<a href="" class="small-reward-dt hover-btn">You will get 10% off for your first purchase </a>
 												</li>
-												<li>
-													<a href="#" class="small-reward-dt hover-btn">Won 40% Off</a>
-												</li>
-												<li>
-													<a href="#" class="small-reward-dt hover-btn">Caskback $1</a>
-												</li>
-												<li>
-													<a href="#" class="rewards-link5">+More</a>
-												</li>
+												
+											
 											</ul>
+											
+											{% else %}
+											<h2> No Refral Rewards Earned</h2>
+										{% endif %}
+								
+						
 										</div>
 										<a href="#" class="more-link14">Rewards and Details <i class="uil uil-angle-double-right"></i></a>
 									</div>
@@ -114,7 +114,7 @@
 											<h4>My Wallet</h4>
 										</div>
 										<div class="wllt-body">
-											<h2>Credits $100</h2>
+											<h2>Refral Bonus ${{reward}}</h2>
 											<ul class="wallet-list">
 												<li>
 													<a href="#" class="wallet-links14"><i class="uil uil-card-atm"></i>Payment Methods</a>

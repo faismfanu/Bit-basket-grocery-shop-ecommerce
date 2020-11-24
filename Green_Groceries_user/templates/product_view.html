@@ -24,7 +24,7 @@
                                 <div id="sync1" class="owl-carousel owl-theme">
                                    {% for images in product_images%}
                                     <div class="item">
-                                        <img src="{{images.image.url}}" data-imagezoom ='true' alt="no image">
+                                        <img class="drift-demo-trigger" data-zoom="{{images.image.url}}" src="{{images.image.url}}" alt="">
                                     </div>
                                     {% endfor %}
                                 </div>
@@ -38,8 +38,10 @@
                                 
                                 </div>
                             </div>
+                                        
+                                    
                             <div class="col-lg-8 col-md-8">
-                                <div class="product-dt-right">
+                                <div class="product-dt-right details">
                                     <h2>{{product.name}}</h2>
                                     <div class="no-stock">
                                         <p class="pd-no">Product No.<span>{{product.id}}</span></p>
@@ -53,8 +55,12 @@
                                     <p class="pp-descp">{{product.description}}</p>
                                     <div class="product-group-dt">
                                         <ul>
-                                            <li><div class="main-price color-discount">MRP Price<span><i class="fas fa-rupee-sign"></i> {{product.newprice}}</span></div></li>
-                                            
+                                                {% if product.offer_price == 0 %}
+                                                <li><div class="main-price color-discount">MRP price<span><i class="fas fa-rupee-sign"> </i>  {{product.newprice}}</span></div></li>
+                                                {% else %}
+                                            	<li><div class="main-price color-discount">Discount Price<span><i class="fas fa-rupee-sign"> </i>  {{product.newprice}}</span></div></li>
+                                                <li><div class="main-price mrp-price">MRP Price<span><i class="fas fa-rupee-sign"> </i>  {{product.offer_price}}</span></div></li>
+                                                {% endif %}
                                         </ul>
                                         <ul class="gty-wish-share">
                                             <li>
@@ -89,8 +95,16 @@
 
 
 
-
-<script src="{% static 'user/js/image.js' %}"></script>
+<script src="https://awik.io/demo/webshop-zoom/Drift.min.js"></script>
+<script>
+    new Drift(document.querySelector('.drift-demo-trigger'), {
+        paneContainer: document.querySelector('.details'),
+        inlinePane: 769,
+        inlineOffsetY: -85,
+        containInline: true,
+        hoverBoundingBox: true
+    });
+</script>
 
 
 

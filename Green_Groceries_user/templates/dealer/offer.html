@@ -4,62 +4,136 @@
 
 
 
-        <!-- partial -->
-        <div class="main-panel">
-            <div class="content-wrapper">
-              <div class="page-header">
-                <h3 class="page-title"> Basic Tables </h3>
-                <nav aria-label="breadcrumb">
-                  <ol class="breadcrumb">
-                    <a href="{% url 'add_offer' %}"><button type="button" class="btn btn-gradient-primary btn-fw">Add Offer</button></a>
-                </ol>
-                </nav>
-              </div>
-              <div class="row">
-             
-                <div class="col-lg-12 grid-margin stretch-card">
-                  <div class="card">
-                    <div class="card-body">
-                      <h4 class="card-title">Offers</h4>
-                      </p>
-                      <table class="table table-striped">
-                        <thead>
-                          <tr>
-                            <th> Offer Image </th>
-                            <th> Offer Name </th>
-                            <th> Discount Percentage </th>
-                            <th> Offer start Date </th>
-                            <th> Deadline </th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td class="py-1">
-                              <img src="../../assets/images/faces-clipart/pic-1.png" alt="image" />
-                            </td>
-                            <td> Herman Beck </td>
-                            <td>
-                              <div class="progress">
-                                <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                              </div>
-                            </td>
-                            <td> $ 77.99 </td>
-                            <td> May 15, 2015 </td>
-                          </tr>
-                        
-                        </tbody>
-                      </table>
+<!-- partial -->
+<div class="main-panel">
+  <div class="content-wrapper">
+    <div class="page-header">
+      <h3 class="page-title"> Basic Tables </h3>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <a href="{% url 'add_offer' %}"><button type="button" class="btn btn-gradient-primary btn-fw">Add
+              Offer</button></a>
+        </ol>
+      </nav>
+    </div>
+    <div class="row">
+
+      <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title">Offers</h4>
+            </p>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+
+                  <th> Offer Image </th>
+                  <th> Offer Name </th>
+                  <th>Offer Type</th>
+                  <th>Offer Item</th>
+                  <th> Discount Percentage </th>
+                  <th> Offer start Date </th>
+                  <th> Deadline </th>
+                  <th> Status </th>
+                  <th></th>
+
+                </tr>
+              </thead>
+              <tbody>
+                {% for offer in offers %}
+                <tr>
+                  <td class="py-1">
+                    <img src="{{offer.offer_image.url}}" alt="image" />
+                  </td>
+                  <td> {{offer.offer_name}} </td>
+                  <td> {{offer.offer_type}} </td>
+                  {% if offer.offer_type == "single" %}
+                  <td> {{offer.product.name}} </td>
+                  {% elif offer.offer_type == "catogery"%}
+                  <td> {{offer.catogery.cat_name}} </td>
+                  {% endif %}
+                  <td style="padding-left: 70px;">
+                    {{offer.discount_amount}} %
+                  </td>
+                  <td> {{offer.offer_start}} </td>
+                  <td> {{offer.offer_expiry}} </td>
+                  <td><button>ko</button></td>
+                  {% if offer.offer_type == "single" %}
+                  <td>
+                    <a href="{% url 'edit_offer' offer.id %}"><i style="color: rgb(122, 91, 207); "
+                        class="fas fa-edit"></i></a>
+                    <a href="#" data-toggle="modal" data-target="#exampleModals"><i style="color: red; padding-left: 30px;"
+                        class="fas fa-trash-alt"></i></a>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModals" tabindex="-1" role="dialog"
+                      aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Delete <i class="fas fa-minus-circle"
+                                style="color: red;"></i></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            Are you sure you want to delete the products?
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <a class="btn btn- btn-danger" href="{% url 'delete_offer' offer.id %}">Delete</a>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-               
+                    <!-- //m odel -->
+                  </td>
+                  {% elif offer.offer_type == "catogery"%}
+                  <td>
+                    <a href="{% url 'edit_offer' offer.id %}"><i style="color: rgb(122, 91, 207); "
+                        class="fas fa-edit"></i></a>
+                    <a href="#" data-toggle="modal" data-target="#exampleModal"><i style="color: red; padding-left: 30px;"
+                        class="fas fa-trash-alt"></i></a>
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                      aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Delete <i class="fas fa-minus-circle"
+                                style="color: red;"></i></h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                              <span aria-hidden="true">&times;</span>
+                            </button>
+                          </div>
+                          <div class="modal-body">
+                            Are you sure you want to delete the catogery?
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <a class="btn btn- btn-danger" href="{% url 'delete_offer_cat' offer.id %}">Delete</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- //m odel -->
+                  </td>
+                  {% endif %}
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
 
-              </div>
-            </div>
-            <!-- content-wrapper ends -->
-            <!-- partial:../../partials/_footer.html -->
+
+    </div>
+  </div>
+  <!-- content-wrapper ends -->
+  <!-- partial:../../partials/_footer.html -->
 
 
 
 
-{% endblock %}
+  {% endblock %}

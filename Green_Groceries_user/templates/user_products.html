@@ -78,17 +78,23 @@
 											<a href="{% url 'product_view' products.id%}" class="product-img">
 
 												<img src="{{products.product_image.url}}" alt="">
-
+												{% if products.offer_percentage%}
 												<div class="product-absolute-options">
-													<span class="offer-badge-1">6% off</span>
+													<span class="offer-badge-1">{{products.offer_percentage}}% off</span>
 													<span class="like-icon" title="wishlist"></span>
 												</div>
-
+												{% endif %}
 												<div class="product-text-dt">
 													<p>Available<span>({{products.stock}})</span></p>
 													<h4>{{products.name}}</h4>
+													{% if products.offer_price == 0%}
 													<div class="product-price"><i class="fas fa-rupee-sign"></i>
 														{{products.newprice}} </div>
+													{% else %}	
+													<div class="product-price"><i class="fas fa-rupee-sign"></i>
+														{{products.newprice}} <span><i class="fas fa-rupee-sign"></i>
+															{{products.offer_price}}</span></div>
+															{% endif %}
 													<div class="qty-cart">
 														<!-- <div class="quantity buttons_added">
 															<input type="button" value="-" class="minus minus-btn">

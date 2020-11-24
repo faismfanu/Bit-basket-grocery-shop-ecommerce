@@ -39,6 +39,9 @@
                     <h5>Order Total</h5>
                   </th>
                   <th>
+                    <h5>Payment</h5>
+                  </th>
+                  <th>
                     <h5>Items</h5>
                   </th>
                   <th>
@@ -54,17 +57,20 @@
                   <td> {{orders.customer.name}}</td>
                   <td>{{orders.date_ordered}}</td>
                   <td>${{orders.product_total}}</td>
-
+                  {% for i in orders.shippingadress_set.all %}
+                  
+                  <td>{{i.payment_status}}</td>
+                  {% endfor %}
 
                   <td>
                     <!-- Button to Open the Modal -->
-                    <button type="button" class="badge badge-success" data-toggle="modal" data-target="#myModal">
+                    <button type="button" class="badge badge-success" data-toggle="modal" data-target="#{{orders.customer.name}}">
                       View Items
                     </button>
-
+                   
 
                     <!-- The Modal -->
-                    <div class="modal" id="myModal">
+                      <div class="modal" id="{{orders.customer.name}}">
                       <div class="modal-dialog">
                         <div class="modal-content">
 

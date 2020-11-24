@@ -387,10 +387,17 @@
 								<h4>Total Items</h4>
 								<span>{{order.get_cart_items}}</span>
 							</div>
+							{% if change > 0 %}
+							<div class="main-total-cart">
+								<h2>change</h2>
+								<span>$</span><span id="entry-title">{{change}}</span>
+							</div>
+							{% else %}
 							<div class="main-total-cart">
 								<h2>Total</h2>
 								<span>${{order.get_cart_total}}</span>
 							</div>
+							{% endif %}
 							<div class="payment-secure">
 								<i class="uil uil-padlock"></i>Secure checkout
 							</div>
@@ -409,10 +416,12 @@
 	<!-- Body End -->
 	<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 	<script>
-    
+		var con = "{{order.get_cart_total|floatformat:2}}"/74.0742 ;
+		var payment_raz='razorpay'
+		var total = con ;
 		var options = {
-			"key": "rzp_test_BIydmFasQhZv1U",            
-			"amount": "{{order.get_cart_total|floatformat:2}}", 
+			"key": "rzp_test_BIydmFasQhZv1U",
+			"amount": total, 
 			"currency": "USD",
 			"name": "Acme Corp",
 			"description": "Test Transaction",
@@ -420,7 +429,7 @@
 			"order_id": '{{order_id}}',
 			"handler": function (response){
 			
-				submitFormData()
+				submitFormData(payment_raz)
 			},
 			
 			"prefill": {
@@ -445,7 +454,19 @@
 	</script>
 	<script src="https://www.paypal.com/sdk/js?client-id=AU7YnLZcEhUPluDcNYwAJ0rEk-xA4doYCu7JC3sOEkuVTYgg-38ep0NE0rRUISMR-sdRCJT6B73MxHd7&currency=USD"></script>
 	<script>
-		var total = '{{order.get_cart_total}}'
+		
+		 var change = document.querySelector("#entry-title")
+		 var payment_paypal='paypal'
+		if(change){
+			change.textContent > 0
+			totalss = ("{{order.get_cart_total}}"/74.0742)*(90/100)
+
+		}else {
+			
+			totalss = '{{order.get_cart_total}}'/74.0742
+
+		}
+		
         // Render the PayPal button into #paypal-button-container
         paypal.Buttons({
 
@@ -460,7 +481,7 @@
                 return actions.order.create({
                     purchase_units: [{
                         amount: {
-                            value: parseFloat(total).toFixed(2)
+                            value: parseFloat(totalss).toFixed(2)
                         }
                     }]
                 });
@@ -469,7 +490,7 @@
             // Finalize the transaction
             onApprove: function(data, actions) {
                 return actions.order.capture().then(function(details) {
-					submitFormData()
+					submitFormData(payment_paypal)
                 });
             }
 
@@ -571,7 +592,7 @@
 	
 	
 
-    function submitFormData() {
+    function submitFormData(payment_status) {
         console.log('payment button clicked')
 
         var userFormData = {
@@ -585,6 +606,7 @@
             'state': null,
             'pincode': null,
             'country': null,
+			'payment_status':null,
         } 
 
         if (shipping != 'False'){
@@ -593,6 +615,7 @@
             shippingInfo.state = form.state.value
             shippingInfo.pincode = form.pincode.value
             shippingInfo.country = form.country.value
+			shippingInfo.payment_status = payment_status
         } 
         if (user == 'Anonymoususer'){
             userFormData.name = form.name.value

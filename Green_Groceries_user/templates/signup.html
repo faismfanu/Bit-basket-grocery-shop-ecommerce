@@ -81,22 +81,24 @@
                       <input class="form-control" name="password" required placeholder="Password" type="password">
                     </div>
                   </div>
-                 
-                  <div class="row my-4">
-                    <div class="col-12">
-                      <div class="custom-control custom-control-alternative custom-checkbox">
-                        <input class="custom-control-input" id="customCheckRegister" type="checkbox">
-                        <label class="custom-control-label" for="customCheckRegister">
-                          <span class="text-muted">I agree with the <a href="#!">Privacy Policy</a></span>
-                        </label>
+                  <span id = "refrel_code" class="text-muted">Do you have a Refrel code? <a id ="click" style="color: blue; text-decoration: underline;cursor: pointer;">Click Here</a></span>
+                  <div id = "ref" class="form-group" style="display: none;">
+                    <div class="input-group input-group-merge input-group-alternative">
+                      <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-qrcode"></i></span>
                       </div>
+                      <input class="form-control" name="reffcode"  placeholder="Refrel code" type="text">
                     </div>
                   </div>
-  
-                    <span class="text-muted">Do you have an account? <a href="{% url 'login' %}">Sign in</a></span>
+                  {% for message in messages %}
+                  <h4 style="color: red;">{{message}}</h4>
+                  {% endfor %}
           
                   <div class="text-center">
                     <button type="submit" class="btn btn-primary mt-4">Create account</button>
+                  </div>
+                  <div class="pt-lg-4">
+                    <span class="text-muted" style="padding-left: 100px;;">Do you have an account? <a href="{% url 'login' %}">Sign in</a></span>
                   </div>
                 </form>
               </div>
@@ -109,7 +111,20 @@
     
 
 
+<script>
+    
+    var ref_input = document.getElementById('ref')
+    var ref_text = document.getElementById('refrel_code')
 
+    document.getElementById('click').addEventListener('click',function(){
+
+      ref_text.style.display = "none"
+      ref_input.style.display = "block"
+      
+
+    })
+
+</script>
 
 
 

@@ -101,9 +101,6 @@ def dealer_orders(request):
         print(dealer)
         today = date.today()
         order = Order.objects.filter(dealer=dealer, date_ordered=today ,complete=True)
-       
-     
-        print('lol ',order)
         context = {'order':order,'today':today}
         return render(request, 'dealer/dealer_orders.html',context)
     else:
@@ -202,9 +199,22 @@ def dealerlogout(request):
 
 def dashboard_sample(request):
     if request.user.is_authenticated and request.user.is_staff == True:
+        today = datetime.date.today()
         user = request.user.id
         dealer = Dealers.objects.get(user_id=user)
-        return render(request, 'dealer/dashboard_sample.html',{'dealer':dealer})
+        order = Order.objects.filter(dealer=dealer,complete=True)
+        t_order = Order.objects.filter(dealer=dealer,complete=True,date_ordered=today)
+        p_sum = 0
+        t_sum = 0
+        for orders in order:
+            p_sum += orders.product_total
+        for t_orders in t_order:
+            t_sum += t_orders.product_total    
+        order_count = Order.objects.filter(dealer=dealer,complete=True).count()
+        today_order = Order.objects.filter(dealer=dealer,complete=True,date_ordered=today).count()
+
+        print(today_order)
+        return render(request, 'dealer/dashboard_sample.html',{'dealer':dealer,'order_count':order_count,'today_order':today_order,'p_sum':p_sum,'t_sum':t_sum})
     else:
         return render(request,'dealer/login_sample.html')   
    
@@ -286,39 +296,127 @@ def add_product_sample(request):
    
 
 def offers(request):
+    if request.user.is_authenticated:
+        user = request.user.id
+        dealer = Dealers.objects.get(user_id=user)
+        offers = offer.objects.filter(dealer = dealer) 
 
-    return render(request,"dealer/offer.html")
+        return render(request,"dealer/offer.html", {'offers':offers})
+    else:
+        return render(request,'dealer/login.html')     
 
 
 def add_offer(request):
     if request.user.is_authenticated:
         user = request.user.id
         dealer = Dealers.objects.get(user_id=user)
+        catogery = catogeries.objects.all()
         products = Product.objects.filter(dealer=dealer,offer_price=0)
-        print("asf",products)
-        print(products)
-        # offers = offer()
         if request.method == "POST":
             offer_image = request.FILES['offer_image']
             offer_name= request.POST.get('offer_name')
             discount_amount = request.POST.get('offer_amount')
             product = request.POST.get('offer_product')
-            product_obj=Product.objects.get(id=product)
+            catogery = request.POST.get('offer_category')
+            product_type = request.POST.get('offer_type')
+            offer_date = request.POST.get('txtDate')
+            if product_type == "single":
+                product_obj=Product.objects.get(id=product)
+            elif product_type == "catogery":    
+                catogeris = catogeries.objects.get(id=catogery)
             dealer = dealer
-            offers = offer.objects.create(offer_image=offer_image,offer_name=offer_name,discount_amount=discount_amount,product=product_obj,dealer=dealer)
-            offers.save()
-            price = product_obj.newprice
-            product_obj.offer_price = price
-            discount_amounts = int(discount_amount)
-            offer_price =  int(price)*(discount_amounts/100)
-            product_obj.newprice = offer_price
-            product_obj.save()
+            if product_type == "single":
+                price = product_obj.newprice
+                product_obj.offer_price = price
+                discount_amounts = int(discount_amount)
+                offer_price =  int(price)*(discount_amounts/100)
+                product_obj.newprice = offer_price
+                product_obj.offer_percentage = discount_amount
+                product_obj.save()
+            elif product_type == "catogery":
+                catogeris = catogeries.objects.get(id=catogery)
+                product = Product.objects.filter(dealer=dealer,product_category=catogeris.cat_name)
+                for products in product:
+                    if products.offer_price == 0:
+                        price = products.newprice
+                        products.offer_price = price
+                        discount_amounts = int(discount_amount)
+                        offer_price =  int(price)*(discount_amounts/100)
+                        products.newprice = offer_price
+                        products.offer_percentage = discount_amount
+                        products.save()
+                    else: 
+                        price = products.offer_price
+                        discount_amounts = int(discount_amount)
+                        offer_price =  int(price)*(discount_amounts/100)
+                        products.newprice = offer_price
+                        products.offer_percentage = discount_amount
+                        products.save()
+            elif product_type == "multiple" :
+                product_obj=Product.objects.get(id=product)
+                price = product_obj.newprice
+                product_obj.offer_price = price
+                discount_amounts = int(discount_amount)
+                offer_price =  int(price)*(discount_amounts/100)
+                product_obj.newprice = offer_price
+                product_obj.offer_percentage = discount_amount
+                product_obj.save()
+            if product_type == "single":
+                offers = offer.objects.create(offer_image=offer_image,offer_name=offer_name,discount_amount=discount_amount,product=product_obj,dealer=dealer,offer_type=product_type,offer_expiry=offer_date)    
+                offers.save()
+            elif product_type == "catogery":
+                offers = offer.objects.create(offer_image=offer_image,offer_name=offer_name,discount_amount=discount_amount,dealer=dealer,offer_type=product_type,catogery=catogeris,offer_expiry=offer_date)    
+                offers.save()
             return redirect('offers')
         else:
-            return render(request,"dealer/add_offer.html",{'products':products})       
-
-
+            return render(request,"dealer/add_offer.html",{'products':products,'catogery':catogery})       
     else:
         return render(request,'dealer/login.html') 
+
+
+def edit_offer(request,id):
+    offers = offer.objects.get(id=id)
+    # products = Product.objects.filter(dealer=dealer,offer_price=0)
+    print('jaiho',offers)
+
+
+    return render(request, "dealer/edit_offer.html", {'offers':offers})
+
    
-  
+def delete_offer(request,id):
+    if request.user.is_authenticated:
+        offers = offer.objects.get(id=id)
+        product_id = offers.product.id
+        product = Product.objects.get(id=product_id)
+        normal_price = product.offer_price
+        product.newprice = normal_price
+        product.offer_price = 0
+        product.save()
+        offers.delete()
+        return redirect('offers')
+    else:
+        return render(request,'dealer/login.html') 
+
+    
+def delete_offer_cat(request,id) :
+    if request.user.is_authenticated:
+        dealer = Dealers.objects.get(user_id=request.user.id)
+        print("dealer",dealer)
+        offers = offer.objects.get(id=id)
+        catogery_id = offers.catogery.cat_name
+        print('hoop',catogery_id)
+        product = Product.objects.filter(dealer=dealer,product_category=catogery_id)
+        print('product',product)
+        for products in product:
+            price = products.offer_price
+            price1 = products.newprice
+            products.newprice = price
+            products.offer_price = 0
+            products.save()
+        offers.delete()
+        return redirect('offers')
+    else:
+        return render(request,'dealer/login.html') 
+
+
+# %%

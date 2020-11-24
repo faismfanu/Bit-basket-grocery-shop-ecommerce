@@ -12,6 +12,7 @@ class Product(models.Model):
     name = models.CharField(max_length = 300)
     newprice = models.FloatField(null=True)
     offer_price = models.FloatField(null=True)
+    offer_percentage = models.IntegerField(null=True)
     product_type = models.CharField(max_length = 300, null= True)
     product_image =  models.FileField(max_length=2555,null=True,blank=True,upload_to='product/images')
     stock = models.IntegerField()
@@ -32,6 +33,8 @@ class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length = 200,null = True)
     email = models.CharField(max_length= 200, null = True)
+    reff_code = models.CharField(max_length=100, null= True)
+    refferd_user = models.CharField(max_length=150, null= True)
  
     def _str_(self):
         return self.name
@@ -47,7 +50,7 @@ class Order(models.Model):
     order_status = models.CharField(default = 'Pending',max_length = 200, null = True )
 
     def _str_(self):
-        return str(self.dealer)
+        return str(self.id)
 
     def __unicode__(self):
         return self.id
@@ -109,8 +112,10 @@ class ShippingAdress(models.Model):
 class offer(models.Model):
     offer_image = models.FileField(max_length=2555,null=True,blank=True,upload_to='offer')
     offer_name = models.CharField(max_length= 220, null=True)
+    offer_type = models.CharField(max_length= 220, null=True)
     product = models.ForeignKey(Product,on_delete=models.CASCADE,null=True)
     dealer = models.ForeignKey(Dealers,on_delete=models.CASCADE,null=True)
+    catogery = models.ForeignKey(catogeries,on_delete=models.CASCADE,null=True)
     discount_amount = models.FloatField(null=True)
     offer_start = models.DateField(auto_now_add=True, null=True)
     offer_expiry = models.DateField(null=True)

@@ -44,10 +44,12 @@
 
 												<img src="{{products.product_image.url}}" alt="">
 
+												{% if products.offer_percentage%}
 												<div class="product-absolute-options">
-													<span class="offer-badge-1">6% off</span>
+													<span class="offer-badge-1">{{products.offer_percentage}}% off</span>
 													<span class="like-icon" title="wishlist"></span>
 												</div>
+												{% endif %}
 
 												<div class="product-text-dt">
 													<p>Available<span>({{products.stock}})</span></p>
