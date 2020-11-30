@@ -76,7 +76,7 @@ $(function () {
     },
     {
       label: 'Dataset 3',
-      data: [15, 10, 21, 32, 12, 33],
+      data: [345, 10, 21, 32, 12, 33],
       borderColor: [
         '#f44252'
       ],

@@ -30,3 +30,10 @@ class catogeries(models.Model):
     image = models.FileField(max_length=2555,upload_to='catogeries/images')
 
 
+class reffreal_offer(models.Model):
+    reff_name = models.CharField(null = True, max_length=225)
+    reff_discount = models.IntegerField(null = True)
+    reff_price = models.IntegerField(null = True)
+    refferd_person_discount = models.IntegerField(null = True)
+    order_maximum = models.IntegerField(null = True)
+    reff_status = models.BooleanField(null=True,default=True)

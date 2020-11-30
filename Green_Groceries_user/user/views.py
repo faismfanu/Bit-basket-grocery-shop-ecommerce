@@ -21,6 +21,7 @@ import random
 import string
 import json
 from django.contrib import messages
+from django.views.generic import View
 
 
 # Create your views here.
@@ -37,8 +38,13 @@ def index(request):
         letter = string.ascii_letters
         result = ''.join(random.choice(letter) for i in range(8))
         user, created = Customer.objects.get_or_create(user = login_user, name = login_name, email = login_email)
-        user.reff_code = result
-        user.save()
+        if user.reff_code:
+            pass
+        else:
+            user.reff_code = result
+            user.save()
+
+       
         customer=request.user.customer
         # print(customer)
         order, created = Order.objects.get_or_create(customer=customer,complete=False)
@@ -84,20 +90,14 @@ def login(request):
             return render(request,'login.html',dicti)     
     return render(request, 'login.html')
 
-
-
-
 def signup(request):
-    
     if request.user.is_authenticated:
         return redirect('/')
-
-    if request.method == 'POST':
+    elif request.method == 'POST':
         lastname = request.POST['lastname']
         username = request.POST['username']
         email = request.POST['email']
         password = request.POST['password']
-        reff_code = request.POST.get('reffcode')
         dic={"lastname":lastname, "email":email, "username":username}
         
         if User.objects.filter(username=username).exists():
@@ -111,7 +111,6 @@ def signup(request):
         else:
             letter = string.ascii_letters
             result = ''.join(random.choice(letter) for i in range(8))
-            # print('code',result)
             if reff_code == "":
                 user = User.objects.create_user(last_name=lastname,username=username,email=email,password=password)
                 user.save()
@@ -126,16 +125,50 @@ def signup(request):
                 else:
                     messages.info(request,'Wrong refferel code ')
                     return render(request, 'signup.html',dic)   
-                
-
-
-            messages.info(request,'User Created') 
-            return redirect('login')
-        
+            return redirect('login')  
     else:
         return render(request, 'signup.html')
-    return render(request,"signup.html")
+
+
+
+def reffral_signup(request,reff_code):
+    if request.user.is_authenticated:
+        return redirect('/')
+    elif request.method == 'POST':
+        lastname = request.POST['lastname']
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
+        dic={"lastname":lastname, "email":email, "username":username}
+        
+        if User.objects.filter(username=username).exists():
+            messages.info(request, 'Mobile number already taken')
+            return render(request, 'refferal_signup.html',dic)
+
+        elif User.objects.filter(email=email).exists():
+            messages.info(request,'Email is Taken')
+            return render(request, 'refferal_signup.html',dic)
     
+        else:
+            letter = string.ascii_letters
+            result = ''.join(random.choice(letter) for i in range(8))
+            if reff_code == "":
+                user = User.objects.create_user(last_name=lastname,username=username,email=email,password=password)
+                user.save()
+            else:
+                if Customer.objects.filter(reff_code=reff_code).exists():
+                    user = User.objects.create_user(last_name=lastname,username=username,email=email,password=password)
+                    user.save()
+                    cust = Customer.objects.get(reff_code=reff_code)
+                    customer, created = Customer.objects.get_or_create(user = user, name = username, email = email,reff_code=result,refferd_user=cust.user_id)
+                    messages.info(request,'User Created') 
+                    return redirect('login')
+                else:
+                    messages.info(request,'Wrong refferel code ')
+                    return render(request, 'refferal_signup.html',dic)   
+            return redirect('login')  
+    else:
+        return render(request, 'refferal_signup.html')
 
        
 
@@ -297,6 +330,7 @@ def checkout(request):
         order, created = Order.objects.get_or_create(customer=customer, complete=False)
         items = order.orderitem_set.all()
         item_count = items.count()
+        ship = ShippingAdress.objects.filter(customer=customer).distinct('address')
         if customer.refferd_user and Order.objects.filter(customer=customer, complete=True).count() < 1 :
             ch = order.get_cart_total
             print('ch',ch)
@@ -318,7 +352,7 @@ def checkout(request):
                 changes = (order.get_cart_total)*(90/100)
                 print("ff",changes)
                 totals = round(changes)
-                total = int((totals*100)/61.06)
+                total = int((totals*100)/74.0742)
             else:    
                 total = int((order.get_cart_total*100)/74.0742)
         else:
@@ -342,8 +376,31 @@ def checkout(request):
         order = {'get_cart_total':0,'get_cart_items':0,'shipping':False}  
         cartItems = order['get_cart_items']
         item_count = 0
-    context = {'items':items,'order':order,'change':change,'item_count':item_count,'cartItems':cartItems,'order_id':order_id}   
+    context = {'shipping':ship,'items':items,'order':order,'change':change,'item_count':item_count,'cartItems':cartItems,'order_id':order_id}   
     return render(request,"checkout.html", context)    
+
+
+class Getshipping(View):
+    def get(self, request):
+        text = request.GET.get('ship_id')
+        print(text)
+
+        shipi = ShippingAdress.objects.get(id=text)
+
+        a = shipi.address
+        b = shipi.city
+        vb = {
+            'address': shipi.address,
+            'city': shipi.city,
+            'state': shipi.state,
+            'zipcode': shipi.pincode,
+            'country': shipi.country,
+
+        }
+        return JsonResponse({'count2': vb}, status=200)
+        return redirect('/')
+
+
 
 
 def cod(request):
@@ -464,10 +521,12 @@ def dashboard(request):
         cust = Customer.objects.filter(
             refferd_user=request.user.id).count()
         reward = 0
-        reward = cust * 10
+        reff = reffreal_offer.objects.all()
+        for ref in reff:
+            reff = ref.refferd_person_discount
+        reward = cust * reff
         
-        
-       
+
         # cartItems = order.get_cart_itemsdealer_dashboard
         
     
@@ -507,6 +566,55 @@ def dashboard_orders(request):
     context = {'order_count':order_count,'items':items,'order':order,'item_count':item_count,'oc':oc}
     return render(request, "dashboard_orders.html", context)    
 
+
+def dashboard_address(request):
+     # dealer = Dealers.objects.all()
+    # print('faf',dealer)
+    if request.user.is_authenticated:
+        login_user = request.user
+        login_name = request.user.username
+        login_email = request.user.email
+        user, created = Customer.objects.get_or_create(user = login_user, name = login_name, email = login_email)
+        customer=request.user.customer
+        order, created = Order.objects.get_or_create(customer=customer,complete=False)
+        items=order.orderitem_set.all()
+        order_count = Order.objects.filter(customer=customer,complete=True).order_by('-id')
+        shipping = ShippingAdress.objects.filter(customer=customer).distinct('address')
+        oc = order_count.count()
+        cartItems=order.get_cart_items
+        item_count = items.count() 
+        
+    else:
+        customer = 0
+        items = []  
+        order = {'get_cart_total':0,'get_cart_items':0,'shipping':False}  
+        item_count = 0
+        shipping=0
+        # cartItems = order['get_cart_items']
+    context = {'order_count':order_count,'items':items,'order':order,'item_count':item_count,'oc':oc,'shipping':shipping}
+    return render(request, "dashboard_address.html",context)
+
+
+def dashboard_add_address(request):
+    shipping = ShippingAdress()
+    if request.method == 'POST':
+        shipping.customer = request.user.customer
+        shipping.address = request.POST.get('address')
+        shipping.city = request.POST.get('city')
+        shipping.state = request.POST.get('state')
+        shipping.pincode = request.POST.get('pincode')
+        shipping.save()
+        return redirect('dashboard_address')    
+
+
+def dashboard_my_profile(request):
+    return render(request, "dashboard_my_profile.html")
+
+
+def dashboard_address_delete(request,id):
+    shipping = ShippingAdress.objects.get(id=id)
+    shipping.delete()
+    return redirect('dashboard_address')    
 # ----------------------------------------------------------------------------------------#
 
 

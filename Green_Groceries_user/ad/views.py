@@ -107,15 +107,20 @@ def edit_dealer(request,id,user_id):
             dealers.shop_opening_time = request.POST.get('opening_time')
             dealers.shop_closing_time = request.POST.get('closing_time')
             image_data =request.POST.get('image64data')
-            print(image_data)
-            try:
-                format, imgstr = image_data.split(';base64,')
-                ext = format.split('/')[-1]
-                data = ContentFile(base64.b64decode(imgstr),name= str(user.id)+'.' +ext)
-                print("ASFDSFDASFASF",data)
-                dealers.shop_image = data
-            except:
-                pass    
+            if image_data == "":
+                dealer = Dealers.objects.get(id=id)
+                dealers.shop_image = dealer.shop_image
+                
+            else:
+                try:
+                    format, imgstr = image_data.split(';base64,')
+                    ext = format.split('/')[-1]
+                    data = ContentFile(base64.b64decode(imgstr),name= str(user.id)+'.' +ext)
+                    print("ASFDSFDASFASF",data)
+                    dealers.shop_image = data
+                except:
+                    pass
+                
             dealers.save()
             messages.error(request,"Dealer Updated")
             return redirect('dealers')
@@ -139,13 +144,25 @@ def delete_dealer(request,id,user_id):
 
 
 def addorder(request):
-    order = Order.objects.all()
+    order = Order.objects.filter(complete=True)
     dealers =Dealers.objects.all()
     # order = dealers.orderItem_set.all()
     # print(order)
     return render(request, 'admin/admin_orders.html',{'order':order,'dealers':dealers})
 
-       
+def order_view(request,id):
+    if request.session.has_key('username'):
+        order = Order.objects.get(id=id)
+        try:
+            shipping = ShippingAdress.objects.get(order=id)
+        except:
+            shipping = 0    
+        items = OrderItem.objects.filter(order=id)
+        return render(request, 'admin/admin_order_view.html',{'order':order,'shipping':shipping,'items':items})
+    else:
+        return render(request, 'admin/login.html')
+
+
 
 def dealers(request):
     if request.session.has_key('username'):
@@ -187,13 +204,67 @@ def add_catogeries(request):
         return render(request, 'admin/login.html')
 
 
+def edit_catogeries(request,id):
+    if request.session.has_key('username'):
+        catogery = catogeries.objects.get(id=id)
+        if request.method == 'POST':
+            catogery.cat_name= request.POST.get('catogery_name')
+            image_data =request.POST.get('image64data')
+            if image_data == "":
+                cats = catogeries.objects.get(id=id)
+                catogery.image = cats.image
+
+            else:   
+                print(image_data)
+                format, imgstr = image_data.split(';base64,')
+                ext = format.split('/')[-1]
+                data = ContentFile(base64.b64decode(imgstr),name='temp.' + ext)
+                catogery.image = data
+            catogery.save()
+            return redirect('admin_catogeries')
+       
+        else:
+            return render(request, "admin/edit_catogery.html",{'catogery':catogery})
+    else:
+        return render(request, 'admin/login.html')
+
+    
+
+
   
 def delete_catogery(request,id):
     catogery = catogeries.objects.filter(id=id)
     catogery.delete()
     return redirect('admin_catogeries') 
 
-        
+
+def reffrel_offer(request):
+    if request.session.has_key('username'):
+        reffral = reffreal_offer.objects.all()
+        return render(request,'admin/reffreal_offer.html',{'reffral':reffral})
+
+    else:
+        return render(request, 'admin/login.html')
+    
+def edit_reffrel_offer(request,id):
+    if request.session.has_key('username'):
+        reff = reffreal_offer.objects.get(id=id)
+        if request.method == 'POST':
+            reff.reff_name = request.POST.get('offer_name')
+            reff.refferd_person_discount = request.POST.get('person_discount')
+            reff.order_maximum = request.POST.get('minimum_price')  
+            reff_price = request.POST.get('offer_price')
+            reff_discount = request.POST.get('offer_discount') 
+                
+            # reff.save()           
+            return redirect('reffrel_offer')
+        else:
+            return render(request, "admin/edit_reffral_offer.html",{"reff":reff})
+    else:
+        return render(request, 'admin/login.html')
+
+    
+
         
 def adminlogout(request):
     if request.session.has_key('username'):

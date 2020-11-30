@@ -130,31 +130,31 @@
 																<div class="col-lg-12 col-md-12">
 																	<div class="form-group">
 																		<label class="control-label">Flat / House / Office No.*</label>
-																		<input id="flat" name="address" type="text" placeholder="Address" class="form-control input-md" required="">
+																		<input id="add1" name="address" required type="text" placeholder="Address" class="form-control input-md" required="">
 																	</div>
 																</div>
 																<div class="col-lg-6 col-md-12">
 																	<div class="form-group">
 																		<label class="control-label">city*</label>
-																		<input id="street" name="city" type="text" placeholder="Street Address" class="form-control input-md">
+																		<input id="city" name="city" required type="text" placeholder="Street Address" class="form-control input-md">
 																	</div>
                                                                 </div>
                                                                 <div class="col-lg-6 col-md-12">
 																	<div class="form-group">
 																		<label class="control-label">State*</label>
-																		<input id="street" name="state" type="text" placeholder="Street Address" class="form-control input-md">
+																		<input id="stat" name="state" type="text" required placeholder="Street Address" class="form-control input-md">
 																	</div>
 																</div>
 																<div class="col-lg-6 col-md-12">
 																	<div class="form-group">
 																		<label class="control-label">Pincode*</label>
-																		<input id="pincode" name="pincode" type="text" placeholder="Pincode" class="form-control input-md" required="">
+																		<input id="zip" name="pincode" type="text" required placeholder="Pincode" class="form-control input-md" required="">
 																	</div>
 																</div>
 																<div class="col-lg-6 col-md-12">
 																	<div class="form-group">
 																		<label class="control-label">Country*</label>
-																		<input id="Locality" name="country" type="text" placeholder="Enter City" class="form-control input-md" required="">
+																		<input id="country" name="country" required type="text" placeholder="Enter City" class="form-control input-md" required="">
 																	</div>
 																</div>
 																<div class="col-lg-12 col-md-12">
@@ -170,6 +170,21 @@
 														</div>
 													</form>
 												</div>
+												{% for shi in shipping %}
+									<div class="col-md-4">
+										<div class="card text-center card-product"
+											style="background-color:rgba(0, 0, 255, 0.1);; color: black;">
+											<div class="card-body" style="color: black;">
+												<h6 id="addd1" data-mo="{{shi.address}}" style="padding-top: 20px;">{{shi.address}}</h6>
+												<p id="addd2">{{shi.city}}</p>
+												<p id="addd3">{{shi.state}}</p>
+												<p id="addd4">{{shi.zipcode}}</p>
+												<p id="addd5">{{shi.country}}</p>
+												<input id="myCheck" name="{{shi.id}}" type="checkbox">
+											</div>
+										</div>
+									</div>
+								{% endfor %}
 											</div>
 										</div>
 									</div>
@@ -363,8 +378,8 @@
 									</div>
 									<div class="cart-text">
 										<h4>{{item.product.name}}</h4>
-										<div class="cart-item-price">${{item.product.newprice}} <h3 style="padding-left: 100px;">${{item.get_total}}</h3></div>
-										<button type="button" class="cart-close-btn"><i class="uil uil-multiply"></i></button>
+										<div class="cart-item-price"><i class="fas fa-rupee-sign"></i> {{item.product.newprice}} <h5 style="padding-left: 100px;"><i class="fas fa-rupee-sign"></i> {{item.get_total}}</h3></div>
+			
 									</div>		
                                 </div>
                                 {% endfor %}
@@ -383,14 +398,25 @@
 									<span>$1</span>
 								</div>
 							</div> -->
+							
 							<div class="cart-total-dil saving-total ">
 								<h4>Total Items</h4>
 								<span>{{order.get_cart_items}}</span>
 							</div>
 							{% if change > 0 %}
+							<div class="cart-total-dil saving-total ">
+								<h4>Item Total</h4>
+								<span>{{order.get_cart_total}}</span>
+							</div>
+							<div class="cart-total-dil saving-total ">
+								<h4>Refral Discount amount</h4>
+								<span>10 %</span>
+							</div>
+							{% endif %}
+							{% if change > 0 %}
 							<div class="main-total-cart">
-								<h2>change</h2>
-								<span>$</span><span id="entry-title">{{change}}</span>
+								<h2>Total amount</h2>
+								<span><i class="fas fa-rupee-sign"></i></span><span id="entry-title">{{change}}</span>
 							</div>
 							{% else %}
 							<div class="main-total-cart">
@@ -398,11 +424,7 @@
 								<span>${{order.get_cart_total}}</span>
 							</div>
 							{% endif %}
-							<div class="payment-secure">
-								<i class="uil uil-padlock"></i>Secure checkout
-							</div>
 						</div>
-						<a href="#" class="promo-link45">Have a promocode?</a>
 						<div class="checkout-safety-alerts">
 							<p><i class="uil uil-sync"></i>100% Replacement Guarantee</p>
 							<p><i class="uil uil-check-square"></i>100% Genuine Products</p>
@@ -416,7 +438,7 @@
 	<!-- Body End -->
 	<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 	<script>
-		var con = "{{order.get_cart_total|floatformat:2}}"/74.0742 ;
+		var con = "{{order.get_cart_total|floatformat:2}}"/74.072 ;
 		var payment_raz='razorpay'
 		var total = con ;
 		var options = {
@@ -645,8 +667,58 @@
     }
 </script>
 
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script>
+    $(document).ready(function () {
+        const a1 = document.querySelectorAll('#addd1')
+        var yyy = document.querySelectorAll("#myCheck")
+        // 
+        console.log(a1)
+        console.log(yyy);
+        yyy.forEach((dd) => {
+            const sss = dd.name
+            console.log(sss);
+
+            $(dd).change(function () {
+                if (dd.checked == true) {
+                    console.log("error")
+                    console.log(dd.name)
+
+                    $.ajax({
+                        url: '/getshipping/',
+                        type: 'GET',
+                        data: {
+                            ship_id: dd.name
+                        },
+                        success: function (response) {
+                            console.log(response.count2.address)
+                            console.log(response.count2.city)
+                            console.log(response.count2.state)
+                            console.log(response.count2.zipcode)
+							console.log(response.count2.country)
 
 
+                            $("#add1").val(response.count2.address)
+                            $("#city").val(response.count2.city)
+                            $("#stat").val(response.count2.state)
+                            $("#zip").val(response.count2.zipcode)
+                            $("#country").val(response.count2.country)
+
+                        }
+                    });
+                } else {
+                    $("#add1").val("")
+                    $("#city").val("")
+                    $("#stat").val("")
+                    $("#zip").val("")
+                    $("#country").val("")
+
+                }
+            })
+            // console.log(yyy)
+        })
+    })
+</script>
 
 
 {% endblock content %}

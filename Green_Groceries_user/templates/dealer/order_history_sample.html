@@ -7,7 +7,7 @@
     <!-- partial -->
     <div class="main-panel">
       <div class="content-wrapper">
-        <div class="page-header">
+        <!-- <div class="page-header">
           <h3 class="page-title"> Order History </h3>
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
@@ -52,12 +52,79 @@
             </div>
           </div>
   
+        </div> -->
+        <div class="card">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Order Id</th>
+                      <th>Customer</th>
+                      <th>Order Date</th>
+                      <th>Order Total</th>
+                      <th>Items</th>
+                      <th>Adress</th>
+                      <th>Status</th>
+                    <th class="text-center" style="width: 10%;"><i class="
+                                        icon-circle-down2"></i></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for orders in order %}
+                  {% if orders.order_status != "Pending" %}
+                  <tr>
+                    <td>{{orders.transaction_id}}</td>
+                    <td>{{orders.customer.name}}</td>
+                    <td>
+
+                     {{orders.date_ordered}}
+                    </td>
+                    <td>₹ {{orders.product_total}}</td>
+                    <td>
+                      <button
+                      class="badge badge-primary badge-icon"> View Items <i class="icon-file-eye ml-1"></i></button>
+                     </td>
+                    
+                    
+                    <td> <button
+                      class="badge badge-success badge-icon"> View Address <i class="icon-file-eye ml-1"></i></button></td>
+                    <td class="text-center">
+                      {% if orders.order_status == "Accept" %}
+                      <button type="button" class="btn btn-default btn-sm">
+                       Accepted
+                      </button>
+                      {% elif orders.order_status == "Packed" %}
+                      <button type="button" class="btn btn-warning btn-sm">
+                        {{orders.order_status}}
+                      </button>
+                      {% elif orders.order_status == "Deliverd" %}
+                      <button type="button" class="btn btn-success btn-sm">
+                        {{orders.order_status}}
+                      </button>
+                      {% elif orders.order_status == "Reject" %}
+                      <button type="button" class="btn btn-danger btn-sm">
+                        Rejected
+                      </button>
+                      {%endif%}
+                    </td>
+                  </tr>
+                  {% endif %}
+                  {% endfor %}
+                </tbody>
+              </table>
+              <div class="mt-3">
+        
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
       </div>
       <!-- content-wrapper ends -->
       <!-- partial:../../partials/_footer.html -->
 
-
+     
 
 
 

@@ -1,0 +1,120 @@
+{% extends "admin/base.html" %}
+{% block content %}
+{% load static %}
+
+
+<form method="POST" action="">
+    {% csrf_token %}
+    <h1 class="text-center"style="padding-top: 50px;">Edit Refferal offer</h1>
+    <div class="container-fluid" style="padding-top: 50px;">
+        <div class="row">
+            
+            <div class="col-md-4">
+              <div class="form-group">
+                  <div class="text-center">
+                    <label>Offer Name</label>
+                  </div>
+                <input type="text" value="{{reff.reff_name}}" class="form-control" name="offer_name" id="exampleFormControlInput1">
+              </div>
+            </div>
+            <div class="col-md-4">
+                <div id="offer_discount" class="form-group">
+                    <div class="text-center">
+                        <label>Offer Discount</label>
+                    </div>
+                    <select class="form-control" id="select_box">
+                    {% if reff.reff_discount == 0 %}
+                      <option value="price">offer by price</option>
+                      {% else %}
+                      <option value="percentage">offer by percentage</option>
+                      {% endif %}
+                      <option value="price">Offer by price</option>
+                      <option value="percentage">Offer by percentage</option>
+                    </select>
+                  </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group" id="price" style="display: none;">
+                    <div class="text-center">
+                        <label>Offer By Price</label>
+                    </div>
+                  <input type="number" min="0" value="{{reff.reff_price}}" name="offer_price" class="form-control" id="exampleFormControlInput1" >
+                </div>
+                <div class="form-group" id="percentage" style="display: none;">
+                    <div class="text-center">
+                        <label>Offer By Discount</label>
+                    </div>
+                  <input type="number" min="0"  value="{{reff.reff_discount}}" name="offer_discount" class="form-control" id="exampleFormControlInput1exampleFormControlInput1" >
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                    <div class="text-center">
+                        <label>Minimum order price</label>
+                    </div>
+                  <input type="number" min="0" value="{{reff.order_maximum}}" name="minimum_price" class="form-control" id="exampleFormControlInput1">
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="form-group">
+                    <div class="text-center">
+                        <label>Refferd Person Discount</label>
+                    </div>
+                  <input type="number" min="0" value="{{reff.refferd_person_discount}}" name="person_discount" class="form-control" id="exampleFormControlInput1">
+                </div>
+              </div>
+              {% if reff.reff_discount == 0 %}
+              <div class="col-md-4">
+                <div class="form-group">
+                    <div class="text-center">
+                        <label>Offer by price</label>
+                    </div>
+                  <input type="number" min="0" value="{{reff.reff_price}}" readonly class="form-control" id="exampleFormControlInput1">
+                </div>
+              </div>
+              {% else %}
+              <div class="col-md-4">
+                <div class="form-group">
+                    <div class="text-center">
+                        <label>Offer By discount</label>
+                    </div>
+                  <input type="number" value="{{reff.reff_discount}}" readonly min="0" class="form-control" id="exampleFormControlInput1">
+                </div>
+              </div>
+              {% endif %}
+          </div>
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary">Edit Reffrel Offer</button>
+          </div>
+        </form>
+      
+
+    </div>
+   
+    <script>
+    document.getElementById("offer_discount").addEventListener("change", () => {
+    let list = document.getElementById("select_box");
+    console.log(list);
+    let dropdownValue = list.options[list.selectedIndex].value;
+    console.log(dropdownValue);
+    let price = document.getElementById("price")
+    let percentage = document.getElementById("percentage")
+
+
+
+    if (dropdownValue === "price") {
+    price.style.display = "block"
+    percentage.style.display = "none"
+    } else if (dropdownValue === "percentage") {
+    price.style.display = "none"
+    percentage.style.display = "block"
+    } else if (dropdownValue === "") {
+    price.style.display = "none"
+    percentage.style.display = "none"
+    }
+});
+
+    </script>
+
+
+{% endblock content %}

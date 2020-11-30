@@ -1,0 +1,113 @@
+{% extends "admin/base.html" %}
+{% block content %}
+{% load static %}
+
+<style>
+.delete {
+	padding-top: 5px;
+}
+</style>
+
+ <!-- Header -->
+ <div class="header bg-primary pb-6">
+	<div class="container-fluid">
+	  <div class="header-body">
+		<div class="row align-items-center py-4">
+		  <div class="col-lg-6 col-7">
+			<h6 class="h2 text-white d-inline-block mb-0">Referral Offer</h6>
+			
+		  </div>
+		  <div class="col-lg-6 col-5 text-right">
+			
+			
+		  </div>
+		</div>
+	  </div>
+	</div>
+  </div>
+  <!-- Page content -->
+  <div class="container-fluid mt--6">
+	<div class="row">
+	  <div class="col">
+		<div class="card">
+		  <!-- Card header -->
+		  <div class="card-header border-0">
+			<h3 class="mb-0">Referral Offer </h3>
+		  </div>
+		  <!-- Light table -->
+		  <div class="table-responsive">
+			<table class="table align-items-center table-flush">
+			  <thead class="thead-light">
+				<tr>
+				  <th scope="col" class="sort" data-sort="name">Name</th>
+				  <th scope="col" class="sort" data-sort="budget">Reffral_Discount %</th>
+				  <th scope="col" class="sort" data-sort="status">Refferd person_Discount</th>
+				  <th scope="col">Minimum order Total</th>
+				  <th scope="col" class="sort" data-sort="completion">Status</th>
+                  <th scope="col"></th>
+                  <th scope="col"></th>
+                  <th scope="col"></th>
+				  
+
+				</tr>
+			  </thead>
+			  
+			  <tbody class="list">
+                  {% for reff in reffral%}
+				<tr>
+				  <td>
+                    {{reff.reff_name}}
+				  </td>
+				  <td class="budget text-center">
+                    {{reff.reff_discount}} %
+				  </td>
+				  <td class="budget text-center">
+                    {{reff.refferd_person_discount}} Rupees
+				  </td>
+				  <td class="text-center">
+					{{ reff.order_maximum}}	
+				  </td>
+				  <td>
+					
+					  <label class="custom-toggle">
+						<input type="checkbox" checked>
+						<span class="custom-toggle-slider rounded-circle"></span>
+					  </label>
+				  </td>
+				  <td>
+					
+				  </td>
+				  <td >
+					<a href="{% url 'edit_reffrel_offer' reff.id %}" class="btn  btn-info"> Edit Referral Offer</a>
+				  </td>
+				 
+                </tr>
+                {% endfor %}
+			  </tbody>
+			</table>
+		  </div>
+		
+		  <!-- Card footer -->
+
+		</div>
+	  </div>
+	</div>
+
+	<!-- Footer -->
+
+
+  </div>
+</div>
+
+
+
+<script src="https://kit.fontawesome.com/3bdbffa8ff.js" crossorigin="anonymous"></script>
+<script type="text/javascript">
+	window.mytest = function() {var isValid = confirm('Are you sure do you want to delete');
+	if (!isValid) {event.preventDefault(); alert("it won't delete!");}
+	}
+  
+  </script>
+  
+
+{% endblock content %}

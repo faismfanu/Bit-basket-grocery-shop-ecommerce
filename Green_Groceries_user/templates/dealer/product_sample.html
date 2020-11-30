@@ -34,7 +34,7 @@
                     <li>Type : {{products.product_type}}</li>
                   </ul>
                   <div style="text-align: right;">
-                    <a href="" class="btn btn-primary" data-toggle="modal" data-target="#modal-edit-contact"><span><i class="fas fa-edit"></i></span></a>
+                    <a href="{% url 'edit_product_sample' products.id %}" class="btn btn-primary" ><span><i class="fas fa-edit"></i></span></a>
                     <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#exampleModal"><i
                             class="fas fa-trash-alt"></i></a>
                 </div>

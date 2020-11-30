@@ -34,11 +34,11 @@
                 <div class="text-muted text-center mt-2 mb-4"><small>Sign up with</small></div>
                 <div class="text-center">
                   <a href="{% provider_login_url "facebook" method="oauth2" %}" class="btn btn-neutral btn-icon mr-4">
-                    <span class="btn-inner--icon"><img src="{%static 'assets/img/icons/common/github.svg'%}"></span>
+                    <span class="btn-inner--icon"><img src="{%static 'user/assets/img/icons/common/github.svg'%}"></span>
                     <span class="btn-inner--text">Github</span>
                   </a>
                   <a href="{% provider_login_url 'google'  %}" class="btn btn-neutral btn-icon">
-                    <span class="btn-inner--icon"><img src="{%static 'assets/img/icons/common/google.svg'%}"></span>
+                    <span class="btn-inner--icon"><img src="{%static 'user/assets/img/icons/common/google.svg'%}"></span>
                     <span class="btn-inner--text">Google</span>
                   </a>
                 </div>
@@ -81,15 +81,7 @@
                       <input class="form-control" name="password" required placeholder="Password" type="password">
                     </div>
                   </div>
-                  <span id = "refrel_code" class="text-muted">Do you have a Refrel code? <a id ="click" style="color: blue; text-decoration: underline;cursor: pointer;">Click Here</a></span>
-                  <div id = "ref" class="form-group" style="display: none;">
-                    <div class="input-group input-group-merge input-group-alternative">
-                      <div class="input-group-prepend">
-                        <span class="input-group-text"><i class="fas fa-qrcode"></i></span>
-                      </div>
-                      <input class="form-control" name="reffcode"  placeholder="Refrel code" type="text">
-                    </div>
-                  </div>
+                  
                   {% for message in messages %}
                   <h4 style="color: red;">{{message}}</h4>
                   {% endfor %}
@@ -98,7 +90,7 @@
                     <button type="submit" class="btn btn-primary mt-4">Create account</button>
                   </div>
                   <div class="pt-lg-4">
-                    <span class="text-muted" style="padding-left: 100px;;">Do you have an account? <a href="{% url 'login' %}">Sign in</a></span>
+                    <span class="text-muted" style="padding-left: 100px;;">Do you have an account? <a href="{% url 'login'%}">Sign in</a></span>
                   </div>
                 </form>
               </div>
@@ -109,24 +101,6 @@
     </div>
     <!-- Footer -->
     
-
-
-<script>
-    
-    var ref_input = document.getElementById('ref')
-    var ref_text = document.getElementById('refrel_code')
-
-    document.getElementById('click').addEventListener('click',function(){
-
-      ref_text.style.display = "none"
-      ref_input.style.display = "block"
-      
-
-    })
-
-</script>
-
-
 
 
 

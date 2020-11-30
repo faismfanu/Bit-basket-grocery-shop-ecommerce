@@ -1,5 +1,6 @@
 from django.db import models
 from ad.models import *
+from django.db.models import Max
 from django.contrib.auth.models import User 
 # Create your models here.
 
@@ -40,10 +41,13 @@ class Customer(models.Model):
         return self.name
 
 
+
+
+
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL,blank= True, null=True)
     dealer = models.ForeignKey(Dealers, on_delete=models.SET_NULL,blank= True, null=True)
-    date_ordered = models.DateField(auto_now_add=True)
+    date_ordered = models.DateField(auto_now=True)
     complete = models.BooleanField(default=False,blank=False)
     transaction_id = models.CharField(max_length = 200, null = True )
     product_total = models.FloatField(default=0, null = True )
@@ -82,7 +86,7 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, blank = True, null = True)
     quantity = models.IntegerField(default=0, null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
-
+    
     @property
     def get_total(self):
         if self.id is None: 

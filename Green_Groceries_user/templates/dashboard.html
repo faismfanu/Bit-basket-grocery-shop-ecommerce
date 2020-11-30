@@ -32,7 +32,7 @@
 							</div>
 							<h4>{{user}}</h4>
 							<p>+91999999999<a href="#"><i class="uil uil-edit"></i></a></p>
-							<div class="earn-points"><img src="images/Dollar.svg" alt="">Refferal Code : <span style="color: blue;"> {{customer.reff_code}}</span></div>
+							<div class="earn-points"><img src="images/Dollar.svg" alt="">Refferal Link : <span style="color: blue;"><a>{{ request.META.HTTP_HOST }}/{{"reffral_signup"}}/{{customer.reff_code}}</a></span></div>
 						</div>
 					</div>
 				</div>
@@ -46,8 +46,9 @@
 							<div class="dashboard-left-links">
 								<a href="{% url 'dashboard' %}"  class="user-item active"><i class="uil uil-apps"></i>Overview</a>
 								<a href="{% url 'dashboard_orders' %}" class="user-item"><i class="uil uil-box"></i>My Orders</a>
-								
-								<a href="dashboard_my_addresses.html" class="user-item"><i class="uil uil-location-point"></i>My Address</a>
+								<a href="#" class="user-item"><i class="uil uil-wallet "></i>My Wallet</a>
+								<a href="#" class="user-item"><i class="uil uil-user-plus"></i>My Profile</a>
+								<a href="{% url 'dashboard_address' %}" class="user-item"><i class="uil uil-location-point"></i>My Address</a>
 								<a href="{%url 'logoutview'%}" class="user-item"><i class="uil uil-exit"></i>Logout</a>
 							</div>
 						</div>
@@ -97,11 +98,7 @@
 											<h2>{{oc}} Recently Purchases</h2>
 											<ul class="order-list-145">
 												<li>
-													<div class="smll-history">
-														<div class="order-title">2 Items <span data-inverted="" data-tooltip="2kg broccoli, 1kg Apple" data-position="top center">?</span></div>
-														<div class="order-status">On the way</div>
-														<p>$22</p>
-													</div>
+												
 												</li>
 											</ul>
 										</div>
@@ -114,17 +111,9 @@
 											<h4>My Wallet</h4>
 										</div>
 										<div class="wllt-body">
-											<h2>Refral Bonus ${{reward}}</h2>
+											<h2>Refral Bonus <i class="fas fa-rupee-sign"></i> {{reward}}</h2>
 											<ul class="wallet-list">
-												<li>
-													<a href="#" class="wallet-links14"><i class="uil uil-card-atm"></i>Payment Methods</a>
-												</li>
-												<li>
-													<a href="#" class="wallet-links14"><i class="uil uil-gift"></i>3 offers Active</a>
-												</li>	
-												<li>
-													<a href="#" class="wallet-links14"><i class="uil uil-coins"></i>Points Earning</a>
-												</li>	
+												
 											</ul>
 										</div>
 										<a href="#" class="more-link14">Rewards and Details <i class="uil uil-angle-double-right"></i></a>

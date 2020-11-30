@@ -1,0 +1,73 @@
+{% extends "admin/base.html" %}
+{% block content %}
+{% load static %}
+
+
+
+<div class="container">
+	<div class="row">
+		<h2>Order Detailes</h2>	
+			<div class="table-responsive">
+                <div class="table-responsive custom_datatable">						
+					<table class="table table-bordered" style="width:100%;margin:auto;text-align:left;" >
+                        <tbody>										
+							<tr>
+                                <td rowspan="2" colspan="2"><h3 style="margin:8px 0 0 63px;">Gambo supermarkets</h3></td>
+                                <td>Order Id</td>
+								<td colspan="2">{{order.transaction_id}}</td>
+                            </tr>									
+                            <tr>
+                                <td>Date</td>  
+								<td colspan="2">{{order.date_ordered}}</td>  											
+                            </tr>
+							<tr>
+								<td colspan="2">Shop Name  : {{order.dealer.shop_name}} </td>
+								<td colspan="3">Sop Location  : {{order.dealer.shop_place}} , {{order.dealer.shop_location}} </td>
+							</tr>
+							<tr>
+								{% if shipping.payment_status == null %}
+								<td colspan="2">Payment Method : {{shipping.payment_cod}}</td>
+								{% else %}
+								<td colspan="2">Payment Method : {{shipping.payment_status}}</td>
+								{% endif %}
+								<td colspan="3">20_ _ to 20_ _</td>
+							</tr>
+                            <tr>
+                                <td>Billing Owner Name</td>
+                                <td colspan="1">{{order.customer.name}}</td>
+                                <td width="150">Order Items 	</td>
+                                <td width="50">Quantity</td>
+								<td width="50">Price</td>
+                            </tr>	
+							<tr>
+								<td rowspan="6"> Delivary Address</td>
+								<td rowspan="6" width="50%">{{shipping.address}}<br> {{shipping.city}} , {{shipping.state}} <br> {{shipping.pincode}} , {{shipping.country}}  </td>
+								
+							</tr>
+							{% for item in items %}
+							<tr>	
+								<td>{{item.product.name}}</td>
+								<td>{{item.quantity}}</td>
+								<td>{{item.get_total}}</td>
+							</tr>
+							{% endfor %}
+							<tr>
+								<td style="color: black;"><strong>Total</strong></td>
+								<td style="color: black;"><strong>{{order.get_cart_items}}</strong></td>
+								<td style="color: black;"><strong>{{order.product_total}}</strong></td>
+							</tr>
+							
+							
+						</tbody>
+					</table>
+					<div class="text-center pt-3">
+					<a type="button" href="{% url 'addorder'%}" class="btn btn-info">Back to Orders</a>
+					</div>
+				</div>
+			</div> 
+		</div>
+	</div>
+
+
+
+{% endblock content %}

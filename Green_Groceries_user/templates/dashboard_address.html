@@ -1,0 +1,178 @@
+{% extends "index.html" %}
+{% block content %}
+{% load static %}
+
+	<!-- Add Address Model Start-->
+	<div id="address_model" class="header-cate-model main-gambo-model modal fade" tabindex="-1" role="dialog" aria-modal="false">
+        <div class="modal-dialog category-area" role="document">
+            <div class="category-area-inner">
+                <div class="modal-header">
+                    <button type="button" class="close btn-close" data-dismiss="modal" aria-label="Close">
+						<i class="uil uil-multiply"></i>
+                    </button>
+                </div>
+                <div class="category-model-content modal-content"> 
+					<div class="cate-header">
+						<h4>Add New Address</h4>
+					</div>
+					<div class="add-address-form">
+						<div class="checout-address-step">
+							<div class="row">
+								<div class="col-lg-12">												
+									<form method="POST" action="{% url 'dashboard_add_address' %}" class="">
+                                        {% csrf_token %}
+										<div class="address-fieldset">
+											<div class="row">
+												<div class="col-lg-6 col-md-12">
+													<div class="form-group">
+														<label class="control-label">Address.*</label>
+														<input id="flat" name="address" type="text" placeholder="Address" class="form-control input-md" required="">
+													</div>
+												</div>
+												<div class="col-lg-6 col-md-12">
+													<div class="form-group">
+														<label class="control-label">City*</label>
+														<input id="street" name="city" type="text" placeholder="City" class="form-control input-md">
+													</div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-12">
+													<div class="form-group">
+														<label class="control-label">State*</label>
+														<input id="street" name="state" type="text" placeholder="State" class="form-control input-md">
+													</div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-12">
+													<div class="form-group">
+														<label class="control-label">Pincode*</label>
+														<input id="street" name="pincode" type="number" placeholder="Street Pincode" class="form-control input-md">
+													</div>
+												</div>
+												<div class="col-lg-6 col-md-12">
+													<div class="form-group">
+														<label class="control-label">Country*</label>
+														<input id="pincode" name="country" type="text" placeholder="Country" class="form-control input-md" required="">
+													</div>
+												</div>
+												
+												<div class="col-lg-12 col-md-12">
+													<div class="form-group mb-0">
+														<div class="address-btns">
+															<button type="submit" class="save-btn14 hover-btn">Save</button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+	<!-- Add Address Model End-->
+
+	<!-- Body Start -->
+	<div class="wrapper">
+		<div class="gambo-Breadcrumb">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<nav aria-label="breadcrumb">
+							<ol class="breadcrumb">
+								<li class="breadcrumb-item"><a href="index.html">Home</a></li>
+								<li class="breadcrumb-item active" aria-current="page">User Dashboard</li>
+							</ol>
+						</nav>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="dashboard-group">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="user-dt">
+							<div class="user-img">
+								<img src="images/avatar/img-5.jpg" alt="">
+								<div class="img-add">													
+									<input type="file" id="file">
+									<label for="file"><i class="uil uil-camera-plus"></i></label>
+								</div>
+							</div>
+							<h4>Johe Doe</h4>
+							<p>+91999999999<a href="#"><i class="uil uil-edit"></i></a></p>
+							<div class="earn-points"><img src="images/Dollar.svg" alt="">Points : <span>20</span></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>	
+		<div class="">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-3 col-md-4">
+						<div class="left-side-tabs">
+							<div class="dashboard-left-links">
+								<a href="{% url 'dashboard' %}" class="user-item"><i class="uil uil-apps"></i>Overview</a>
+								<a href="{% url 'dashboard_orders' %}" class="user-item"><i class="uil uil-box"></i>My Orders</a>
+                                <a href="#" class="user-item"><i class="uil uil-wallet"></i>My Wallet</a>
+                                <a href="#" class="user-item"><i class="uil uil-user-plus"></i>My Profile</a>
+								<a href="#" class="user-item active"><i class="uil uil-location-point"></i>My Address</a>
+								<a href="{%url 'logoutview'%}" class="user-item"><i class="uil uil-exit"></i>Logout</a>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-9 col-md-8">
+						<div class="dashboard-right">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="main-title-tab">
+										<h4><i class="uil uil-location-point"></i>My Address</h4>
+									</div>
+								</div>
+								<div class="col-lg-12 col-md-12">
+									<div class="pdpt-bg">
+										<div class="pdpt-title">
+											<h4>My Address</h4>
+                                        </div>
+                                        <a href="#" class="add-address hover-btn" data-toggle="modal" data-target="#address_model">Add New Address</a>
+                                        {% for ship in shipping%}
+										<div class="address-body">
+											
+											<div class="address-item">
+												<div class="address-icon1">
+													<i class="uil uil-home-alt"></i>
+												</div>
+												<div class="address-dt-all">
+													<h4>Home</h4>
+													<p>{{ship.address}}, {{ship.city}}, {{ship.state}}, {{ship.pincode}}, {{ship.country}}</p>
+													<ul class="action-btns">
+														<li><a href="{% url 'dashboard_address_delete' ship.id%}" class="action-btn"><i class="uil uil-trash-alt"></i></a></li>
+													</ul>
+												</div>
+											</div>
+                                        </div>
+                                        {% endfor %}
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>	
+			</div>	
+		</div>	
+	</div>
+	<!-- Body End -->
+
+
+
+
+
+
+
+
+{% endblock content %}
+

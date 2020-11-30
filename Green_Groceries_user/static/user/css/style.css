@@ -4074,7 +4074,7 @@ label.control-label {
 .bs-wizard > .bs-wizard-step > .progress > .progress-bar {
 	width:0px; 
 	box-shadow: none; 
-	background: #ffcfc0;
+	background: #eea4a4;
 }
 
 .bs-wizard > .bs-wizard-step.complete > .progress > .progress-bar {

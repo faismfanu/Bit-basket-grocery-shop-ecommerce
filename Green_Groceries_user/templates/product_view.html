@@ -22,16 +22,24 @@
                         <div class="row">
                             <div class="col-lg-4 col-md-4">
                                 <div id="sync1" class="owl-carousel owl-theme">
+                                    <div class="item">
+                                        <img class="drift-demo-trigger" data-zoom="{{product.product_image.url}}" src="{{product.product_image.url}}" alt="">
+                                    </div>
                                    {% for images in product_images%}
                                     <div class="item">
                                         <img class="drift-demo-trigger" data-zoom="{{images.image.url}}" src="{{images.image.url}}" alt="">
                                     </div>
                                     {% endfor %}
+                                    
                                 </div>
                                 <div id="sync2" class="owl-carousel owl-theme">
+                                    <div class="item">
+                                        <img class="drift-demo-trigger" data-zoom="{{product.product_image.url}}" src="{{product.product_image.url}}" alt="">
+                                    </div>
                                     {% for images in product_images%}
                                     <div class="item">
-                                        <img src="{{images.image.url}}" alt="no image">
+                                        
+                                        <img class="drift-demo-trigger"  data-zoom="{{images.image.url}}" src="{{images.image.url}}" alt="">
                                     </div>
                                     {% endfor %}    
                                     
@@ -59,7 +67,7 @@
                                                 <li><div class="main-price color-discount">MRP price<span><i class="fas fa-rupee-sign"> </i>  {{product.newprice}}</span></div></li>
                                                 {% else %}
                                             	<li><div class="main-price color-discount">Discount Price<span><i class="fas fa-rupee-sign"> </i>  {{product.newprice}}</span></div></li>
-                                                <li><div class="main-price mrp-price">MRP Price<span><i class="fas fa-rupee-sign"> </i>  {{product.offer_price}}</span></div></li>
+                                                <li><div class="main-price mrp-price">MRP Price<span><i class="fas fa-rupee-sign"> </i><del> {{product.offer_price}}</del> </span></div></li>
                                                 {% endif %}
                                         </ul>
                                         <ul class="gty-wish-share">
