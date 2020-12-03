@@ -58,9 +58,15 @@
 				  <td>
                     {{reff.reff_name}}
 				  </td>
+				  {% if reff.reff_offer_type == "percentage" %}
 				  <td class="budget text-center">
                     {{reff.reff_discount}} %
 				  </td>
+				  {% elif reff.reff_offer_type == "price" %}
+				  <td class="budget text-center">
+					{{reff.reff_price}} Rupees
+				  </td>
+				  {% endif %}
 				  <td class="budget text-center">
                     {{reff.refferd_person_discount}} Rupees
 				  </td>

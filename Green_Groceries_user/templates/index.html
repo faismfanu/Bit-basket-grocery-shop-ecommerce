@@ -32,6 +32,7 @@
 	<link href="{% static 'user/vendor/OwlCarousel/assets/owl.theme.default.min.css' %}" rel="stylesheet">
 	<link href="{% static 'user/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="{% static 'user/vendor/semantic/semantic.min.css' %}">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/2.3.4/cropper.min.css">
 
 	<!-- Font Awesome -->
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
@@ -266,11 +267,11 @@
 		<div class="top-header-group">
 			<div class="top-header">
 				<div class="res_main_logo">
-					<a href="index.html"><img src="{% static 'user/images/dark-logo-1.svg'%} " alt=""></a>
+					<a href=""><img src="{% static 'user/images/dark-logo-1.svg'%} " alt=""></a>
 				</div>
 				<div class="main_logo" id="logo">
-					<a href="index.html"><img src="{% static 'user/images/logo.svg'%}" alt=""></a>
-					<a href="index.html"><img class="logo-inverse" src="{% static 'user/images/dark-logo.svg'%}" alt=""></a>
+					<a href=""><img src="{% static 'user/images/logo.svg'%}" alt=""></a>
+					<a href=""><img class="logo-inverse" src="{% static 'user/images/dark-logo.svg'%}" alt=""></a>
 				</div>
 				<div class="select_location">
 					<!-- <div class="ui inline dropdown loc-title">
@@ -334,7 +335,7 @@
 						{% if user.is_authenticated and user.is_staff == 0 and user.is_superuser == 0 %}
 						<li class="ui dropdown">
 							<a href="#" class="opts_account">
-								<img src="{% static 'user/images/avatar/img-5.jpg'%}" alt="">
+							
 								<span class="user__name">{{user}}</span>
 								<i class="uil uil-angle-down"></i>
 							</a>
@@ -421,9 +422,9 @@
 							<ul class="navbar-nav main_nav align-self-stretch">
 								<li class="nav-item"><a href="/" class="nav-link active" title="Home">Home</a>
 								</li>
-								<li class="nav-item"><a href="shop_grid.html" class="nav-link new_item"
+								<li class="nav-item"><a href="#" class="nav-link new_item"
 										title="New Products">New Products</a></li>
-								<li class="nav-item"><a href="shop_grid.html" class="nav-link"
+								<li class="nav-item"><a href="#" class="nav-link"
 										title="Featured Products">Featured Products</a></li>
 								<!-- <li class="nav-item">
 									<div class="ui icon top left dropdown nav__menu">
@@ -460,7 +461,7 @@
 										</div>
 									</div>
 								</li> -->
-								<li class="nav-item"><a href="contact_us.html" class="nav-link" title="Contact">Contact
+								<li class="nav-item"><a href="#" class="nav-link" title="Contact">Contact
 										Us</a></li>
 							</ul>
 						</div>
@@ -618,13 +619,13 @@
 						<div class="second-row-item">
 							<h4>Useful Links</h4>
 							<ul>
-								<li><a href="about_us.html">About US</a></li>
-								<li><a href="shop_grid.html">Featured Products</a></li>
-								<li><a href="offers.html">Offers</a></li>
-								<li><a href="our_blog.html">Blog</a></li>
-								<li><a href="faq.html">Faq</a></li>
-								<li><a href="career.html">Careers</a></li>
-								<li><a href="contact_us.html">Contact Us</a></li>
+								<li><a href="">About US</a></li>
+								<li><a href="">Featured Products</a></li>
+								<li><a href="">Offers</a></li>
+								<li><a href="">Blog</a></li>
+								<li><a href="">Faq</a></li>
+								<li><a href="">Careers</a></li>
+								<li><a href="">Contact Us</a></li>
 							</ul>
 						</div>
 					</div>
@@ -659,23 +660,23 @@
 								<ul id="paypal-gateway" class="financial-institutes">
 									<li class="financial-institutes__logo">
 										<img alt="Visa" title="Visa"
-											src="{% static 'images/footer-icons/pyicon-6.svg'%}">
+											src="{% static 'user/images/footer-icons/pyicon-6.svg'%}">
 									</li>
 									<li class="financial-institutes__logo">
 										<img alt="Visa" title="Visa"
-											src="{% static 'images/footer-icons/pyicon-1.svg'%}">
+											src="{% static 'user/images/footer-icons/pyicon-1.svg'%}">
 									</li>
 									<li class="financial-institutes__logo">
 										<img alt="MasterCard" title="MasterCard"
-											src="{% static 'images/footer-icons/pyicon-2.svg'%}">
+											src="{% static 'user/images/footer-icons/pyicon-2.svg'%}">
 									</li>
 									<li class="financial-institutes__logo">
 										<img alt="American Express" title="American Express"
-											src="{% static 'images/footer-icons/pyicon-3.svg'%}">
+											src="{% static 'user/images/footer-icons/pyicon-3.svg'%}">
 									</li>
 									<li class="financial-institutes__logo">
 										<img alt="Discover" title="Discover"
-											src="{% static 'images/footer-icons/pyicon-4.svg'%}">
+											src="{% static 'user/images/footer-icons/pyicon-4.svg'%}">
 									</li>
 								</ul>
 							</div>
@@ -699,16 +700,14 @@
 					<div class="col-md-12">
 						<div class="footer-bottom-links">
 							<ul>
-								<li><a href="about_us.html">About</a></li>
-								<li><a href="contact_us.html">Contact</a></li>
-								<li><a href="privacy_policy.html">Privacy Policy</a></li>
-								<li><a href="term_and_conditions.html">Term & Conditions</a></li>
-								<li><a href="refund_and_return_policy.html">Refund & Return Policy</a></li>
+								<li><a href="">About</a></li>
+								<li><a href="">Contact</a></li>
+								<li><a href="">Privacy Policy</a></li>
+								<li><a href="">Term & Conditions</a></li>
+								<li><a href="">Refund & Return Policy</a></li>
 							</ul>
 						</div>
-						<div class="copyright-text">
-							<i class="uil uil-copyright"></i>Copyright 2020 <b>Gambolthemes</b> . All rights reserved
-						</div>
+						
 					</div>
 				</div>
 			</div>

@@ -539,9 +539,9 @@
           order_status: status,
           csrfmiddlewaretoken: csrftoken
         },
-        //   success: function(result){
-        // $(".actual_status").html(status);
-        //   }
+          success: function(result){
+          location.reload()
+          }
       });
     })
   }

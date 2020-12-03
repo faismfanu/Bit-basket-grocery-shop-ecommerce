@@ -34,6 +34,7 @@ class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     name = models.CharField(max_length = 200,null = True)
     email = models.CharField(max_length= 200, null = True)
+    profile_image = models.ImageField(max_length=10000, null = True,blank = True,upload_to='profile_photos')
     reff_code = models.CharField(max_length=100, null= True)
     refferd_user = models.CharField(max_length=150, null= True)
  

@@ -19,6 +19,7 @@ urlpatterns = [
     path('dashboard_address/',views.dashboard_address,name = 'dashboard_address'),
     path('dashboard_add_address/',views.dashboard_add_address,name = 'dashboard_add_address'),
     path('dashboard_my_profile/',views.dashboard_my_profile,name = 'dashboard_my_profile'),
+     path('dashboard_edit_profile/',views.dashboard_edit_profile,name = 'dashboard_edit_profile'),
     path('dashboard_address_delete/<int:id>',views.dashboard_address_delete,name = 'dashboard_address_delete'),
     path('checkout/',views.checkout,name = 'checkout`'),
     path('getshipping/',views.Getshipping.as_view()),

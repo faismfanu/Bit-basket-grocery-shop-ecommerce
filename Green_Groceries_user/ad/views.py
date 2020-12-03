@@ -42,7 +42,12 @@ def adminlogin(request):
 
 def adminpanel(request):
     if request.session.has_key('username'):
-        return render(request,"admin/adminpanel.html")
+        dealer = Dealers.objects.all().count()
+        users = User.objects.filter(is_staff=False).count()
+        order = Order.objects.filter(complete=True).count()
+        catog = catogeries.objects.all().count()
+        context = {'dealer':dealer,'users':users,'order':order,'catog':catog}
+        return render(request,"admin/adminpanel.html",context)
     else:
         return render(request, 'admin/login.html')
 
@@ -253,10 +258,15 @@ def edit_reffrel_offer(request,id):
             reff.reff_name = request.POST.get('offer_name')
             reff.refferd_person_discount = request.POST.get('person_discount')
             reff.order_maximum = request.POST.get('minimum_price')  
-            reff_price = request.POST.get('offer_price')
-            reff_discount = request.POST.get('offer_discount') 
-                
-            # reff.save()           
+            reff_offer_type = request.POST.get('offer_type')
+            print(reff_offer_type)
+            if reff_offer_type == "price":
+                reff.reff_price = request.POST.get('offer_price')
+                reff.reff_offer_type = reff_offer_type
+            elif reff_offer_type == "percentage":
+                reff.reff_discount = request.POST.get('offer_discount') 
+                reff.reff_offer_type = reff_offer_type
+            reff.save()           
             return redirect('reffrel_offer')
         else:
             return render(request, "admin/edit_reffral_offer.html",{"reff":reff})

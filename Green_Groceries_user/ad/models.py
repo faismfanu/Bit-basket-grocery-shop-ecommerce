@@ -36,4 +36,5 @@ class reffreal_offer(models.Model):
     reff_price = models.IntegerField(null = True)
     refferd_person_discount = models.IntegerField(null = True)
     order_maximum = models.IntegerField(null = True)
+    reff_offer_type = models.CharField(null=True,max_length=225)
     reff_status = models.BooleanField(null=True,default=True)

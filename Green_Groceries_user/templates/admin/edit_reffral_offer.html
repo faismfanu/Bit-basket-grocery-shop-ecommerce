@@ -22,13 +22,9 @@
                     <div class="text-center">
                         <label>Offer Discount</label>
                     </div>
-                    <select class="form-control" id="select_box">
-                    {% if reff.reff_discount == 0 %}
+                    <select class="form-control" name="offer_type" id="select_box">
+                      <option value=""></option>
                       <option value="price">offer by price</option>
-                      {% else %}
-                      <option value="percentage">offer by percentage</option>
-                      {% endif %}
-                      <option value="price">Offer by price</option>
                       <option value="percentage">Offer by percentage</option>
                     </select>
                   </div>

@@ -5,6 +5,8 @@ from ad.models import *
 from datetime import *
 import requests
 from .models import *
+from django.http import JsonResponse
+import json
 from django.contrib.auth.models import User,auth
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -134,7 +136,7 @@ def update_order(request):
     print('koooooi',order)
     order.order_status = status
     order.save()
-    return render(request, 'dealer/order_sample.html')
+    return JsonResponse('hello',safe=False)
 
 
 def add_products(request):
@@ -385,8 +387,10 @@ def offers(request):
     if request.user.is_authenticated:
         user = request.user.id
         dealer = Dealers.objects.get(user_id=user)
-        offers = offer.objects.filter(dealer = dealer) 
-
+        offers = offer.objects.filter(dealer = dealer)
+        today = datetime.date.today()
+        print('lala',today)
+        
         return render(request,"dealer/offer.html", {'offers':offers,'dealer':dealer})
     else:
         return render(request,'dealer/login.html')     
@@ -477,6 +481,7 @@ def delete_offer(request,id):
         normal_price = product.offer_price
         product.newprice = normal_price
         product.offer_price = 0
+        product.offer_percentage =0
         product.save()
         offers.delete()
         return redirect('offers')
@@ -498,6 +503,7 @@ def delete_offer_cat(request,id) :
             price1 = products.newprice
             products.newprice = price
             products.offer_price = 0
+            products.offer_percentage = 0
             products.save()
         offers.delete()
         return redirect('offers')

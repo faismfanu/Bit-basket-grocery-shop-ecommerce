@@ -34,7 +34,7 @@
                   <th> Discount Percentage </th>
                   <th> Offer start Date </th>
                   <th> Deadline </th>
-                  <th> Status </th>
+                 
                   <th></th>
 
                 </tr>
@@ -57,7 +57,7 @@
                   </td>
                   <td> {{offer.offer_start}} </td>
                   <td> {{offer.offer_expiry}} </td>
-                  <td><button>ko</button></td>
+                 
                   {% if offer.offer_type == "single" %}
                   <td>
                     <a href="{% url 'edit_offer' offer.id %}"><i style="color: rgb(122, 91, 207); "
