@@ -28,7 +28,7 @@ def adminlogin(request):
     elif request.method == 'POST':
         user = request.POST['username']
         password = request.POST['password']
-        if user=='faismfanu' and password=='faism9922':
+        if user=='admin' and password=='admin':
             request.session['username'] = user
             print("asdfsadf")
             return redirect(adminpanel) 
@@ -149,11 +149,15 @@ def delete_dealer(request,id,user_id):
 
 
 def addorder(request):
-    order = Order.objects.filter(complete=True)
-    dealers =Dealers.objects.all()
-    # order = dealers.orderItem_set.all()
-    # print(order)
-    return render(request, 'admin/admin_orders.html',{'order':order,'dealers':dealers})
+    if request.session.has_key('username'):
+        order = Order.objects.filter(complete=True)
+        dealers =Dealers.objects.all()
+        # order = dealers.orderItem_set.all()
+        # print(order)
+        return render(request, 'admin/admin_orders.html',{'order':order,'dealers':dealers})
+    else:
+        return render(request, 'admin/login.html')
+
 
 def order_view(request,id):
     if request.session.has_key('username'):
@@ -183,8 +187,12 @@ def base(request):
 
 
 def admin_catogeries(request):
-    catogery = catogeries.objects.all()
-    return render(request, "admin/admin_catogeries.html", {'catogery':catogery})
+    if request.session.has_key('username'):
+        catogery = catogeries.objects.all()
+        return render(request, "admin/admin_catogeries.html", {'catogery':catogery})
+    else:
+        return render(request, 'admin/login.html')
+
 
 
 def add_catogeries(request):
