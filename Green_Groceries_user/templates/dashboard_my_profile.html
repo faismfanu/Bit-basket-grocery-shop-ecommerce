@@ -258,15 +258,16 @@
                 <div class="col-lg-12">
                     <div class="user-dt">
                         <div class="user-img">
-                            {% if customer.profile_image == null %}	
-							{% else %}
-							<img src="{{customer.profile_image.url}}" alt="">
-							{% endif %}
+                                {% if customer.profile_image%}
+								<img src="{{customer.profile_image.url}}" alt="">
+								{% else %}
+								<img  alt="">
+								{% endif %}
                             
                         </div>
                         <h4 style="text-transform: uppercase;">{{user}}</h4>
                         <p>+91{{user.last_name}}</p>
-                        <div class="earn-points"><img src="images/Dollar.svg" alt="">Refferal Link : <span style="color: blue;"><a>{{ request.META.HTTP_HOST }}/{{"reffral_signup"}}/{{customer.reff_code}}</a></span></div>
+                        <div class="earn-points"><img src="images/Dollar.svg" alt="">Refferal Link : <span style="color: blue;"><a >{{ request.META.HTTP_HOST }}/{{"reffral_signup"}}/{{customer.reff_code}}</a></span></div>
                     </div>
                 </div>
             </div>
@@ -313,12 +314,11 @@
                                                     <!-- image -->
                                                     <div class="images">
                                                         <div class="profile-img d-flex p-2 bd-highlight">
-                                                            {% if customer.profile_image == null %}
-								
+                                                            {% if customer.profile_image%}
+                                                            <img style="width:100px;height:100px;" src="{{customer.profile_image.url}}" alt="">
                                                             {% else %}
-                                                            <img src="{{customer.profile_image.url}}" style="width:100px;height:100px;"/> alt="">
+                                                            <img style="width:100px;height:100px;"  alt="">
                                                             {% endif %}
-                                                            
                                                          
                                                             <!-- leftbox -->
                                                             <div class="box-2">

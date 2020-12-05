@@ -335,7 +335,11 @@
 						{% if user.is_authenticated and user.is_staff == 0 and user.is_superuser == 0 %}
 						<li class="ui dropdown">
 							<a href="#" class="opts_account">
-							
+								{% if customer.profile_image%}
+								<img src="{{customer.profile_image.url}}" alt="">
+								{% else %}
+								<img  alt="">
+								{% endif %}
 								<span class="user__name">{{user}}</span>
 								<i class="uil uil-angle-down"></i>
 							</a>

@@ -122,21 +122,11 @@ def signup(request):
         else:
             letter = string.ascii_letters
             result = ''.join(random.choice(letter) for i in range(8))
-            if reff_code == "":
-                user = User.objects.create_user(last_name=lastname,username=username,email=email,password=password)
-                user.save()
-            else:
-                if Customer.objects.filter(reff_code=reff_code).exists():
-                    user = User.objects.create_user(last_name=lastname,username=username,email=email,password=password)
-                    user.save()
-                    cust = Customer.objects.get(reff_code=reff_code)
-                    customer, created = Customer.objects.get_or_create(user = user, name = username, email = email,reff_code=result,refferd_user=cust.user_id)
-                    messages.info(request,'User Created') 
-                    return redirect('login')
-                else:
-                    messages.info(request,'Wrong refferel code ')
-                    return render(request, 'signup.html',dic)   
-            return redirect('login')  
+            user = User.objects.create_user(last_name=lastname,username=username,email=email,password=password)
+            user.save()
+            customer, created = Customer.objects.get_or_create(user = user, name = username, email = email,reff_code=result)
+            messages.info(request,'User Created') 
+            return redirect('login')
     else:
         return render(request, 'signup.html')
 
