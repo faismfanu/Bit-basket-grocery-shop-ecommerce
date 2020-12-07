@@ -8,6 +8,9 @@
 }
 </style>
 
+
+<!-- sample -->
+
  <!-- Header -->
  <div class="header bg-primary pb-6">
 	<div class="container-fluid">
@@ -32,63 +35,65 @@
 		<div class="card">
 		  <!-- Card header -->
 		  <div class="card-header border-0">
-			<h3 class="mb-0">Referral Offer </h3>
+			<h3 class="mb-0">Reffral Offer </h3>
 		  </div>
 		  <!-- Light table -->
 		  <div class="table-responsive">
 			<table class="table align-items-center table-flush">
 			  <thead class="thead-light">
 				<tr>
-				  <th scope="col" class="sort" data-sort="name">Name</th>
-				  <th scope="col" class="sort" data-sort="budget">Reffral_Discount %</th>
-				  <th scope="col" class="sort" data-sort="status">Refferd person_Discount</th>
-				  <th scope="col">Minimum order Total</th>
-				  <th scope="col" class="sort" data-sort="completion">Status</th>
-                  <th scope="col"></th>
-                  <th scope="col"></th>
-                  <th scope="col"></th>
-				  
-
+					<th scope="col" class="sort" data-sort="name">Name</th>
+					<th scope="col" class="sort" data-sort="budget">Reffral_Discount %</th>
+					<th scope="col" class="sort" data-sort="status">Refferd person_Discount</th>
+					<th scope="col">Minimum order Total</th>
+					<th scope="col" class="sort" data-sort="completion">Status</th>
+					<th scope="col"></th>
+					<th scope="col"></th>
+					<th scope="col"></th>
 				</tr>
 			  </thead>
 			  
 			  <tbody class="list">
-                  {% for reff in reffral%}
+				{% for reff in reffral%}
 				<tr>
+                    <td>
+						{{reff.reff_name}}
+                      </td>
+                     {% if reff.reff_offer_type == "percentage" %}
 				  <td>
-                    {{reff.reff_name}}
-				  </td>
-				  {% if reff.reff_offer_type == "percentage" %}
-				  <td class="budget text-center">
-                    {{reff.reff_discount}} %
+					{{reff.reff_discount}} %
 				  </td>
 				  {% elif reff.reff_offer_type == "price" %}
-				  <td class="budget text-center">
+				  <td>
 					{{reff.reff_price}} Rupees
 				  </td>
 				  {% endif %}
 				  <td class="budget text-center">
-                    {{reff.refferd_person_discount}} Rupees
+					{{reff.refferd_person_discount}} Rupees
 				  </td>
-				  <td class="text-center">
+				 
+				  <td class="budget text-center">
 					{{ reff.order_maximum}}	
-				  </td>
-				  <td>
-					
-					  <label class="custom-toggle">
+                  </td>
+                  
+				
+				  <td >
+					<label class="custom-toggle">
 						<input type="checkbox" checked>
 						<span class="custom-toggle-slider rounded-circle"></span>
 					  </label>
-				  </td>
-				  <td>
-					
-				  </td>
-				  <td >
+                  </td>
+              
+                <td >
 					<a href="{% url 'edit_reffrel_offer' reff.id %}" class="btn  btn-info"> Edit Referral Offer</a>
-				  </td>
+                  </td>
+                 
+
+				 
+				 
 				 
                 </tr>
-                {% endfor %}
+				{% endfor %}
 			  </tbody>
 			</table>
 		  </div>
@@ -104,6 +109,14 @@
 
   </div>
 </div>
+
+
+
+
+  
+
+<!-- //sample -->
+
 
 
 

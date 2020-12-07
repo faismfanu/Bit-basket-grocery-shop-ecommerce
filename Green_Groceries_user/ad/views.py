@@ -181,6 +181,28 @@ def dealers(request):
     else:
         return render(request, 'admin/login.html')
 
+
+def block_dealer(request,id,user_id):
+    if request.session.has_key('username'):
+        dealers = Dealers.objects.get(id=id)
+        user = User.objects.get(id=user_id)
+        user.is_active = 0
+        user.save()
+        return redirect('dealers')
+    else:
+        return render(request, 'admin/login.html')
+
+
+def unblock_dealer(request,id,user_id):
+    if request.session.has_key('username'):
+        dealers = Dealers.objects.get(id=id)
+        user = User.objects.get(id=user_id)
+        user.is_active = 1
+        user.save()
+        return redirect('dealers')
+    else:
+        return render(request, 'admin/login.html')
+
 def base(request):
     return render(request,"admin/base.html")
 
@@ -290,4 +312,62 @@ def adminlogout(request):
         return redirect('adminlogin')
     else:
         return render(request, 'admin/login.html')
+
+
+def user_control(request):
+    if request.session.has_key('username'):
+        user = User.objects.filter(is_staff=False,is_superuser=False,first_name='')
+        return render(request, "admin/user_control.html",{'user':user})
+        
+    else:
+        return render(request, 'admin/login.html')
+
+def edit_user(request,id):
+    if request.session.has_key('username'):
+        user = User.objects.get(id=id)
+        if request.method == 'POST':
+            user.username = request.POST.get('name')
+            user.email = request.POST.get('email')
+            user.last_name = request.POST.get('mobile')
+            user.save()
+            return redirect('user_control')
+        return render(request, "admin/edit_user.html",{'user':user})
+        
+    else:
+        return render(request, 'admin/login.html')     
+
+
+def block_user(request,id):
+    if request.session.has_key('username'):
+        user = User.objects.get(id=id)
+        print(user)
+        user.is_active = 0
+        user.save()
+        return redirect('user_control')    
+    else:
+        return render(request, 'admin/login.html')  
+
+def unblock_user(request,id):
+    if request.session.has_key('username'):
+        user = User.objects.get(id=id)
+        print(user)
+        user.is_active = 1
+        user.save()
+        return redirect('user_control')    
+    else:
+        return render(request, 'admin/login.html')  
+
+
+
+def delete_user(request,id):
+    if request.session.has_key('username'):
+        user = User.objects.get(id=id)
+        cust = Customer.objects.get(user_id=id)
+        cust.delete()
+        user.delete()
+        return redirect('user_control')    
+    else:
+        return render(request, 'admin/login.html')   
+
+
     

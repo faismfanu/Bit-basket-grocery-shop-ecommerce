@@ -53,6 +53,7 @@
 				  <th scope="col">close</th>
 				  <th scope="col"></th>
 				  <th scope="col"></th>
+				  <th></th>
 
 				</tr>
 			  </thead>
@@ -71,6 +72,7 @@
 					  </div>
 					</div>
 				  </th>
+				  
 				  <td class="budget">
 					{{dealer.shop_location}},
 					 {{ dealer.shop_place}}
@@ -89,17 +91,27 @@
 				  <td>
 					{{dealer.shop_closing_time}}
 				  </td>
+				  {% if dealer.user_id.is_active == 1%}
+				  <td>
+					<a class="btn btn- btn-deafualt" href="{% url 'block_dealer' dealer.id dealer.user_id.id%}"><i class="fas fa-lock"></i></a>
+				  </td>
+				  {% elif dealer.user_id.is_active == 0%}
+				  <td>
+					<a class="btn btn- btn-success" href="{% url 'unblock_dealer' dealer.id dealer.user_id.id%}"><i class="fas fa-lock-open"></i></a>
+				  </td>
+				  {% endif %}
+				
 				  <td >
-					<a href="{% url 'edit_dealer' dealer.id dealer.user_id.id %}"><i class="fas fa-edit"></i></a>
+					<a class="btn btn- btn-info" href="{% url 'edit_dealer' dealer.id dealer.user_id.id %}"><i class="fas fa-edit"></i></a>
 				  </td>
 				  <td >
 					
-					<a class="btn btn- btn-danger" href="#" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-trash-alt"></i></a>
+					<a class="btn btn- btn-danger" href="#" data-toggle="modal" data-target="#{{dealer.shop_name}}"><i class="fas fa-trash-alt"></i></a>
 			  </td>
 				</tr>
 			  </tbody>
 			  	<!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="{{dealer.shop_name}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		<div class="modal-dialog" role="document">
 		  <div class="modal-content">
 			<div class="modal-header">

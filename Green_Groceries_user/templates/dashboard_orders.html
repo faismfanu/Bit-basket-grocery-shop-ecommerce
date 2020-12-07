@@ -64,6 +64,7 @@
                             </div>
                             <div class="col-lg-12 col-md-12">
                                 {% for orders in order_count %}
+                                {% if orders.dealer%}
                                 <div class="pdpt-bg">
                                     
                                     <div class="pdpt-title">
@@ -237,6 +238,8 @@
                                         </div> -->
                                     </div>
                                 </div>
+                                {% else %}
+                                {% endif %}
                                 {% endfor %}
     
                             </div>								

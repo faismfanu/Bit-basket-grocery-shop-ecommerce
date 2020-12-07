@@ -94,7 +94,7 @@ def login(request):
                 if user.is_staff == 0:
                     return redirect(index)
             else:
-                dicti={'error':"inavlid credention"}
+                dicti={'error':"invalid credentials"}
                 return render(request,'login.html',dicti)     
         else:
             dicti={'error':"inavlid credention"}

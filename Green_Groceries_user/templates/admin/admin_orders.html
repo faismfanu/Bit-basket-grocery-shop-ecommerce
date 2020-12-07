@@ -50,6 +50,7 @@
                   </thead>
                   <tbody class="list">
                       {% for orders in order %}
+                      {% if orders.dealer %}
                     <tr>
                       <th scope="row">
                         <div class="media align-items-center">
@@ -105,6 +106,8 @@
                         <a type="button" href="{% url 'order_view' orders.id%}" class="btn btn-primary">Order View</a>
                       </td>
                     </tr>
+                    {%else%}
+                    {%endif%}
                     {% endfor %}
                   </tbody>
                 </table>

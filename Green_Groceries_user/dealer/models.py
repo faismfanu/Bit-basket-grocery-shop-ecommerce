@@ -39,7 +39,7 @@ class Customer(models.Model):
     refferd_user = models.CharField(max_length=150, null= True)
  
     def _str_(self):
-        return self.name
+        return self.id
 
 
 
