@@ -42,6 +42,7 @@ from django.db.models import Q
 def index(request):
     dealer = Dealers.objects.all()
     print(dealer)
+    catoger = catogeries.objects.all()
     if request.user.is_authenticated :
         login_user = request.user
         login_name = request.user.username
@@ -73,7 +74,7 @@ def index(request):
         order = {'get_cart_items':0,'shipping':False}  
         item_count = 0
         cartItems = order['get_cart_items']
-    context = {'dealer':dealer,'customer':customer,'items':items,'order':order,'item_count':item_count}
+    context = {'dealer':dealer,'customer':customer,'items':items,'order':order,'item_count':item_count,'catoger':catoger}
 
     return render(request,'index.html',context)
 
@@ -308,7 +309,7 @@ def updateItem(request):
     item_count = items.count()
     if order.dealer == dealer:
         orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
-
+ 
         if action == 'add':
             orderItem.quantity = (orderItem.quantity + 1)
         elif action =='remove':

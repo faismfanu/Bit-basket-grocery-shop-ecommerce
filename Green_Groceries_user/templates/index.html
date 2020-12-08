@@ -199,35 +199,23 @@
 				<div class="cart-item">
 					<div class="cart-product-img">
 						<img  src="{{item.product.product_image.url}}" alt="">
-						<div class="offer-badge">6% OFF</div>
+						{% if item.product.offer_price  %}
+						<div class="offer-badge">{{item.product.offer_percentage}} %</div>
+						{% endif %}
 					</div>
 					<div class="cart-text">
 						<h4>{{item.product.name}}</h4>
 						<div class="cart-radio">
 							<ul class="kggrm-now">
-								<li>
-									<input type="radio" id="a1" name="cart1">
-									<label for="a1">0.50</label>
-								</li>
-								<li>
-									<input type="radio" id="a2" name="cart1">
-									<label for="a2">1kg</label>
-								</li>
-								<li>
-									<input type="radio" id="a3" name="cart1">
-									<label for="a3">2kg</label>
-								</li>
-								<li>
-									<input type="radio" id="a4" name="cart1">
-									<label for="a4">3kg</label>
-								</li>
+								
 							</ul>
 						</div>
 						<div class="qty-group">
 							<div class="quantity buttons_added">
-								<input type="button" data-products={{item.product.id}} data-action = "add" value="+" class="plus plus-btn update-cart">
-								<input type="number" step="1" name="quantity" value="{{item.quantity}}" class="input-text qty text">
 								<input type="button" value="-" data-products={{item.product.id}} data-action = "remove" class="minus minus-btn update-cart">
+								<input type="number" step="1" name="quantity" value="{{item.quantity}}" class="input-text qty text">
+								<input type="button" data-products={{item.product.id}} data-action = "add" value="+" class="plus plus-btn update-cart">
+
 							</div>
 							<div class="cart-item-price">${{item.product.newprice}} ${{item.get_total}}</div>
 						</div>
@@ -275,6 +263,7 @@
 				</div>
 				<div class="select_location">
 					<!-- <div class="ui inline dropdown loc-title">
+								<input type="button" value="-" data-products={{item.product.id}} data-action = "remove" class="minus minus-btn update-cart">
 						<div class="text">
 							<i class="uil uil-location-point"></i>
 							Gurugram
@@ -578,17 +567,9 @@
 						<div class="second-row-item">
 							<h4>Categories</h4>
 							<ul>
-								<li><a href="#">Fruits and Vegetables</a></li>
-								<li><a href="#">Grocery & Staples</a></li>
-								<li><a href="#">Dairy & Eggs</a></li>
-								<li><a href="#">Beverages</a></li>
-								<li><a href="#">Snacks</a></li>
-								<li><a href="#">Home Care</a></li>
-								<li><a href="#">Noodles & Sauces</a></li>
-								<li><a href="#">Personal Care</a></li>
-								<li><a href="#">Pet Care</a></li>
-								<li><a href="#">Meat & Seafood</a></li>
-								<li><a href="#">Electronics</a></li>
+								{% for catogery in catoger %}
+								<li><a href="#">{{catogery.cat_name}}</a></li>
+								{% endfor %}
 							</ul>
 						</div>
 					</div>

@@ -15,6 +15,7 @@ urlpatterns = [
     path('admin_catogeries',views.admin_catogeries,name = 'admin_catogeries'),
     path('delete_catogery/<int:id>',views.delete_catogery,name = 'delete_catogery'),
     path('reffrel_offer',views.reffrel_offer,name = 'reffrel_offer'),
+    path('add_reffral',views.add_reffral,name = 'add_reffral'),
     path('edit_reffrel_offer/<int:id>',views.edit_reffrel_offer,name = 'edit_reffrel_offer'),
     path('add_catogeries',views.add_catogeries,name = 'add_catogeries'),
     path('edit_catogeries/<int:id>',views.edit_catogeries,name = 'edit_catogeries'),
