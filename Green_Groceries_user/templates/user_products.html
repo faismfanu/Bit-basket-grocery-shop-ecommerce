@@ -4,148 +4,156 @@
 
 
 
-	<!-- Body Start -->
-	<div class="wrapper">
-		<div class="gambo-Breadcrumb">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12">
-						<nav aria-label="breadcrumb">
-							<ol class="breadcrumb">
-								<li class="breadcrumb-item"><a href="">Home</a></li>
-								<li class="breadcrumb-item active" aria-current="page">All Products</li>
-							</ol>
-						</nav>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- Categories Start -->
-<div class="section145">
-	<div class="container">
-		<div class="row">
-			
-			<div class="col-md-12">
-				<div class="main-title-tt">
-					<div class="main-title-left">
-						<span>Shop By</span>
-						<h2>Categories</h2>
-					</div>
-				</div>
-			</div>
-			
-			<div class="col-md-12">
-				<div class="owl-carousel cate-slider owl-theme">
-					{% for cat in catogery %}
-					<div class="item">
-						<a href="{% url 'product_catogery' dealer.id cat.id%}" class="category-item">
-							<div class="cate-img">
-								<img src="{{cat.image.url}}" alt="">
-							</div>
-							<h4>{{cat.cat_name}}</h4>
-						</a>
-					</div>
-					{% endfor %}
-
-					<!-- model -->
-
-					<!-- -->
+<!-- Body Start -->
+<div class="wrapper">
+	<div class="gambo-Breadcrumb">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-12">
+					<nav aria-label="breadcrumb">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="">Home</a></li>
+							<li class="breadcrumb-item active" aria-current="page">All Products</li>
+						</ol>
+					</nav>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
-<!-- Categories End -->
-		<div class="all-product-grid">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="product-top-dt">
-							<div class="product-left-title">
-								<h2>All Products</h2>
-							</div>
-					
+	<!-- Categories Start -->
+	<div class="section145">
+		<div class="container">
+			<div class="row">
+
+				<div class="col-md-12">
+					<div class="main-title-tt">
+						<div class="main-title-left">
+							<span>Shop By</span>
+							<h2>Categories</h2>
 						</div>
 					</div>
-                </div>
-                
-				<div class="product-list-view">
-					<div class="row">
-						{% for products in product%}
-						
-						<div class=" col-lg-3 col-md-6">
-										<div class="product-item mb-30">
-											<a href="{% url 'product_view' products.id%}" class="product-img">
+				</div>
 
-												<img src="{{products.product_image.url}}" alt="">
-												{% if products.offer_percentage%}
-												<div class="product-absolute-options">
-													<span class="offer-badge-1">{{products.offer_percentage}}% off</span>
-													<span class="like-icon" title="wishlist"></span>
-												</div>
-												{% endif %}
-												<div class="product-text-dt">
-													<p>Available<span>({{products.stock}})</span></p>
-													<h4>{{products.name}}</h4>
-													{% if products.offer_price == 0%}
-													<div class="product-price"><i class="fas fa-rupee-sign"></i>
-														{{products.newprice}} </div>
-													{% else %}	
-													<div class="product-price"><i class="fas fa-rupee-sign"></i>
-														{{products.newprice}} <span><i class="fas fa-rupee-sign"></i>
-															{{products.offer_price}}</span></div>
-															{% endif %}
-													<div class="qty-cart">
-														<!-- <div class="quantity buttons_added">
+				<div class="col-md-12">
+					<div class="owl-carousel cate-slider owl-theme">
+						{% for cat in catogery %}
+						<div class="item">
+							<a href="{% url 'product_catogery' dealer.id cat.id%}" class="category-item">
+								<div class="cate-img">
+									<img src="{{cat.image.url}}" alt="">
+								</div>
+								<h4>{{cat.cat_name}}</h4>
+							</a>
+						</div>
+						{% endfor %}
+
+						<!-- model -->
+
+						<!-- -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- Categories End -->
+	<div class="all-product-grid">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="product-top-dt">
+						<div class="product-left-title">
+							<h2>All Products</h2>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<div class="product-list-view">
+				<div class="row">
+					{% for products in product%}
+
+					<div class=" col-lg-3 col-md-6">
+						<div class="product-item mb-30">
+							<a href="{% url 'product_view' products.id%}" class="product-img">
+
+								<img src="{{products.product_image.url}}" alt="">
+								{% if products.offer_percentage%}
+								<div class="product-absolute-options">
+									<span class="offer-badge-1">{{products.offer_percentage}}% off</span>
+									<span class="like-icon" title="wishlist"></span>
+								</div>
+								{% endif %}
+								<div class="product-text-dt">
+									<p>Available<span>({{products.stock}})</span></p>
+									<h4>{{products.name}}</h4>
+									{% if products.offer_price == 0%}
+									<div class="product-price"><i class="fas fa-rupee-sign"></i>
+										{{products.newprice}} </div>
+									{% else %}
+									<div class="product-price"><i class="fas fa-rupee-sign"></i>
+										{{products.newprice}} <span><i class="fas fa-rupee-sign"></i>
+											{{products.offer_price}}</span></div>
+									{% endif %}
+									<div class="qty-cart">
+										<!-- <div class="quantity buttons_added">
 															<input type="button" value="-" class="minus minus-btn">
 															<input type="number" step="1" name="quantity" value="1"
 																class="input-text qty text">
 															<input type="button" value="+" class="plus plus-btn">
 														</div> -->
 
-
-
-
-													</div>
-												</div>
-											</a>
-											<button data-products={{products.id}} data-action="add"
-												class="btn btn-success update-cart"><span class="cart-icon"><i style="color: #f55d2c;" class="uil uil-shopping-cart-alt"></i></span></button>
-										</div>
-						</div>
-						{% endfor %}
-						<div class="col-md-12">
-							<div class="more-product-btn">
-								{% for msg in messages %}
-<h1 style="color: red;" >{{msg}}</h1>	
-<div class="modal" tabindex="-1" role="dialog">
-	<div class="modal-dialog" role="document">
-	  <div class="modal-content">
-		<div class="modal-header">
-		  <h5 class="modal-title">Modal title</h5>
-		  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-			<span aria-hidden="true">&times;</span>
-		  </button>
-		</div>
-		<div class="modal-body">
-		  <p>Modal body text goes here.</p>
-		</div>
-		<div class="modal-footer">
-		  <button type="button" class="btn btn-primary">Save changes</button>
-		  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-		</div>
-	  </div>
-	</div>
-  </div>
-{% endfor %}
-							</div>
+									</div>
+								</div>
+							</a>
+							<button data-products={{products.id}} type="button" data-action="add" onclick="cartFunction()"
+								class="btn btn-success update-cart" id = "cartAdd"><span class="cart-icon"><i style="color: #f55d2c;"
+										class="uil uil-shopping-cart-alt"></i></span></button>
 						</div>
 					</div>
+					{% endfor %}
+					<div class="col-md-12">
+						<div class="more-product-btn">
+							{% for msg in messages %}
+							<h1 style="color: red;">{{msg}}</h1>
+							<div class="modal" tabindex="-1" role="dialog">
+								<div class="modal-dialog" role="document">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h5 class="modal-title">Modal title</h5>
+											<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+												<span aria-hidden="true">&times;</span>
+											</button>
+										</div>
+										<div class="modal-body">
+											<p>Modal body text goes here.</p>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-primary">Save changes</button>
+											<button type="button" class="btn btn-secondary"
+												data-dismiss="modal">Close</button>
+										</div>
+									</div>
+								</div>
+							</div>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
-		</div>
-		</div>
-		<!-- Body End -->
-	
-	
-		{% endblock content %}
+	</div>
+</div>
+<!-- Body End -->
+
+
+
+<script>
+
+	function cartFunction() {
+		
+	}
+
+</script>
+
+{% endblock content %}

@@ -297,28 +297,29 @@ def updateItem(request):
     data = json.loads(request.body)
     product_Id = data['productId']
     action = data['action']
-    print('Product_ID: ',product_Id)
-    print('Action: ',action)
-
     customer = request.user.customer
     product = Product.objects.get(id=product_Id)
     dealer = product.dealer
-    print("like",dealer)
     order, created = Order.objects.get_or_create(customer=customer,  complete=False)
     items=order.orderitem_set.all()
     item_count = items.count()
     if order.dealer == dealer:
         orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
- 
         if action == 'add':
             orderItem.quantity = (orderItem.quantity + 1)
         elif action =='remove':
             orderItem.quantity = (orderItem.quantity - 1)
 
         orderItem.save()    
+        item_total = orderItem.get_total
+        print('wow',item_total)
+        print('asdf',orderItem)
 
         if orderItem.quantity <= 0:
             orderItem.delete()
+
+        elif action =='delete':
+            orderItem.delete()    
             
     elif order.dealer != dealer:
         messages.error(request,'previous Item will be deleted')  
@@ -328,16 +329,21 @@ def updateItem(request):
 
         orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
         order.save()
+        
 
         if action == 'add':
             orderItem.quantity = (orderItem.quantity + 1)
         elif action =='remove':
             orderItem.quantity = (orderItem.quantity - 1)
 
-        orderItem.save()    
+        orderItem.save()  
+        item_total = orderItem.get_total
+        print('wow',item_total)  
         
      
         if orderItem.quantity <= 0:
+            orderItem.delete()
+        elif action =='delete':
             orderItem.delete()
         
 
@@ -353,11 +359,23 @@ def updateItem(request):
             orderItem.quantity = (orderItem.quantity - 1)
 
         orderItem.save()    
+        item_total = orderItem.get_total
+        print('wow',item_total)
 
         if orderItem.quantity <= 0:
             orderItem.delete()
-        
-    return JsonResponse(item_count, safe=False)
+        elif action =='delete':
+            orderItem.delete() 
+
+    value=[]
+    a={}
+    print("hhhhh",orderItem.product.product_image.url)
+    a={"name":orderItem.product.name,
+        "price":orderItem.product.newprice,
+        "image":orderItem.product.product_image.url,
+    }
+    value.append(a)  
+    return JsonResponse(value, safe=False)
 
 
 def checkout(request):
@@ -414,8 +432,9 @@ def checkout(request):
             return redirect('checkout')
         else:
             response = client.order.create(dict(amount=order_amount, currency=order_currency, payment_capture = 0) )
+                
 
-            print(response)
+            
             order_id = response['id']
             # context = {'items': items, 'order':order, 'cartItems':cartItems, 'order_id':order_id,'c':countries}
             # return render(request, 'checkout.html', context)

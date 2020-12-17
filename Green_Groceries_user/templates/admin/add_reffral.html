@@ -5,7 +5,7 @@
 
 <form method="POST" action="">
     {% csrf_token %}
-    <h1 class="text-center"style="padding-top: 50px;">Edit Refferal offer</h1>
+    <h1 class="text-center"style="padding-top: 50px;">ADD Refferal offer</h1>
     <div class="container-fluid" style="padding-top: 50px;">
         <div class="row">
             
@@ -57,24 +57,6 @@
                         <label>Refferd Person Discount</label>
                     </div>
                   <input type="number" min="0"  name="person_discount" class="form-control" id="exampleFormControlInput1">
-                </div>
-              </div>
-             
-              <div class="col-md-4">
-                <div class="form-group">
-                    <div class="text-center">
-                        <label>Offer by price</label>
-                    </div>
-                  <input type="number" min="0" value="{{reff.reff_price}}" readonly class="form-control" id="exampleFormControlInput1">
-                </div>
-              </div>
- 
-              <div class="col-md-4">
-                <div class="form-group">
-                    <div class="text-center">
-                        <label>Offer By discount</label>
-                    </div>
-                  <input type="number" value="{{reff.reff_discount}}" readonly min="0" class="form-control" id="exampleFormControlInput1">
                 </div>
               </div>
          

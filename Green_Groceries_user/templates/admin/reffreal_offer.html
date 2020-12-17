@@ -22,7 +22,8 @@
 		  </div>
 		  <div class="col-lg-6 col-5 text-right">
 			{% if reffral %}
-			<a href="{{add_reffral	}}" class="btn btn-sm btn-neutral"> Add refferal offer</a>
+			{% else %}
+			<a href="{% url 'add_reffral' %}" class="btn btn-sm btn-neutral"> Add refferal offer</a>
 			{% endif %}
 			
 		  </div>

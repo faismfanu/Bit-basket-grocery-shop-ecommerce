@@ -175,22 +175,20 @@
 	<!-- Cart Sidebar Offset Start-->
 	<div class="bs-canvas bs-canvas-left position-fixed bg-cart h-100">
 		<div class="bs-canvas-header side-cart-header p-3 ">
-			<div class="d-inline-block  main-cart-title">My Cart <span>({{order.get_cart_items}})</span></div>
+			<div class="d-inline-block  main-cart-title">My Cart <span>({{item_count}})	</span></div>
 			<button type="button" class="bs-canvas-close close" aria-label="Close"><i
 					class="uil uil-multiply"></i></button>
 		</div>
 		<div class="bs-canvas-body">
 			<div class="cart-top-total">
 				<div class="cart-total-dil">
-					<h4>Gambo Super Market</h4>
-					<span>${{order.get_cart_total}}</span>
+					
 				</div>
 				<div class="cart-total-dil pt-2">
-					<h4>Delivery Charges</h4>
-					<span>$1</span>
+					
 				</div>
 			</div>
-			<div class="side-cart-items">
+			<div id = "cart-items" class="side-cart-items">
 				{% if user.is_authenticated and order.get_cart_items == 0 %}
 				<img style="padding-left: px;"  width="390px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQ1JmJQQP996cQ_aGG6Mb9tAt2kaQQW9a3VLw&usqp=CAU" alt="">
 				<h1 style="padding-left: 80px; padding-bottom: 30px; color: grey; text-transform: uppercase;">cart is empty</h1>
@@ -212,15 +210,17 @@
 						</div>
 						<div class="qty-group">
 							<div class="quantity buttons_added">
-								<input type="button" value="-" data-products={{item.product.id}} data-action = "remove" class="minus minus-btn update-cart">
-								<input type="number" step="1" name="quantity" value="{{item.quantity}}" class="input-text qty text">
-								<input type="button" data-products={{item.product.id}} data-action = "add" value="+" class="plus plus-btn update-cart">
+								<button  data-products={{item.product.id}} data-action = "remove" onclick="window.mydown('{{item}}')" class="minus minus-btn cart_quantity_up update-cart">-</button>
+								<input type="number" min="0
+								" step="1" name="quantity" id="qu{{item}}" value="{{item.quantity}}" class="input-text qty text test" >
+								<button data-products={{item.product.id}} data-action = "add" onclick="window.myup('{{item}}')" class="plus plus-btn cart_quantity_down update-cart"><i class="fa fa-sort-asc">+</i></button>
 
 							</div>
-							<div class="cart-item-price">${{item.product.newprice}} ${{item.get_total}}</div>
+							<div class="cart-item-price" id="prodprice{{item}}" >{{item.product.newprice}}</div>
+							<div class="cart-item-price cart_total_p" id="totalprice{{item}}" >{{item.get_total}}</div>	
 						</div>
 
-						<button type="button" class="cart-close-btn"><i class="uil uil-multiply"></i></button>
+						<button data-products={{item.product.id}} data-name="{{item.product.name}}" onclick="window.mycart('{{item}}')" id="checking-{{item}}" data-action="delete"  class="cart-close-btn cart_quantity_delete update-cart"><i class="uil uil-multiply"></i></button>
 					</div>
 				</div>
 				{% endfor %}
@@ -232,12 +232,12 @@
 		</div>
 		<div class="bs-canvas-footer">
 			<div class="cart-total-dil saving-total ">
-				<h4>Total Saving</h4>
-				<span>$11</span>
+				<h4>Total Items</h4>
+				<span id="total-items">{{order.get_cart_items}}</span>
 			</div>
 			<div class="main-total-cart">
 				<h2>Total</h2>
-				<span>{{order.get_cart_total}}</span>
+				<span id="total-price" >{{order.get_cart_total}}</span>
 			</div>
 			{% if user.is_authenticated and order.get_cart_items != 0 %}
 			<div class="checkout-cart">
@@ -672,6 +672,101 @@
 		</div>
 	</footer>
 	<!-- Footer End -->
+
+	<script>
+
+		window.myup=function(item){
+			
+			var add = document.getElementById("qu"+item).value;
+			add++
+			var price=document.getElementById("prodprice"+item).textContent
+			// var totalprice=document.getElementById("totalprice"+item).textContent
+			pri=parseFloat(price,10)
+			value=pri * add
+			// alert("totsl"+pri +"*"+add+"="+value)
+			console.log(add)
+
+
+			document.getElementById("qu"+item).innerHTML=add
+			document.getElementById("totalprice"+item).innerHTML=value;
+			var sumitem=0
+			
+
+			document.querySelectorAll('.test').forEach(ele=>{
+			console.log(ele.value);
+			
+			sumitem=sumitem + parseInt(ele.value)
+			sumitems = sumitem+1
+			console.log('haia	',sumitems)
+
+		})
+		document.getElementById("total-items").innerHTML=sumitems
+		var sumtotal=0
+		document.querySelectorAll('.cart_total_p').forEach(ele=>{
+			console.log("total",ele.textContent)
+			sumtotal=sumtotal + parseFloat(ele.textContent) 
+		})
+
+		document.getElementById("total-price").innerHTML=sumtotal
+
+		}
+
+		window.mydown=function(item){
+			var add = document.getElementById("qu"+item).value;
+			if(add==0){
+				location.reload()
+			}
+           	else{
+			add--
+			var price=document.getElementById("prodprice"+item).textContent
+			pri=parseFloat(price,10)
+			value=pri * add
+			document.getElementById("qu"+item).value=add
+			document.getElementById("totalprice"+item).innerHTML=value;
+
+		   }
+		   var sumitem=0
+			
+
+			document.querySelectorAll('.test').forEach(ele=>{
+			console.log(ele.value);
+			
+			sumitem=sumitem + parseInt(ele.value) 
+			
+
+
+		})
+		
+			document.getElementById("total-items").innerHTML=sumitem
+			var sumtotal=0
+			document.querySelectorAll('.cart_total_p').forEach(ele=>{
+			console.log("total",ele.textContent)
+			sumtotal=sumtotal + parseFloat(ele.textContent) 
+			
+
+
+
+		})
+
+		document.getElementById("total-price").innerHTML=sumtotal
+
+		}
+		window.mycart=function(item){
+			var v= document.getElementById("checking-"+item)
+			var productname = v.dataset.name
+			console.log("id:",productname)
+		
+		var isValid =confirm("\t \tAre you sure !\n\n Do you want delete "+productname +" ?");
+		if(!isValid){
+			
+			event.preventDefault();
+			document.getElementById("checking-"+item).removeAttribute("data-action"); 
+			// document.getElementById('checking').dataSet.remove('delete')
+			alert("it wont be delete");
+		}
+	 	location.reload()
+	}
+	</script>
 
 	<!-- Javascripts -->
 	<script type="text/javascript" src="{% static 'user/js/cart.js' %}"></script>

@@ -87,7 +87,7 @@ def adddealer(request):
                  
                 user.save()
                 dealers.save()
-                messages.error(request,"New Doctor Added")
+                
                 return redirect('dealers')
         else:
             return render(request,"admin/adddealer.html")
@@ -305,26 +305,25 @@ def edit_reffrel_offer(request,id):
 
 
 
-def add_reffral(request,id):
+def add_reffral(request):
     if request.session.has_key('username'):
-        return render(request, "admin/edit_reffral_offer.html")
-        # reff = reffreal_offer.objects.get(id=id)
-        # if request.method == 'POST':
-        #     reff.reff_name = request.POST.get('offer_name')
-        #     reff.refferd_person_discount = request.POST.get('person_discount')
-        #     reff.order_maximum = request.POST.get('minimum_price')  
-        #     reff_offer_type = request.POST.get('offer_type')
-        #     print(reff_offer_type)
-        #     if reff_offer_type == "price":
-        #         reff.reff_price = request.POST.get('offer_price')
-        #         reff.reff_offer_type = reff_offer_type
-        #     elif reff_offer_type == "percentage":
-        #         reff.reff_discount = request.POST.get('offer_discount') 
-        #         reff.reff_offer_type = reff_offer_type
-        #     reff.save()           
-        #     return redirect('reffrel_offer')
-        # else:
-        #     return render(request, "admin/edit_reffral_offer.html",{"reff":reff})
+        reff = reffreal_offer()
+        if request.method == 'POST':
+            reff.reff_name = request.POST.get('offer_name')
+            reff.refferd_person_discount = request.POST.get('person_discount')
+            reff.order_maximum = request.POST.get('minimum_price')  
+            reff_offer_type = request.POST.get('offer_type')
+            print(reff_offer_type)
+            if reff_offer_type == "price":
+                reff.reff_price = request.POST.get('offer_price')
+                reff.reff_offer_type = reff_offer_type
+            elif reff_offer_type == "percentage":
+                reff.reff_discount = request.POST.get('offer_discount') 
+                reff.reff_offer_type = reff_offer_type
+            reff.save()           
+            return redirect('reffrel_offer')
+        else:    
+            return render(request, "admin/add_reffral.html")
     else:
         return render(request, 'admin/login.html')
     
